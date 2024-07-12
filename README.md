@@ -1,5 +1,5 @@
 ### unfinished
 
 <!--
- This is just a place so I can test stuff for my schoolwork
+ This is for my website, I barely know how to code so be warned
 -->
