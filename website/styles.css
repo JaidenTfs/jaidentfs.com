@@ -2,13 +2,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #1e1e1e; /* Dark background */
+    color: #e6e6e6; /* Light text */
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #333333; /* Darker header background */
+    color: #e6e6e6;
     padding: 10px 0;
     text-align: center;
 }
@@ -28,7 +28,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #fbb034; /* Highlight color */
     text-decoration: none;
 }
 
@@ -46,11 +46,11 @@ main {
 }
 
 .project {
-    background-color: #fff;
+    background-color: #333333; /* Matching portfolio project background */
     margin: 20px 0;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow */
 }
 
 .project h3 {
@@ -58,11 +58,17 @@ main {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #333333;
+    color: #e6e6e6;
     text-align: center;
     padding: 10px 0;
-    position: fixed;
-    width: 100%;
+    position: relative;
     bottom: 0;
+    width: 100%;
+}
+
+.social-links a {
+    color: #fbb034; /* Highlight color */
+    margin: 0 10px;
+    text-decoration: none;
 }
