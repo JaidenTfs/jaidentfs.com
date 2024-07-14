@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Simple Music Player</title>
+  <!-- Load FontAwesome icons -->
+  <link rel="icon" type="image/x-icon" href="https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" />
+  <link rel="stylesheet" href="all.min.css">
+ 
+  <!-- Load the custom CSS style file -->
+  <link rel="stylesheet" type="text/css" href="style2.css">
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+        <ul>
+            <li><button onclick="albumRoar()">Roar - I Can't Handle Change</button></li>
+            <li><button onclick="albumMiraclemusical()">ミラクルミュージカル - Hawaii: Part II</button></li>
+            <li><button onclick="albumRick()">Ricky Montgomery - Rick</button></li>
+            <li><button onclick="albumMakeroom()">Destroy Boys - Make Room</button></li>
+            <li><button onclick="albumGrantperez()">Grantperez - When we were younger</button></li>
+        </ul>
+    </div>
+    </nav>
+    <div style="margin-left:25%;padding:1px 16px;height:1000px;">
+    <div class="player">
+ 
+    <!-- Define the section for displaying details -->
+    <div class="details">
+      <div class="now-playing">PLAYING x OF y</div>
+      <div class="track-art"></div>
+      <div class="track-name">Track Name</div>
+      <div class="track-artist">Track Artist</div>
+    </div>
+ 
+    <!-- Define the section for displaying track buttons -->
+    <div class="buttons">
+      <div class="prev-track" onclick="prevTrack()">
+        <img src="back.png" width="50px" class="fa fa-step-backward fa-2x">
+      </div>
+      <div class="playpause-track" onclick="playpauseTrack()">
+        <img src="play.png" width="75px" class="fa fa-play-circle fa-5x">
+      </div>
+      <div class="next-track" onclick="nextTrack()">
+        <img src="next.png" width="50px"  class="fa fa-step-forward fa-2x">
+      </div>
+    </div>
+ 
+    <!-- Define the section for displaying the seek slider-->
+    <div class="slider_container">
+      <div class="current-time">00:00</div>
+      <input type="range" min="1" max="100"
+        value="0" class="seek_slider" onchange="seekTo()">
+      <div class="total-duration">00:00</div>
+    </div>
+ 
+    <!-- Define the section for displaying the volume slider-->
+    <div class="slider_container">
+      <i class="fa fa-volume-down"><img src="mute.png" width="30px"></i>
+      <input type="range" min="1" max="100"
+        value="99" class="volume_slider" onchange="setVolume()">
+      <i class="fa fa-volume-up"><img src="volume.png" width="30px"></i>
+    </div>
+  </div>
+    </div>
+ 
+  <!-- Load the main script for the player -->
+  <script src="script2.js"></script>
+  <script src="albums2.js"></script>
+</body>
+</html>

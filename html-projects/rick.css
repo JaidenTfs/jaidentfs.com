@@ -1,0 +1,971 @@
+    .bouncingWrap>div {
+        position: fixed;
+    }
+
+    .bouncingWrap .image1Wrap {
+        top: 0;
+        left: 4vw;
+    }
+
+    .bouncingWrap .image2Wrap {
+        bottom: 0;
+        left: 2vw;
+    }
+
+    .bouncingWrap .image3Wrap {
+        bottom: 18vw;
+        left: 2vw;
+    }
+
+    .bouncingWrap .image4Wrap {
+        right: 3vw;
+        top: 16vw;
+    }
+
+    .bouncingWrap .image5Wrap {
+        left: 21vw;
+        top: 16vw;
+    }
+
+    .bouncingWrap .image6Wrap {
+        left: 35vw;
+        top: 0;
+    }
+
+    .bouncingWrap .image7Wrap {
+        left: 41vw;
+        top: 31vw;
+    }
+
+    .bouncingWrap .image8Wrap {
+        right: 0;
+        top: 0;
+    }
+
+    .bouncingWrap .image9Wrap {
+        left: 22vw;
+        bottom: 0;
+    }
+
+    .bouncingWrap .image10Wrap {
+        right: 21vw;
+        top: 0;
+    }
+
+    .bouncingWrap .image11Wrap {
+        right: 10vw;
+        bottom: 0;
+    }
+
+    .bouncingWrap .image12Wrap {
+        bottom: 16vw;
+        right: 22vw;
+    }
+
+    .bouncingWrap :is(.image1Wrap, .image2Wrap, .image3Wrap, .image4Wrap, .image5Wrap, .image6Wrap, .image7Wrap, .image8Wrap, .image9Wrap, .image10Wrap, .image11Wrap, .image12Wrap) {
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .relative {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        animation: x 13s linear infinite alternate;
+    }
+
+    .relative>div {
+        position: absolute;
+        z-index: -1;
+    }
+
+    .image1 {
+        width: 2.76vw;
+    }
+
+    .image2 {
+        width: 3.438vw;
+    }
+
+    .image3 {
+        width: 2.760vw;
+    }
+
+    .image4 {
+        width: 5.365vw;
+    }
+
+    .image5 {
+        width: 2.135vw;
+    }
+
+    .image6 {
+        width: 3.490vw;
+    }
+
+    .image7 {
+        width: 2.552vw;
+    }
+
+    .image8 {
+        width: 3.281vw;
+    }
+
+    .image9 {
+        width: 5.885vw;
+    }
+
+    .image10 {
+        width: 3.229vw;
+    }
+
+    .image11 {
+        width: 2.760vw;
+    }
+
+    .image12 {
+        width: 4.740vw;
+    }
+
+    /* New bouncing keyframe starts */
+
+    @keyframes animate1 {
+        0% {
+            left: 0%;
+            top: 0%;
+        }
+
+        11.5% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        23% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        27% {
+            left: 100%;
+            top: 10%;
+        }
+
+        38.5% {
+            left: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        49% {
+            left: 10%;
+            top: 0%;
+        }
+
+        53% {
+            left: 0%;
+            top: 10%;
+        }
+
+        64.5% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        76% {
+            left: 100%;
+            top: 10%;
+        }
+
+        80.5% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        91.5% {
+            left: 50%;
+            top: 100%
+        }
+
+        100% {
+            left: 0%;
+            top: 0%;
+        }
+    }
+
+    @keyframes animate2 {
+        0% {
+            right: 0%;
+            top: 0%;
+        }
+
+        11.5% {
+            right: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        23% {
+            rigth: 80%;
+            top: 0%;
+        }
+
+        27% {
+            rigth: 80%;
+            top: 10%;
+        }
+
+        38.5% {
+            right: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        49% {
+            right: 10%;
+            top: 0%;
+        }
+
+        53% {
+            right: 0%;
+            top: 10%;
+        }
+
+        64.5% {
+            right: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        76% {
+            rigth: 80%;
+            top: 10%;
+        }
+
+        80.5% {
+            rigth: 80%;
+            top: 0%;
+        }
+
+        91.5% {
+            right: 50%;
+            top: 100%
+        }
+
+        100% {
+            right: 0%;
+            top: 0%;
+        }
+    }
+
+    @keyframes animate3 {
+        0% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        11.5% {
+            right: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        23% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        27% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        38.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        49% {
+            right: 10%;
+            bottom: 0%;
+        }
+
+        53% {
+            right: 0%;
+            bottom: 10%;
+        }
+
+        64.5% {
+            right: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        76% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        80.5% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        91.5% {
+            right: 50%;
+            bottom: initial;top: 0%;
+        }
+
+        100% {
+            right: 0%;
+            bottom: 0%;
+        }
+    }
+
+    @keyframes animate4 {
+        0% {
+            left: 0%;
+            bottom: 0%;
+        }
+
+        11.5% {
+            left: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        23% {
+            left: initial;right: 0%;
+            bottom: 0%;
+        }
+
+        27% {
+            left: 100%;
+            bottom: 10%;
+        }
+
+        38.5% {
+            left: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        49% {
+            left: 10%;
+            bottom: 0%;
+        }
+
+        53% {
+            left: 0%;
+            bottom: 10%;
+        }
+
+        64.5% {
+            left: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        76% {
+            left: 100%;
+            bottom: 10%;
+        }
+
+        80.5% {
+            left: initial;right: 0%;
+            bottom: 0%;
+        }
+
+        91.5% {
+            left: 50%;
+            bottom: initial;top: 0%;
+        }
+
+        100% {
+            left: 0%;
+            bottom: 0%;
+        }
+    }
+
+    @keyframes animate5 {
+        0% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        11.5% {
+            left: 0%;
+            top: 0%;
+        }
+
+        23% {
+            left: 100%;
+            top: 10%;
+        }
+
+        27% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        38.5% {
+            left: 10%;
+            top: 0%;
+        }
+
+        49% {
+            left: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        53% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        64.5% {
+            left: 0%;
+            top: 10%;
+        }
+
+        76% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        80.5% {
+            left: 100%;
+            top: 10%;
+        }
+
+        91.5% {
+            left: 0%;
+            top: 0%;
+        }
+
+        100% {
+            left: 50%;
+            top: 100%
+        }
+    }
+
+    @keyframes animate6 {
+        0% {
+            right: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        11.5% {
+            right: 0%;
+            top: 0%;
+        }
+
+        23% {
+            rigth: 80%;
+            top: 10%;
+        }
+
+        27% {
+            rigth: 80%;
+            top: 0%;
+        }
+
+        38.5% {
+            right: 10%;
+            top: 0%;
+        }
+
+        49% {
+            right: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        53% {
+            right: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        64.5% {
+            right: 0%;
+            top: 10%;
+        }
+
+        76% {
+            rigth: 80%;
+            top: 0%;
+        }
+
+        80.5% {
+            rigth: 80%;
+            top: 10%;
+        }
+
+        91.5% {
+            right: 0%;
+            top: 0%;
+        }
+
+        100% {
+            right: 50%;
+            top: 100%
+        }
+    }
+
+    @keyframes animate7 {
+        0% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        11.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        23% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        27% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        38.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        49% {
+            right: 10%;
+            bottom: 0%;
+        }
+
+        53% {
+            right: 0%;
+            bottom: 10%;
+        }
+
+        64.5% {
+            right: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        76% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        80.5% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        91.5% {
+            right: 50%;
+            bottom: initial;top: 0%;
+        }
+
+        100% {
+            right: 0%;
+            bottom: 0%;
+        }
+    }
+
+    @keyframes animate8 {
+        0% {
+            left: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        11.5% {
+            left: 0%;
+            bottom: 0%;
+        }
+
+        23% {
+            left: 100%;
+            bottom: 10%;
+        }
+
+        27% {
+            left: initial;right: 0%;
+            bottom: 0%;
+        }
+
+        38.5% {
+            left: 10%;
+            bottom: 0%;
+        }
+
+        49% {
+            left: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        53% {
+            left: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        64.5% {
+            left: 0%;
+            bottom: 10%;
+        }
+
+        76% {
+            left: initial;right: 0%;
+            bottom: 0%;
+        }
+
+        80.5% {
+            left: 100%;
+            bottom: 10%;
+        }
+
+        91.5% {
+            left: 0%;
+            bottom: 0%;
+        }
+
+        100% {
+            left: 50%;
+            bottom: initial;top: 0%;;
+        }
+    }
+
+    @keyframes animate9 {
+        0% {
+            left: 50%;
+            top: 100%
+        }
+
+        11.5% {
+            left: 0%;
+            top: 0%;
+        }
+
+        23% {
+            left: 100%;
+            top: 10%;
+        }
+
+        27% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        38.5% {
+            left: 0%;
+            top: 10%;
+        }
+
+        49% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        53% {
+            left: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        64.5% {
+            left: 10%;
+            top: 0%;
+        }
+
+        76% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        80.5% {
+            left: 100%;
+            top: 10%;
+        }
+
+        91.5% {
+            left: 0%;
+            top: 0%;
+        }
+
+        100% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+    }
+
+    @keyframes animate10 {
+        0% {
+            left: 0%;
+            top: 0%;
+        }
+
+        11.5% {
+            left: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        23% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        27% {
+            left: 100%;
+            top: 10%;
+        }
+
+        38.5% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        49% {
+            left: 0%;
+            top: 10%;
+        }
+
+        53% {
+            left: 10%;
+            top: 0%;
+        }
+
+        64.5% {
+            left: 50%;
+            top: initial;bottom: 0%;
+        }
+
+        76% {
+            left: 100%;
+            top: 10%;
+        }
+
+        80.5% {
+            left: initial;right: 0%;
+            top: 0%;
+        }
+
+        91.5% {
+            left: 60%;
+            top: initial;bottom: 0%;
+        }
+
+        100% {
+            left: 0%;
+            top: 0%;
+        }
+    }
+
+    @keyframes animate11 {
+        0% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        11.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        23% {
+            right: 10%;
+            bottom: 0%;
+        }
+
+        27% {
+            right: 0%;
+            bottom: 10%;
+        }
+
+        38.5% {
+            right: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        49% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        53% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        64.5% {
+            right: 50%;
+            bottom: initial;top: 0%;
+        }
+
+        76% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        80.5% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        91.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        100% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+    }
+
+    @keyframes animate12 {
+        0% {
+            rigth: 80%;
+            bottom: 0%;
+        }
+
+        11.5% {
+            right: 50%;
+            bottom: initial;top: 0%;
+        }
+
+        23% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        27% {
+            right: 0%;
+            bottom: 0%;
+        }
+
+        38.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        49% {
+            right: 80%;
+            bottom: 0%;
+        }
+
+        53% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+
+        64.5% {
+            right: 50%;
+            bottom: initial;top: 0%;;
+        }
+
+        76% {
+            right: 10%;
+            bottom: 0%;
+        }
+
+        80.5% {
+            right: 0%;
+            bottom: 10%;
+        }
+
+        91.5% {
+            right: 60%;
+            bottom: initial;top: 0%;;
+        }
+
+        100% {
+            rigth: 80%;
+            bottom: 10%;
+        }
+    }
+
+    .image1 {
+        width: 2.76vw;
+        -webkit-animation: animate1 45s infinite;
+        animation: animate1 45s infinite;
+        transition: transform linear;
+    }
+
+    .image2 {
+        -webkit-animation: animate2 45s infinite;
+        animation: animate2 45s infinite;
+        transition: transform linear;
+    }
+
+    .image3 {
+        -webkit-animation: animate3 45s infinite;
+        animation: animate3 45s infinite;
+        transition: transform linear;
+    }
+
+    .image4 {
+        -webkit-animation: animate4 45s infinite;
+        animation: animate4 45s infinite;
+        transition: transform linear;
+    }
+
+    .image5 {
+        -webkit-animation: animate5 45s infinite;
+        animation: animate5 45s infinite;
+        transition: transform linear;
+    }
+
+    .image6 {
+        -webkit-animation: animate6 45s infinite;
+        animation: animate6 45s infinite;
+        transition: transform linear;
+    }
+
+    .image7 {
+        -webkit-animation: animate7 45s infinite;
+        animation: animate7 45s infinite;
+        transition: transform linear;
+    }
+
+    .image8 {
+        -webkit-animation: animate8 45s infinite;
+        animation: animate8 45s infinite;
+        transition: transform linear;
+    }
+
+    .image9 {
+        -webkit-animation: animate9 45s infinite;
+        animation: animate9 45s infinite;
+        transition: transform linear;
+    }
+
+    .image10 {
+        -webkit-animation: animate10 45s infinite;
+        animation: animate10 45s infinite;
+        transition: transform linear;
+    }
+
+    .image11 {
+        -webkit-animation: animate11 45s infinite;
+        animation: animate11 45s infinite;
+        transition: transform linear;
+    }
+
+    .image12 {
+        -webkit-animation: animate12 45s infinite;
+        animation: animate12 45s infinite;
+        transition: transform linear;
+    }
+
+    .bouncingWrap .image9Wrap {
+        bottom: 8vh;
+    }
+
+    .bouncingWrap .image2Wrap {
+        bottom: 6vw;
+    }
+
+    .bouncingWrap .image2Wrap {
+        bottom: 6vw;
+    }
+
+    .bouncingWrap .image8Wrap {
+        right: 0vw;
+    }
+
+    .bouncingWrap .image11Wrap {
+        bottom: 8vh;
+    }
