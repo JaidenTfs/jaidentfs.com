@@ -1,8 +1,8 @@
-@font-face {  
-    src: url(fonts/font.ttf) format("truetype");
-}
+@font-face { font-family: VCR; src: url('vcr.ttf'); }
+@font-face { font-family: Crang; src: url('crang.ttf'); }
+@font-face { font-family: Alagard; src: url('alagard.ttf'); }
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: VCR;
     font-weight: bold;
     margin: 0;
     padding: 0;
