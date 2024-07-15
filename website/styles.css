@@ -119,6 +119,7 @@ footer {
     color: #e6e6e6;
     padding: 20px;
     text-align: center;
+    position: sticky;
 }
 
 footer .social-links {
