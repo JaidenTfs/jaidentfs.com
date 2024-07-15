@@ -1,6 +1,6 @@
-@font-face { font-family: VCR; src: url('vcr.ttf');
-            font-family: Crang; src: url('crang.ttf');
-            font-family: Alagard; src: url('alagard.ttf'); }
+@font-face { font-family: VCR; src: url('fonts/vcr.ttf');
+            font-family: Crang; src: url('fonts/crang.ttf');
+            font-family: Alagard; src: url('fonts/alagard.ttf'); }
 body {
     font-family: VCR;
     font-weight: bold;
