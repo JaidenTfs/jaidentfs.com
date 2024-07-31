@@ -15,4 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+var audio = document.getElementById("aos");
+  audio.volume = 0.7;
 
