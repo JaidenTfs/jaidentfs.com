@@ -1,6 +1,18 @@
 @font-face { font-family: VCR; src: url('fonts/vcr.ttf');}
 /* font-family: Crang; src: url('fonts/crang.ttf');
             font-family: Alagard; src: url('fonts/alagard.ttf'); */
+
+/*
+Light orange: #FFD5A4
+Mid orange (unofficial): #FFAA5C
+Orange: #D08158
+Pinkish purple (unnoficial): #8F697A
+Purple: #534D68
+Mid blue: #1A3955
+Dark blue: #032541
+*/
+
+
 body {
     font-family: VCR;
     margin: 0;
