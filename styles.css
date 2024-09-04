@@ -18,14 +18,19 @@ body {
     margin: 0;
     padding: 0;
     background-color: #1a3955; /* Dark background */
-    color: #e6e6e6; /* Light text */
+    color: #FFD5A4; /* Light text */
 }
 
 header {
-    background-color: #032541; /* Darker header background */
-    color: #e6e6e6;
-    padding: 20px 0;
+    background-color: #D08158; /* Darker header background */
+    color: #1a3955;
+    padding: 0px 0;
     text-align: center;
+}
+
+.navname {
+    background-color: #FFD5A4;
+    padding: 20px 0
 }
 
 header h1 {
@@ -34,19 +39,25 @@ header h1 {
     letter-spacing: 2px;
 }
 
+nav {
+    background-color: #D08158;
+    text-decoration: none;
+}
+
 nav ul {
     list-style: none;
-    padding: 0;
-    margin: 20px 0;
+    padding: 20px;
+    margin: 0;
 }
 
 nav ul li {
     display: inline;
     margin: 0 20px;
+    background-color: #ffd5a4;
 }
 
 nav ul li a {
-    color: #ffaa5c; /* Highlight color */
+    color: #534D68; /* Highlight color */
     text-decoration: none;
     font-size: 1.2em;
     transition: color 0.3s ease, border-bottom 0.3s ease;
@@ -54,12 +65,12 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ffd5a4;
-    border-bottom: 2px solid #ffd5a4;
+    color: #534D68;
+    border-bottom: 2px solid #534D68;
 }
 
 nav ul li a:visited {
-    color: #ffaa5c; /* Ensuring visited links have the same color */
+    color: #534D68; /* Ensuring visited links have the same color */
 }
 
 main {
