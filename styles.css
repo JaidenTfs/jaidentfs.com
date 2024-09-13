@@ -117,20 +117,21 @@ nav ul li {
     background-color: #ffd5a4;
 }
 
-nav ul li a {
-    color: #534D68; /* Highlight color */
+nav ul li button {
+    color: #032541;
+    background-color: #ffd5a4; /* Highlight color */
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 1.6em;
     transition: color 0.3s ease, border-bottom 0.3s ease;
-    border-bottom: 2px solid transparent;
+    border: 2px solid transparent;
 }
 
-nav ul li a:hover {
+nav ul li button:hover {
     color: #534D68;
     border-bottom: 2px solid #534D68;
 }
 
-nav ul li a:visited {
+nav ul li button:visited {
     color: #534D68; /* Ensuring visited links have the same color */
 }
 
@@ -148,13 +149,12 @@ main {
 }
 
 .portfolio {
-    max-width: 800px;
     margin: 0 auto;
 }
 
 .project {
     background-color: #534d68; /* Matching portfolio project background */
-    margin: 20px 0;
+    margin: 0 20%;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow */
