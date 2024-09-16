@@ -135,6 +135,7 @@ nav ul li button {
     transition: color 0.3s ease, border-bottom 0.3s ease;
     border: 2px solid transparent;
 	 border-radius: 10px;
+	font-family: VCR;
 }
 
 nav ul li button:hover {
