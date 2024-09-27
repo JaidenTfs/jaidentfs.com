@@ -173,7 +173,6 @@ main {
     padding: 40px 20px;
     background-color: #1a3955; /* Matching portfolio project background */
     margin: 20px, 0px;
-    padding: 20px;
     background-position: center;
     background-repeat: repeat;
 }
@@ -283,4 +282,5 @@ footer .social-links a:hover {
 footer p {
     margin: 0;
     font-size: 0.9em;
+}#btnGetData {
 }
