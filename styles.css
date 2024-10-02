@@ -91,7 +91,8 @@ div.scroller {
         margin-bottom: 20px;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow */
-        
+        min-height: 226px;
+        max-width: 726px;
     }
 
     nav ul li {
@@ -282,5 +283,4 @@ footer .social-links a:hover {
 footer p {
     margin: 0;
     font-size: 0.9em;
-}#btnGetData {
 }
