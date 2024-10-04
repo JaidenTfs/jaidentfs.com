@@ -87,7 +87,9 @@ div.scroller {
   @media (min-width : 740px) {
     .project {
         background-color: #534d68; /* Matching portfolio project background */
-        margin: 0 20%;
+        /* margin: 0 20%; */
+        margin-left: auto;
+        margin-right: auto;
         padding: 20px;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -184,7 +186,11 @@ main {
 }
 
 .portfolio {
-    margin: 0 auto;
+    margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        margin-bottom: 20px;
+        max-width: 726px;
 }
 
 .project-half {
