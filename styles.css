@@ -65,23 +65,24 @@ div.scroller {
     scrollbar-color: pink lightblue;
   } 
     */
-@media (max-width : 740px) {
-	.project {
-    background-color: #534d68; /* Matching portfolio project background */
-    margin: 0;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 0px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow */
-    
-}
-    nav ul li {
-        display: inline;
-        margin: 0 10px;
-        background-color: #ffd5a4;
+    @media (max-width : 740px) {
+        .project {
+        background-color: #534d68; /* Matching portfolio project background */
+        margin: 0;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Slight shadow */
+        
     }
-   
-  }
+        nav ul li {
+            font-size: small;
+            display: inline;
+            margin: 0 0px;
+            background-color: #ffd5a400;
+        }
+       
+      }
 
   @media (min-width : 740px) {
     .project {
