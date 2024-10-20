@@ -68,7 +68,7 @@
   ],
   "image": "https://www.jaidentfs.com/media/little-guy-big-sword.jpg",
   "albumProductionType": "StudioAlbum",
-  "albumReleaseType": "AlbumRelease",
+  "albumReleaseType": "musicRelease",
   "genre": "chiptune",
   "byArtist": {
     "@type": "Person",
@@ -157,10 +157,19 @@
   },
   "duration": "PT3M45S",
   "@id": "https://musicbrainz.org/release/your_release_id_here",
-  "album": {
-    "@type": "MusicAlbum",
-    "name": "Attack on Saturn (Single)",
-    "@id": "https://musicbrainz.org/release/your_release_id_here"
+  "track": {
+    "@type": "ItemList",
+    "numberOfItems": 6,
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "MusicRecording",
+          "name": "Attack on Saturn"
+        }
+      }
+    ]
   }
 }
 </script>
