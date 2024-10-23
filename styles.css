@@ -27,7 +27,7 @@ font-family: 'Alagard';
 
 /* Global Styles */
 body {
-    font-family: 'VCR', sans-serif;
+    font-family: 'VCR';
     margin: 0;
     padding: 0;
     background-color: var(--light-orange);
@@ -74,7 +74,7 @@ nav ul li {
 }
 
 nav ul li button {
-    font-family: 'VCR', sans-serif;
+    font-family: 'VCR';
     font-size: 1.6em;
     color: var(--dark-blue);
     background-color: var(--light-orange);
