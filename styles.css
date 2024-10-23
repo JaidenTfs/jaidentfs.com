@@ -14,6 +14,17 @@
     --lowlight-shadow: rgba(0, 0, 0, 0.25);
 }
 
+/* Font Faces */
+@font-face {
+    font-family: 'VCR';
+    src: url('fonts/vcr.ttf');
+}
+/* 
+Fonts for future use:
+font-family: 'Crang';
+font-family: 'Alagard'; 
+*/
+
 /* Global Styles */
 body {
     font-family: 'VCR', sans-serif;
