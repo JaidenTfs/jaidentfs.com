@@ -90,6 +90,17 @@ nav ul li button:visited {
 }
 
 /* Main Content */
+#hideAll
+ {
+   position: fixed;
+   left: 0px; 
+   right: 0px; 
+   top: 0px; 
+   bottom: 0px; 
+   background-color: white;
+   z-index: 99; /* Higher than anything else in the document */
+
+ }
 main {
     padding: 40px 20px;
     background-color: var(--mid-blue);
