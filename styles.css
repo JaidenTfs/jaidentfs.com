@@ -229,7 +229,7 @@ footer p {
 
     nav ul li {
         margin: 0 20px;
-        background-color: var(--light-orange);
+        background-color: var(--transparent-light-orange);
     }
 }
 
