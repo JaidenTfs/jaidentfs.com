@@ -85,7 +85,7 @@ nav ul li {
     display: inline;
 }
 
-nav ul li button {
+nav ul li a button {
     font-family: 'Monster-Friend';
     font-size: 1.6em;
     color: var(--dark-blue);
