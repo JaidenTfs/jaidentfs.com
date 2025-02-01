@@ -19,6 +19,10 @@
     font-family: 'VCR';
     src: url('fonts/vcr.ttf');
 }
+@font-face {
+    font-family: 'Monster-Friend';
+    src: url('fonts/monster-friend.otf');
+}
 /* 
 Fonts for future use:
 font-family: 'Crang';
@@ -37,6 +41,10 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
+}
+
+body h1, body h2 {
+    font-family: 'Monster-Friend';
 }
 
 header {
