@@ -51,6 +51,10 @@ header h1 {
     letter-spacing: 2px;
 }
 
+header img {
+    padding: 10px;
+    width: 350px;
+}
 .navname {
     background-color: var(--transparent-light-orange);
     text-shadow: var(--dark-blue);
