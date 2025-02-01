@@ -43,7 +43,7 @@ body {
     background-repeat: no-repeat, repeat;
 }
 
-body h1, body h2, body h3 {
+body h1, body h2, body h4 {
     font-family: 'Monster-Friend';
 }
 
@@ -86,7 +86,7 @@ nav ul li {
 }
 
 nav ul li button {
-    font-family: 'VCR';
+    font-family: 'Monster-Friend';
     font-size: 1.6em;
     color: var(--dark-blue);
     background-color: var(--light-orange);
