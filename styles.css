@@ -131,8 +131,6 @@ main {
 
 /* Portfolio     */
 .portfolio { 
-    column-count: 3;
-    column-fill: balance;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
@@ -262,6 +260,10 @@ footer p {
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
     }
+.portfolio { 
+    column-count: 3;
+    column-fill: balance;
+}
 
     nav ul li {
         font-size: small;
