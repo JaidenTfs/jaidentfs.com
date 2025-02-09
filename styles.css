@@ -260,11 +260,7 @@ footer p {
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
     }
-.portfolio { 
-    column-count: 3;
-    column-fill: balance;
-}
-
+    
     nav ul li {
         font-size: small;
         background-color: var(--transparent-light-orange);
@@ -282,6 +278,12 @@ footer p {
         min-height: 226px;
         max-width: 726px;
     }
+
+
+.portfolio { 
+    column-count: 3;
+    column-fill: balance;
+}
 
     nav ul li {
         margin: 0 20px;
