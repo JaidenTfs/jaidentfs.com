@@ -405,7 +405,7 @@ nav ul li a button:hover {
   transform: translateY(-1px);
 }
 
-nav ul li a button:active {
+nav ul li a button:active { 
   background-color: #c85000;
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
