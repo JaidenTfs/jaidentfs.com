@@ -297,7 +297,7 @@ footer p {
     }
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 1050px) {
     .portfolio { 
         column-count: 3;
         column-fill: balance;
