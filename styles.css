@@ -281,7 +281,7 @@ footer p {
 
 
 .portfolio { 
-    column-count: 3;
+    column-count: 2;
     column-fill: balance;
 }
 
@@ -365,6 +365,11 @@ footer p {
         padding-bottom: var(--gap);
         padding-left: 5px;
     }
+}
+
+.portfolio { 
+    column-count: 3;
+    column-fill: balance;
 }
 
 @media (max-width: 740px) {
