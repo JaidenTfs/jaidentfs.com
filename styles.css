@@ -131,10 +131,8 @@ main {
 
 /* Portfolio     */
 .portfolio { 
-  display: grid;
-  grid-template-columns: 1fr max-content;
-/*  grid-template-rows: fit-content(100%); 
-  column-gap: 24px; */
+  display: flex;
+  justify-content: center;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
