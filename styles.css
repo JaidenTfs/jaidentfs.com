@@ -177,6 +177,10 @@ main {
     margin-top: 0;
 }
 
+.project a {
+    color: var(--mid-orange);
+}
+
 /* Contact Form */
 .contact {
     max-width: 600px;
