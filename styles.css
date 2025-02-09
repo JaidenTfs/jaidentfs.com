@@ -129,9 +129,9 @@ main {
     text-align: center;
 }
 
-/* Portfolio     column-count: 3;*/
+/* Portfolio     */
 .portfolio {
-    float: left;
+    column-count: 3;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
