@@ -44,8 +44,12 @@ body {
     background-repeat: no-repeat, repeat;
 }
 
-body h1, body h2, body h4 {
+body h1, body h2, body h3, body h4 {
     font-family: 'Monster-Friend';
+}
+
+body h3 {
+color: var(--mid-orange);
 }
 
 header {
@@ -65,6 +69,7 @@ header img {
     padding: 1em;
     width: 350px;
 }
+
 .navname {
     background-color: var(--transparent-light-orange);
     text-shadow: var(--dark-blue);
@@ -292,6 +297,13 @@ footer p {
     }
 }
 
+@media (min-width: 1020px) {
+    .portfolio { 
+        column-count: 3;
+        column-fill: balance;
+    }
+}
+
 /* Slider Styles */
 .post-slider {
     display: flex;
@@ -366,11 +378,6 @@ footer p {
         padding-bottom: var(--gap);
         padding-left: 5px;
     }
-}
-
-.portfolio { 
-    column-count: 3;
-    column-fill: balance;
 }
 
 @media (max-width: 740px) {
