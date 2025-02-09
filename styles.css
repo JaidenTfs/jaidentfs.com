@@ -132,13 +132,13 @@ main {
 /* Portfolio     */
 .portfolio { 
   display: grid;
-/*  grid-template-columns: 1fr max-content;
-  grid-template-rows: fit-content(100%); 
+  grid-template-columns: 1fr max-content;
+/*  grid-template-rows: fit-content(100%); 
   column-gap: 24px; */
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
-    max-width: 726px;
+    max-width: 50%;
 }
 
 .project-half {
