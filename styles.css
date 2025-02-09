@@ -12,6 +12,7 @@
     --dark-shadow: rgba(0, 0, 0, 0.5);
     --highlight-shadow: rgba(255, 255, 255, 0.25);
     --lowlight-shadow: rgba(0, 0, 0, 0.25);
+    --dark-orange:#BF6536;
 }
 
 /* Font Faces */
@@ -51,6 +52,7 @@ header {
     color: var(--mid-blue);
     padding: 0;
     text-align: center;
+    font-size:0.8em;
 }
 
 header h1 {
@@ -60,7 +62,7 @@ header h1 {
 }
 
 header img {
-    padding: 10px;
+    padding: 1em;
     width: 350px;
 }
 .navname {
@@ -91,8 +93,10 @@ nav ul li a button {
     color: var(--dark-blue);
     background-color: var(--light-orange);
     border: 2px solid transparent;
-    border-radius: 10px;
+    border-radius: .25em;
     transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding:.25em;
+    border-bottom: 2px solid transparent;
 }
 
 nav ul li button:hover, 
@@ -166,6 +170,7 @@ main {
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
+    font-size:1rem;
 }
 
 .contact form {
@@ -200,8 +205,13 @@ main {
 }
 
 .contact button:hover {
+    border-bottom: 2px solid transparent;
     background-color: var(--mid-orange);
     transform: scale(1.05);
+}
+
+button:hover{
+    cursor: pointer;
 }
 
 /* Footer */
@@ -226,6 +236,7 @@ footer .social-links a {
 
 footer .social-links a:hover {
     color: var(--purple);
+    text-decoration: underline;
 }
 
 footer p {
@@ -348,4 +359,54 @@ footer p {
     .mini-card {
         width: 200px;
     }
+}
+
+
+/* CSS */
+nav ul li a button {
+  align-items: center;
+  background-clip: padding-box;
+  box-sizing:border-box;
+  background-color: var(--dark-orange);
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  /* font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif; */
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+  border-bottom: 2px solid transparent;
+
+}
+
+nav ul li a button:hover,
+nav ul li a button:focus {
+  background-color: #fc7c28;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+nav ul li a button:hover {
+  transform: translateY(-1px);
+}
+
+nav ul li a button:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+  transform: translateY(0);
 }
