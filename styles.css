@@ -3,6 +3,7 @@
     --light-orange: #FFD5A4;
     --mid-orange: #FFAA5C;
     --orange: #D08158;
+    --dark-orange:#BF6536;
     --pinkish-purple: #8F697A;
     --purple: #534D68;
     --mid-blue: #1A3955;
@@ -12,7 +13,6 @@
     --dark-shadow: rgba(0, 0, 0, 0.5);
     --highlight-shadow: rgba(255, 255, 255, 0.25);
     --lowlight-shadow: rgba(0, 0, 0, 0.25);
-    --dark-orange:#BF6536;
 }
 
 /* Font Faces */
@@ -129,8 +129,9 @@ main {
     text-align: center;
 }
 
-/* Portfolio */
+/* Portfolio     column-count: 3;*/
 .portfolio {
+    float: left;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
