@@ -42,7 +42,6 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
-    overflow: hidden;
 }
 
 body h1, body h2, body h4 {
@@ -134,11 +133,12 @@ main {
 .portfolio { 
     display: flex;
     flex-wrap: wrap;
-    flex: 0 0 350px
+    flex: 1 1 350px
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
     max-width: 100%;
+    overflow: hidden;
 }
 
 .project-half {
