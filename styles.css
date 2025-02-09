@@ -133,9 +133,6 @@ main {
 .portfolio { 
     column-count: 3;
     column-fill: balance;
-    page-break-inside: avoid; /* Firefox is dumb */
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
@@ -153,6 +150,9 @@ main {
 }
 
 .project-details {
+    page-break-inside: avoid; /* Firefox is dumb */
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
     display: flex;
     align-items: center;
     /* gap: 20px; */
