@@ -133,6 +133,7 @@ main {
 .portfolio { 
     display: flex;
     flex-wrap: wrap;
+    flex: 0 0 350px
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
