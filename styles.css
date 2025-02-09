@@ -131,9 +131,10 @@ main {
 
 /* Portfolio     */
 .portfolio { 
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1 1 350px
+    column-count: 3;
+    column-fill: balance;
+    page-break-inside: avoid; /* Firefox is dumb */
+    break-inside: avoid;
     margin: 0 auto;
     padding: 20px;
     margin-bottom: 20px;
