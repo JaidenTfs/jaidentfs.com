@@ -42,6 +42,7 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
+    overflow: hidden;
 }
 
 body h1, body h2, body h4 {
