@@ -173,12 +173,16 @@ main {
     padding: 5px;
 }
 
+.project h3 {
+    color: var(--orange);
+}
+
 .project a {
     color: var(--orange);
 }
 
 .project a:hover {
-    color: var(--light-orange);
+    color: var(--mid-orange);
     cursor: pointer;
 }
 
