@@ -173,12 +173,13 @@ main {
     padding: 5px;
 }
 
-.project h3 {
-    margin-top: 0;
+.project a {
+    color: var(--orange);
 }
 
-.project a {
-    color: var(--mid-orange);
+.project a:hover {
+    color: var(--light-orange);
+    cursor: pointer;
 }
 
 /* Contact Form */
