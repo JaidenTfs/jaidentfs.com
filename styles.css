@@ -125,7 +125,8 @@ nav ul li button:visited {
 main {
     padding: 40px 20px;
     background-color: var(--mid-blue);
-    background-image: url('media/star-background.png')
+    background-image: url('media/star-background.png');
+    background-size: 425px 125px;
     margin: 0;
     background-position: center;
     background-repeat: repeat;
