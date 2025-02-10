@@ -156,7 +156,6 @@ main {
     background-color: var(--purple);
     margin: 0 auto;
     padding: 20px;
-    margin: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px var(--dark-shadow);
 }
@@ -285,7 +284,11 @@ footer p {
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
     }
-    
+
+    .project-about {
+        margin-bottom: 20px;
+    }
+
     nav ul li {
         font-size: small;
         background-color: var(--transparent-light-orange);
@@ -304,6 +307,9 @@ footer p {
         max-width: 726px;
     }
 
+    .project-about {
+        margin: 20px;
+    }
 
 .portfolio { 
     column-count: 2;
