@@ -152,7 +152,7 @@ main {
     break-inside: avoid;
 }
 
-.project-details {
+.project-about {
     background-color: var(--purple);
     margin: 0 auto;
     padding: 20px;
@@ -181,7 +181,7 @@ main {
     padding: 5px;
 }
 
-.project h3, .project-intro h1 {
+.project h3, .project-about h1 {
     color: var(--orange);
 }
 
