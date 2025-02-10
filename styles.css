@@ -298,9 +298,8 @@ footer p {
 @media (min-width: 740px) {
     .project {
         background-color: var(--purple);
-        margin: 0 auto;
+        margin: 20px auto;
         padding: 20px;
-        margin: 20px;
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
         min-height: 226px;
