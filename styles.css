@@ -152,6 +152,14 @@ main {
     break-inside: avoid;
 }
 
+.project-details {
+    background-color: var(--purple);
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+}
+
 .project-banner img {
     width: 100%;
     height: auto;
@@ -173,15 +181,15 @@ main {
     padding: 5px;
 }
 
-.project h3 {
+.project h3, .project-intro h1 {
     color: var(--orange);
 }
 
-.project a {
+.portfolio a {
     color: var(--orange);
 }
 
-.project a:hover {
+.portfolio a:hover {
     color: var(--mid-orange);
     cursor: pointer;
 }
@@ -271,7 +279,7 @@ footer p {
         background-color: var(--purple);
         margin: 0;
         padding: 20px;
-        margin-bottom: 20px;
+        margin: 5px;
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
     }
@@ -287,7 +295,7 @@ footer p {
         background-color: var(--purple);
         margin: 0 auto;
         padding: 20px;
-        margin-bottom: 20px;
+        margin: 5px;
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
         min-height: 226px;
