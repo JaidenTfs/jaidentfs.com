@@ -280,7 +280,8 @@ footer p {
         background-color: var(--purple);
         margin: 0;
         padding: 20px;
-        margin: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
         border-radius: 5px;
         box-shadow: 0 0 10px var(--dark-shadow);
     }
