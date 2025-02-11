@@ -46,11 +46,9 @@ body {
 
 body h1, body h2, body h3, body h4 {
     font-family: 'Monster-Friend';
+    color: var(--orange);
 }
 
-body h3 {
-color: var(--mid-orange);
-}
 
 header {
     color: var(--mid-blue);
