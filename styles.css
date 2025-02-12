@@ -126,7 +126,7 @@ main {
     background-image: url('media/star-background.png');
     background-size: 435.5px 245px;
     margin: 0;
-    background-position: center;
+    background-position: left top;
     background-repeat: repeat;
 }
 
