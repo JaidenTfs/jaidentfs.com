@@ -5,10 +5,10 @@
 //     console.log (Loading Main HTML);}
 
 document.addEventListener("DOMContentLoaded", function() {
-  onlyPlayOneIn(document.body,document.h4);
+  onlyPlayOneIn(document.body);
 });
 
-function onlyPlayOneIn(container,title) {
+function onlyPlayOneIn(container) {
   container.addEventListener("play", function(event) {
   audio_elements = container.getElementsByTagName("audio")
     for(i=0; i < audio_elements.length; i++) {
@@ -18,7 +18,6 @@ function onlyPlayOneIn(container,title) {
       }
     }
   }, true);
-  setText ("songTitle",title);
   
 }
 
