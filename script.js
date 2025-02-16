@@ -1,15 +1,4 @@
 //Javascript!
-var musicList = [
-  {name: "Skip this song",
-   image: "",
-   path: ""},
-  
-  {name: "Skip this song",
-    image: "",
-    path: ""},
-  
-  {"s2",};
-"kc1","kc2","kc3","lgbs1","lgbs2","lgbs3","lgbs4","lgbs5","lgbs6","dc1","dc2","dc3","s1"];
 var isPlaying
 
 // Only letting one audio play at a single time
