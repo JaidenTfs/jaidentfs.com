@@ -54,7 +54,9 @@ updateScreen();
 function loadTrack(audioIndex) {
   clearInterval(updateTimer);
   resetValues();
-  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile;    
+  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile; 
+  currAudio.load();
+  
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
   
@@ -140,7 +142,6 @@ function seekUpdate() {
 }
 
 function updateScreen() {
-    currAudio.load();
     project_image.style.backgroundImage = "url(" + projectList[audioList[audioIndex].projectIndex].imagePath + ")";
     audio_title.textContent = audioList[audioIndex].title;
     project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
