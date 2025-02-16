@@ -1,5 +1,15 @@
 //Javascript!
-var musicList = ["s2","kc1","kc2","kc3","lgbs1","lgbs2","lgbs3","lgbs4","lgbs5","lgbs6","dc1","dc2","dc3","s1"];
+var musicList = [
+  {name: "Skip this song",
+   image: "",
+   path: ""},
+  
+  {name: "Skip this song",
+    image: "",
+    path: ""},
+  
+  {"s2",};
+"kc1","kc2","kc3","lgbs1","lgbs2","lgbs3","lgbs4","lgbs5","lgbs6","dc1","dc2","dc3","s1"];
 var isPlaying
 
 // Only letting one audio play at a single time
@@ -36,11 +46,19 @@ function pauseTrack() {
 }
 
 function nextTrack() {
-  musicList = musicList + 1
+  if (track_index < track_list.length - 1)
+    track_index += 1;
+  else track_index = 0;
+  loadTrack(track_index);
+  playTrack();
 }
 
-function previousTrack() {
-  musicList = musicList - 1
+function prevTrack() {
+  if (track_index > 0)
+    track_index -= 1;
+  else track_index = track_list.length;
+  loadTrack(track_index);
+  playTrack();
 }
 
 function updateScreen() {
