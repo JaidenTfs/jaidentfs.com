@@ -255,6 +255,7 @@ button:hover{
     bottom: 0;
     text-align: center;
     z-index: 80;
+    align-items: center;
 }
 .details {
     display: flex;
@@ -266,11 +267,12 @@ button:hover{
         
 .track-art {
     margin: 25px;
-    height: 250px;
-    width: 250px;
+    height: 125px;
+    width: 125px;
     background-image: url("");
     background-size: cover;
     border-radius: 15%;
+    float: left;
 }
         .buttons {
           display: flex;
@@ -353,6 +355,7 @@ button:hover{
         
         audio-buttons {
           cursor: pointer;
+          width: 30px;
         }
 
 /* Footer */
