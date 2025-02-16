@@ -77,13 +77,13 @@ function playpauseAudio() {
 function playAudio() {
   currAudio.play();
   isPlaying = true;
-  playpause_btn.innerHTML = "<img src="html-projects/pause.png" width="75px" class="playpause-track">";
+  playpause_btn.innerHTML = "<img src='html-projects/pause.png' width='75px' class='playpause-track'>";
 }
 
 function pauseAudio() {
   currAudio.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = "<img src="html-projects/play.png" width="75px" class="playpause-track">";
+  playpause_btn.innerHTML = "<img src='html-projects/play.png' width='75px' class='playpause-track'>";
 }
 
 function nextAudio() {
