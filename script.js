@@ -1,10 +1,42 @@
 //Javascript!
-var audioIndex = 0;
-var isPlaying = false;
-var updateTimer;
+if (localStorage.getItem("audioIndex") != "undefined") {
+  var audioIndex = localStorage.getItem("audioIndex");
+}
+else {
+  var audioIndex = 0;}
 
+if (localStorage.getItem("isPlaying") != "undefined") {
+  var isPlaying = localStorage.getItem("isPlaying");
+}
+else {
+  var isPlaying = false;}
+
+if (localStorage.getItem("updateTimer") != "undefined") {
+  var updateTimer = localStorage.getItem("updateTimer");
+}
+else {
+  var updateTimer;}
+
+//let now_playing = document.querySelector(".now-playing");
+let project_image = document.querySelector(".project-image");
+let audio_title = document.querySelector(".audio-title");
+let project_title = document.querySelector(".project-title");
+
+let playpause_btn = document.querySelector(".playpause-track");
+let next_btn = document.querySelector(".next-track");
+let prev_btn = document.querySelector(".prev-track");
+
+let seek_slider = document.querySelector(".seek_slider");
+let volume_slider = document.querySelector(".volume_slider");
+let curr_time = document.querySelector(".current-time");
+let total_duration = document.querySelector(".total-duration");
 // Create new audio element
-var currAudio = document.createElement('audio');
+
+var currAudio = document.createElement("audio");
+
+// Load the first track in the tracklist
+loadTrack(audioIndex);
+updateScreen();
 
 // Only letting one audio play at a single time
 
@@ -29,16 +61,11 @@ function onlyPlayOneIn(container) {
 function loadTrack(audioIndex) {
   clearInterval(updateTimer);
   resetValues();
-  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile;
-  currAudio.load();
-
-  projectImage.style.backgroundImage = "url(" + projectList[audioList[audioIndex].projectIndex].imagePath + ")";
-  audioTitle.textContent = audioList[audioIndex].title;
-  projectTitle.textContent = projectList[audioList[audioIndex].projectIndex].title
-//  now_playing.textContent = "PLAYING " + (audioIndex + 1) + " OF " + audioList.length;
-
+  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile;    
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
+  
+  updateScreen()
 }
 
 function resetValues() {
@@ -46,9 +73,6 @@ function resetValues() {
   total_duration.textContent = "00:00";
   seek_slider.value = 0;
 }
-
-// Load the first track in the tracklist
-loadTrack(audioIndex);
 
 function playpauseAudio() {
   if (!isPlaying) playAudio();
@@ -58,13 +82,13 @@ function playpauseAudio() {
 function playAudio() {
   currAudio.play();
   isPlaying = true;
-  playpause_btn.innerHTML = '<img src="pause.png" width="75px" class="html-projects/fa fa-pause-circle fa-5x">';
+  playpause_btn.innerHTML = "<img src="pause.png" width="75px" class="html-projects/fa fa-pause-circle fa-5x">";
 }
 
 function pauseAudio() {
   currAudio.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = '<img src="play.png" width="75px" class="html-projects/fa fa-play-circle fa-5x">';
+  playpause_btn.innerHTML = "<img src="play.png" width="75px" class="html-projects/fa fa-play-circle fa-5x">";
 }
 
 function nextAudio() {
@@ -81,10 +105,6 @@ function prevAudio() {
   else audioIndex = audioList.length;
   loadTrack(audioIndex);
   playAudio();
-}
-
-function updateScreen() {
-  
 }
 
 function seekTo() {
@@ -114,7 +134,26 @@ function seekUpdate() {
     if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
     if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
 
+    updateScreen();
+  }
+}
+
+function updateScreen() {
+    currAudio.load();
     curr_time.textContent = currentMinutes + ":" + currentSeconds;
     total_duration.textContent = durationMinutes + ":" + durationSeconds;
-  }
+    project_image.style.backgroundImage = "url(" + projectList[audioList[audioIndex].projectIndex].imagePath + ")";
+    audio_title.textContent = audioList[audioIndex].title;
+    project_title.textContent = projectList[audioList[audioIndex].projectIndex].title
+//  now_playing.textContent = "PLAYING " + (audioIndex + 1) + " OF " + audioList.length;
+  
+    localStorage.setItem("audioIndex", audioIndex);
+    localStorage.setItem("isPlaying", isPlaying);
+    localStorage.setItem("updateTimer", updateTimer);
+    localStorage.setItem("seekPosition", seekPosition);
+    localStorage.setItem("currentMinutes", currentMinutes);
+    localStorage.setItem("currentSeconds", currentSeconds);
+    localStorage.setItem("durationMinutes", durationMinutes);
+    localStorage.setItem("durationSeconds", durationSeconds);
+
 }
