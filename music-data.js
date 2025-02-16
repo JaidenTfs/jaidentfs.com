@@ -1,4 +1,4 @@
-var projectInfo = [
+var projectList = [
   {title: "Singles",
    image: "media/attack-on-saturn.png",
    audioPath: "audio/starburn/",
@@ -21,7 +21,7 @@ var projectInfo = [
    details: ""},
 ];
 
-var musicList = [
+var audioList = [
   {title: "Attack On Saturn",
    songId: "s1",
    projectIndex: 0,
