@@ -1,13 +1,11 @@
 //Javascript!
-let audioIndex = localStorage.getItem("audioIndex");
-let isPlaying = localStorage.getItem("isPlaying");
-let updateTimer = localStorage.getItem("updateTimer");
+let audioIndex = 0;
+let isPlaying = false;
+let updateTimer;
 
-if (isNaN(audioIndex)) audioIndex = 0;
-
-if (isNaN(isPlaying)) isPlaying = false;
-
-if (isNaN(updateTime)) updateTimer = "";
+if (!isNaN(localStorage.getItem("audioIndex"))) audioIndex = localStorage.getItem("audioIndex");
+if (isNaN(localStorage.getItem("isPlaying"))) isPlaying = localStorage.getItem("isPlaying");
+if (isNaN(localStorage.getItem("updateTimer"))) updateTimer = localStorage.getItem("updateTimer");
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
