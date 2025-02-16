@@ -244,12 +244,14 @@ button:hover{
 }
 /* Music Player */
 .player {
-    position: sticky;
+    position: fixed;
     background-color: var(--orange);
     color: var(--light-bg);
-    padding: 20px 20px 10px;
+    padding: 0;
+    margin: 0;
+    bottom: 0;
     text-align: center;
-    z-index: 98;
+    z-index: 80;
 }
 
 
