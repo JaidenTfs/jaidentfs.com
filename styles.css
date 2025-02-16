@@ -355,7 +355,7 @@ button:hover{
           padding: 10px;
         }
         
-        audio-buttons {
+        .audio-buttons {
           cursor: pointer;
           width: 30px;
         }
