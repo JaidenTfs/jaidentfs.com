@@ -254,16 +254,13 @@ button:hover{
     width: 100%;
     bottom: 0;
     text-align: center;
-    z-index: 80;
     align-items: center;
-    max-height: 300px;
 }
 .details {
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    margin-top: 25px;
 }
         
 .project-image {
@@ -286,7 +283,6 @@ button:hover{
         .next-track {
           padding: 0, 5px;
           opacity: 0.8;
-          width: 50px;
         
           /* Smoothly transition the opacity */
           transition: opacity .2s;
