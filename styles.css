@@ -253,17 +253,18 @@ button:hover{
     margin: 0;
     width: 100%;
     bottom: 0;
-    text-align: center;
-    align-items: center;
 }
 .details {
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    float: left;
 }
         
 .project-image {
+    display: float;
+    float: left;
     margin: 0px;
     width: 100px;
     border-radius: 15%;
