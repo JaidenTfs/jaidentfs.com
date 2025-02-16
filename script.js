@@ -1,16 +1,13 @@
 //Javascript!
-var audioIndex = localStorage.getItem("audioIndex");
-var isPlaying = localStorage.getItem("isPlaying");
-var updateTimer = localStorage.getItem("updateTimer");
+let audioIndex = localStorage.getItem("audioIndex");
+let isPlaying = localStorage.getItem("isPlaying");
+let updateTimer = localStorage.getItem("updateTimer");
 
-if (typeof audioIndex === "undefined") {
-  audioIndex = 0;}
+if (isNaN(audioIndex)) audioIndex = 0;
 
-if (typeof isPlaying === "undefined") {
-  isPlaying = false;}
+if (isNaN(isPlaying)) isPlaying = false;
 
-if (ltypeof updateTimer === "undefined") {
-  updateTimer = "";}
+if (isNaN(updateTime)) updateTimer = "";
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
@@ -27,11 +24,11 @@ let curr_time = document.querySelector(".current-time");
 let total_duration = document.querySelector(".total-duration");
 // Create new audio element
 
-var currAudio = document.createElement("audio");
+let currAudio = document.createElement("audio");
 
 // Load the first track in the tracklist
-var projectList = [];
-var audioList = [];
+let projectList = [];
+let audioList = [];
 loadLists();
 loadTrack(audioIndex);
 updateScreen();
@@ -132,26 +129,27 @@ function seekUpdate() {
     if (currentMinutes < 10) { currentMinutes = "0" + currentMinutes; }
     if (durationMinutes < 10) { durationMinutes = "0" + durationMinutes; }
 
+    curr_time.textContent = currentMinutes + ":" + currentSeconds;
+    total_duration.textContent = durationMinutes + ":" + durationSeconds;
+    localStorage.setItem("seekPosition", seekPosition);
+    localStorage.setItem("currentMinutes", currentMinutes);
+    localStorage.setItem("currentSeconds", currentSeconds);
+    localStorage.setItem("durationMinutes", durationMinutes);
+    localStorage.setItem("durationSeconds", durationSeconds);
+    
     updateScreen();
   }
 }
 
 function updateScreen() {
     currAudio.load();
-    curr_time.textContent = currentMinutes + ":" + currentSeconds;
-    total_duration.textContent = durationMinutes + ":" + durationSeconds;
     project_image.style.backgroundImage = "url(" + projectList[audioList[audioIndex].projectIndex].imagePath + ")";
     audio_title.textContent = audioList[audioIndex].title;
-    project_title.textContent = projectList[audioList[audioIndex].projectIndex].title
+    project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
 //  now_playing.textContent = "PLAYING " + (audioIndex + 1) + " OF " + audioList.length;
   
     localStorage.setItem("audioIndex", audioIndex);
     localStorage.setItem("isPlaying", isPlaying);
     localStorage.setItem("updateTimer", updateTimer);
-    localStorage.setItem("seekPosition", seekPosition);
-    localStorage.setItem("currentMinutes", currentMinutes);
-    localStorage.setItem("currentSeconds", currentSeconds);
-    localStorage.setItem("durationMinutes", durationMinutes);
-    localStorage.setItem("durationSeconds", durationSeconds);
 
 }
