@@ -35,6 +35,9 @@ let total_duration = document.querySelector(".total-duration");
 var currAudio = document.createElement("audio");
 
 // Load the first track in the tracklist
+var projectList = [];
+var audioList = [];
+loadLists();
 loadTrack(audioIndex);
 updateScreen();
 
