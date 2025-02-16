@@ -340,6 +340,8 @@ button:hover{
         
         .volume_slider {
           width: 30%;
+          display: float;
+          float: right;
         }
         
         .current-time,
