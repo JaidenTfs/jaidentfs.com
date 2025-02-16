@@ -1,21 +1,16 @@
 //Javascript!
-if (localStorage.getItem("audioIndex") != "undefined") {
-  var audioIndex = localStorage.getItem("audioIndex");
-}
-else {
-  var audioIndex = 0;}
+var audioIndex = localStorage.getItem("audioIndex");
+var isPlaying = localStorage.getItem("isPlaying");
+var updateTimer = localStorage.getItem("updateTimer");
 
-if (localStorage.getItem("isPlaying") != "undefined") {
-  var isPlaying = localStorage.getItem("isPlaying");
-}
-else {
-  var isPlaying = false;}
+if (typeof audioIndex === "undefined") {
+  audioIndex = 0;}
 
-if (localStorage.getItem("updateTimer") != "undefined") {
-  var updateTimer = localStorage.getItem("updateTimer");
-}
-else {
-  var updateTimer;}
+if (typeof isPlaying === "undefined") {
+  isPlaying = false;}
+
+if (ltypeof updateTimer === "undefined") {
+  updateTimer = "";}
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
@@ -85,13 +80,13 @@ function playpauseAudio() {
 function playAudio() {
   currAudio.play();
   isPlaying = true;
-  playpause_btn.innerHTML = "<img src="pause.png" width="75px" class="html-projects/fa fa-pause-circle fa-5x">";
+  playpause_btn.innerHTML = "<img src="html-projects/pause.png" width="75px" class="playpause-track">";
 }
 
 function pauseAudio() {
   currAudio.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = "<img src="play.png" width="75px" class="html-projects/fa fa-play-circle fa-5x">";
+  playpause_btn.innerHTML = "<img src="html-projects/play.png" width="75px" class="playpause-track">";
 }
 
 function nextAudio() {
