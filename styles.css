@@ -255,11 +255,10 @@ button:hover{
     bottom: 0;
 }
 .details {
-    display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
     float: left;
+	padding: 20px;
 }
         
 .project-image {
@@ -268,9 +267,9 @@ button:hover{
     margin: 0px;
     width: 100px;
     border-radius: 15%;
-    float: left;
 }
 .audio-title {
+	
 }
 
         .buttons {
@@ -300,7 +299,15 @@ button:hover{
           max-width: 400px;
           display: flex;
           justify-content: center;
-          align-items: center;
+          align-items: right;
+        }
+
+        .slider_container2 {
+          width: 75%;
+          max-width: 400px;
+          display: float;
+          justify-content: center;
+          align-items: right;
         }
         
         /* Modify the appearance of the slider */
@@ -324,7 +331,7 @@ button:hover{
           appearance: none;
           width: 15px;
           height: 15px;
-          background: white;
+          background: var(--light-orange);
           cursor: pointer;
           border-radius: 50%;
         }
@@ -335,7 +342,7 @@ button:hover{
         }
         
         .seek_slider {
-          width: 60%;
+          width: 100%;
         }
         
         .volume_slider {
