@@ -27,7 +27,7 @@ function loadLists() {
     {title: "Attack On Saturn",
      songId: "s1",
      projectIndex: 0,
-     songFile: ""},
+     songFile: "attack-on-saturn.wav"},
     
     {title: "Enoument",
      songId: "dc1",
