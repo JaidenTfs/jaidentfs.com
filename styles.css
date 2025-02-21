@@ -248,34 +248,37 @@ button:hover{
 .player {
     position: fixed;
     background-color: var(--orange);
-    color: var(--light-bg);
+    color: var(--light-orange);
     padding: 0;
     margin: 0;
     width: 100%;
     bottom: 0;
+	height: 100px;
 }
 .details {
     align-items: center;
     flex-direction: column;
     float: left;
-	padding: 20px;
+	padding: 5px;
+	width: 30%;
 }
         
 .project-image {
-    display: float;
     float: left;
-    margin: 0px;
-    width: 100px;
+    margin-right: 10px;
+    width: 90px;
     border-radius: 15%;
 }
-.audio-title {
-	
+.audio-title h1 {
+	color: var(--light-orange);
+	font-size: 20px;
+	margin-left: 10px;
 }
 
         .buttons {
-          display: flex;
-          flex-direction: row;
           align-items: center;
+		  display: flex;
+		  
         }
         
         .playpause-track,
@@ -293,21 +296,32 @@ button:hover{
         .next-track:hover {
           opacity: 1.0;
         }
-        
-        .slider_container {
-          width: 75%;
-          max-width: 400px;
+	.player-middle {
           display: flex;
           justify-content: center;
-          align-items: right;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 25%;
+}
+        
+        .slider_container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
         .slider_container2 {
-          width: 75%;
+          width: 100%;
           max-width: 400px;
-          display: float;
+          display: flex;
           justify-content: center;
-          align-items: right;
+          align-items: center;
+		  float: right;
+		  padding-top: 55px;
         }
         
         /* Modify the appearance of the slider */
@@ -317,7 +331,7 @@ button:hover{
           -moz-appearance: none;
           appearance: none;
           height: 5px;
-          background: black;
+          background: var(--dark-blue);
           opacity: 0.7;
           -webkit-transition: .2s;
           transition: opacity .2s;
@@ -364,6 +378,10 @@ button:hover{
         .audio-buttons {
           cursor: pointer;
           width: 30px;
+		  align-content: center;
+			justify-content: center;
+			align-items: center;
+			display: flex;
         }
 
 /* Footer */
