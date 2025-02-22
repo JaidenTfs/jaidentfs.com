@@ -60,7 +60,7 @@ function loadTrack(audioIndex) {
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
   
-  updateScreen()
+  updateScreen();
 }
 
 function loadTrackButton(audioIndex2) {
@@ -73,8 +73,7 @@ function loadTrackButton(audioIndex2) {
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
 
-  
-  playAudio()
+  playpauseButton();
   seekUpdate();
   updateScreen()
 }
