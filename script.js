@@ -9,7 +9,7 @@ if (localStorage.getItem("updateTimer") !== null) updateTimer = localStorage.get
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
-let audio_title = document.querySelector(".audio-title");
+let audio_title = document.querySelector(".audio-title-2");
 let project_title = document.querySelector(".project-title");
 
 let playpause_btn = document.querySelector(".playpause-track");
