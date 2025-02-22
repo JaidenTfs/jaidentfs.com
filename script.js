@@ -70,13 +70,13 @@ function pauseAudio() {
   playpause_btn.innerHTML = "<img src='html-projects/play.png' class='audio-buttons' alt='Play Button'>";
 }
 
-function prevAudio() {
+function nextAudio() {
   audioIndex = (audioIndex > 0) ? audioIndex - 1 : audioList.length - 1;
   loadTrack(audioIndex);
   playAudio();
 }
 
-function nextAudio() {
+function prevAudio() {
   audioIndex = (audioIndex < audioList.length - 1) ? audioIndex + 1 : 0;
   loadTrack(audioIndex);
   playAudio();
