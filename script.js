@@ -65,7 +65,6 @@ function loadTrack(audioIndex) {
 
 function resetValues() {
   curr_time.textContent = "00:00";
-  total_duration.textContent = "00:00";
   seek_slider.value = 0;
 }
 
