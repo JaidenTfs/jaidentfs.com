@@ -64,6 +64,7 @@ function loadTrack(audioIndex) {
 }
 
 function loadTrackButton(audioIndex2) {
+  audioIndex = audioIndex2
   clearInterval(updateTimer);
   resetValues();
   currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile; 
@@ -72,7 +73,6 @@ function loadTrackButton(audioIndex2) {
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
 
-  audioIndex = audioIndex2
   
   playAudio()
   seekUpdate();
