@@ -35,8 +35,8 @@ function loadTrack(audioIndex) {
   updateScreen();
 }
 
-function loadTrackButton(audioIndex) {
-  audioIndex = audioIndex;
+function loadTrackButton(audioIndex2) {
+  audioIndex = audioIndex2;
   clearInterval(updateTimer);
   resetValues();
   currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile;
