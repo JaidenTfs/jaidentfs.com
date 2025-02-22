@@ -260,7 +260,7 @@ button:hover{
     flex-direction: column;
     float: left;
 	padding: 5px;
-	width: 30%;
+	width: 50%;
 }
         
 .project-image {
@@ -450,6 +450,17 @@ footer p {
     .project-about {
         margin: 20px;
     }
+
+	.player-middle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 0%;
+}
 
 .portfolio { 
     column-count: 2;
