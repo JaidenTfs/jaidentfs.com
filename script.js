@@ -103,6 +103,14 @@ function setVolume() {
   currAudio.volume = volume_slider.value / 100;
 }
 
+function muteVolume() {
+  currAudio.volume = 0;
+}
+
+function unmuteVolume() {
+  currAudio.volume = volume_slider.value / 100;
+}
+
 function seekUpdate() {
   let seekPosition = 0;
 
