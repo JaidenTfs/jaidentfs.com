@@ -69,13 +69,13 @@ function playpauseAudio() {
 function playAudio() {
   currAudio.play();
   isPlaying = true;
-  playpause_btn.innerHTML = "<img src='pause-button.png' class='audio-buttons' alt='Pause Button'>";
+  playpause_btn.innerHTML = "<img src='media/pause-button.png' class='audio-buttons' alt='Pause Button'>";
 }
 
 function pauseAudio() {
   currAudio.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = "<img src='play-button.png' class='audio-buttons' alt='Play Button'>";
+  playpause_btn.innerHTML = "<img src='media/play-button.png' class='audio-buttons' alt='Play Button'>";
 }
 
 function nextAudio() {
