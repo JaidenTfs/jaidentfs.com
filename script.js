@@ -2,7 +2,6 @@ let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localSto
 let isPlaying = localStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
-
 let project_image = document.querySelector(".project-image");
 let audio_title = document.querySelector(".audio-title-2");
 let project_title = document.querySelector(".project-title");
@@ -23,7 +22,7 @@ let audioList = [];
 loadLists();
 loadTrack(audioIndex);
 
-let seekUpdater = localStorage.getItem("seekto", seekto);
+let seekUpdater = localStorage.getItem("seekto");
 
 if (typeof seekUpdater !== 'undefined' && seekUpdater !== null) {
   getTimestamps();
@@ -47,9 +46,9 @@ function loadTrackButton(audioIndex2) {
   audioIndex = audioIndex2;
   clearInterval(updateTimer);
   resetValues();
-  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile;
+  currAudio.src = projectList[audioList[audioIndex2].projectIndex].audioPath + audioList[audioIndex2].songFile;
   currAudio.load();
-  
+
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
 
@@ -80,13 +79,13 @@ function pauseAudio() {
 }
 
 function nextAudio() {
-  audioIndex = (audioIndex > 0) ? audioIndex - 1 : audioList.length - 1;
+  audioIndex = (audioIndex < audioList.length - 1) ? audioIndex + 1 : 0;
   loadTrack(audioIndex);
   playAudio();
 }
 
 function prevAudio() {
-  audioIndex = (audioIndex < audioList.length - 1) ? audioIndex + 1 : 0;
+  audioIndex = (audioIndex > 0) ? audioIndex - 1 : audioList.length - 1;
   loadTrack(audioIndex);
   playAudio();
 }
@@ -148,8 +147,11 @@ function updateScreen() {
 }
 
 function getTimestamps() {
-  let seekto = seekUpdater;
+  let seekto = parseFloat(localStorage.getItem("seekto"));
   currAudio.currentTime = seekto;
+  seek_slider.value = (seekto / currAudio.duration) * 100;
+  curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
+  total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
 }
 
 playAudio();
