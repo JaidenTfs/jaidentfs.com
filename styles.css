@@ -345,6 +345,7 @@ button:hover{
           opacity: 0.7;
           -webkit-transition: .2s;
           transition: opacity .2s;
+	  cursor: url('media/custom-cursor/astro_arrow.png'), default;
         }
         
         /* Modify the appearance of the slider thumb */
