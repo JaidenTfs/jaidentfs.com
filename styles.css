@@ -249,7 +249,7 @@ main {
 }
 
 button:hover{
-    cursor: url('media/custom-cursor/astro_arrow.png'), default;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
 
