@@ -5,7 +5,7 @@ loadLists();
 loadTrack(audioIndex);
 
 //Javascript!
-let audioIndex = audioList.length - 1;
+let audioIndex = 0;
 let isPlaying = false;
 let updateTimer;
 
