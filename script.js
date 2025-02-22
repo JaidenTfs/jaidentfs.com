@@ -9,7 +9,7 @@ if (localStorage.getItem("updateTimer") !== null) updateTimer = localStorage.get
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
-let audio_title = document.querySelector(".audio-title-2");
+let audio_title = document.querySelector(".audio-title");
 let project_title = document.querySelector(".project-title");
 
 let playpause_btn = document.querySelector(".playpause-track");
@@ -60,21 +60,6 @@ function loadTrack(audioIndex) {
   updateTimer = setInterval(seekUpdate, 1000);
   currAudio.addEventListener("ended", nextAudio);
   
-  updateScreen();
-}
-
-function loadTrackButton(audioIndex2) {
-  audioIndex = audioIndex2
-  clearInterval(updateTimer);
-  resetValues();
-  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile; 
-  currAudio.load();
-  
-  updateTimer = setInterval(seekUpdate, 1000);
-  currAudio.addEventListener("ended", nextAudio);
-
-  playpauseButton();
-  seekUpdate();
   updateScreen()
 }
 
