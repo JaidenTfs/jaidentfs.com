@@ -128,7 +128,7 @@ function seekUpdate() {
 
 function updateScreen() {
   project_image.src = projectList[audioList[audioIndex].projectIndex].imagePath;
-  audio_title.innerHtml = audioList[audioIndex].title;
+  audio_title.innerHTML = audioList[audioIndex].title;
   project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
 
   localStorage.setItem("audioIndex", audioIndex);
