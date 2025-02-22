@@ -151,4 +151,6 @@ function updateScreen() {
     localStorage.setItem("isPlaying", isPlaying);
     localStorage.setItem("updateTimer", updateTimer);
 
+    console.log("Now playing: " + projectList[audioList[audioIndex].projectIndex].title);
+
 }
