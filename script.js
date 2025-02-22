@@ -86,17 +86,17 @@ function pauseAudio() {
   playpause_btn.innerHTML = "<img src='html-projects/play.png' class='audio-buttons' alt='Play Button'>";
 }
 
-function nextAudio() {
+function playAudio() {
   if (audioIndex < audioList.length - 1)
-    audioIndex -= 1;
+    audioIndex += 1;
   else audioIndex = 0;
   loadTrack(audioIndex);
   playAudio();
 }
 
-function prevAudio() {
+function nextAudio() {
   if (audioIndex > 0)
-    audioIndex += 1;
+    audioIndex -= 1;
   else audioIndex = audioList.length;
   loadTrack(audioIndex);
   playAudio();
@@ -142,7 +142,7 @@ function seekUpdate() {
 }
 
 function updateScreen() {
-    project_image.innerHtml = "<img class='project-image' src='" + projectList[audioList[audioIndex].projectIndex].imagePath + "' alt='Project Image'>";
+    project_image.src = projectList[audioList[audioIndex].projectIndex].imagePath;
     audio_title.textContent = audioList[audioIndex].title;
     project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
 //  now_playing.textContent = "PLAYING " + (audioIndex + 1) + " OF " + audioList.length;
