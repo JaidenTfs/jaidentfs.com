@@ -2,6 +2,7 @@ let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localSto
 let isPlaying = localStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
+
 let project_image = document.querySelector(".project-image");
 let audio_title = document.querySelector(".audio-title-2");
 let project_title = document.querySelector(".project-title");
@@ -21,6 +22,11 @@ let projectList = [];
 let audioList = [];
 loadLists();
 loadTrack(audioIndex);
+
+if (localStorage.getItem("seekPosition") !== null) {
+  getTimestamps();
+}
+
 updateScreen();
 
 function loadTrack(audioIndex) {
