@@ -238,7 +238,7 @@ main {
     color: var(--light-bg);
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -249,7 +249,7 @@ main {
 }
 
 button:hover{
-    cursor: pointer;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
 }
 
 
@@ -355,7 +355,7 @@ button:hover{
           width: 15px;
           height: 15px;
           background: var(--light-orange);
-          cursor: pointer;
+          cursor: url('media/custom-cursor/astro_arrow.png'), default;
           border-radius: 50%;
         }
         
@@ -385,7 +385,7 @@ button:hover{
         }
         
         .audio-buttons {
-          cursor: pointer;
+              cursor: url('media/custom-cursor/astro_arrow.png'), default;
           width: 30px;
 		  align-content: center;
 			justify-content: center;
@@ -593,7 +593,7 @@ nav ul li a button {
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
   color: #fff;
-  cursor: pointer;
+      cursor: url('media/custom-cursor/astro_arrow.png'), default;
   display: inline-flex;
   /* font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-size: 16px;
