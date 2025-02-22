@@ -196,7 +196,6 @@ main {
 }
 
 .portfolio h4, .portfolio img {
-    cursor: url('media/custom-cursor/astro_help.ico'), help;
 }
 
 /* Contact Form */
