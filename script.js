@@ -2,9 +2,7 @@ let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localSto
 let isPlaying = localStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
-if (localStorage.getItem("currentMinutes") !== null) {
-  getTimestamps();
-}
+getTimestamps();
 
 let project_image = document.querySelector(".project-image");
 let audio_title = document.querySelector(".audio-title");
