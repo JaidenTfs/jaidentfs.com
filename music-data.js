@@ -2,7 +2,7 @@ function loadLists() {
 
   projectList = [
     {title: "Singles",
-     image: "media/attack-on-saturn.png",
+     imagePath: "media/attack-on-saturn.png",
      audioPath: "audio/starburn/",
      details: ""},
     {title: "Dear Clarent Songbook",
