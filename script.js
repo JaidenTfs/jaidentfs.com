@@ -164,4 +164,4 @@ function getTimestamps() {
     seek_slider.value = localStorage.getItem("seekPosition");
 }
 
-playpauseAudio()
+playAudio()
