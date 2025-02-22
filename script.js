@@ -149,3 +149,7 @@ function getTimestamps() {
 }
 
 playAudio();
+
+window.addEventListener('keydown', function(event) {  
+    if (event.which === 32 && isPlaying == true) { pauseAudio(); }
+    if (event.which === 32 && isPlaying == false) { playAudio(); }
