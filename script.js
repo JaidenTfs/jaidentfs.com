@@ -154,3 +154,5 @@ function updateScreen() {
     console.log("Now playing: " + projectList[audioList[audioIndex].projectIndex].title);
 
 }
+
+isPlaying = true
