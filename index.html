@@ -215,6 +215,46 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	     <p>Surprisingly, coding your own website from scratch is pretty difficult and takes a decent amount of time. Come back every so often to see the new features and information added, as I plan to consistently make the website experience as smooth and professional as possible!</p>
         </div></section></div>
     </main>
+<!-- Audio Player -->
+    <div class="player">
+ 
+    <!-- Define the section for displaying details -->
+    <div class="details">
+      <div><img class="project-image" src="media/haunted-house.png" alt="song icon"></div>
+      <div class="audio-title"><h1 class="audio-title-2">Haunted House</h1></div>
+      <div class="project-title"><p>Singles</p></div>
+	 </div>
+
+ 
+   <div class="player-middle"> <!-- Define the section for displaying track buttons -->
+    <div class="buttons">
+      <div class="prev-track" onclick="prevAudio()">
+        <img src="html-projects/back.png" class="audio-buttons">
+      </div>
+      <div class="playpause-track" onclick="playpauseAudio()">
+        <img src="html-projects/play.png" class="audio-buttons">
+      </div>
+      <div class="next-track" onclick="nextAudio()">
+        <img src="html-projects/next.png" class="audio-buttons">
+      </div>
+    </div>
+ 
+    <!-- Define the section for displaying the seek slider-->
+    <div class="slider_container">
+      <div class="current-time">00:00</div>
+      <input type="range" min="1" max="100"
+        value="0" class="seek_slider" onchange="seekTo()">
+      <div class="total-duration">00:00</div>
+    </div></div>
+ 
+    <!-- Define the section for displaying the volume slider-->
+    <div class="slider_container2">
+		<i class="fa fa-volume-down"><img src="html-projects/mute.png" width="30px"></i>
+		<input type="range" min="1" max="100"
+        value="99" class="volume_slider" onchange="setVolume()">
+      <i class="fa fa-volume-up"><img src="html-projects/volume.png" width="30px"></i>
+		</div>
+    </div>
     <footer>
         <div class="social-links">
             <a href="http://youtube.jaidentfs.com">YouTube</a>
