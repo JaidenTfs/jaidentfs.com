@@ -124,7 +124,6 @@ function seekUpdate() {
     total_duration.textContent = durationMinutes + ":" + durationSeconds;
 
     let seekto = currAudio.duration * (seek_slider.value / 100);
-    currAudio.currentTime = seekto;
     localStorage.setItem("seekto", seekto);
 
     localStorage.setItem("seekPosition", seekPosition);
