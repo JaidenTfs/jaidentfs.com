@@ -46,6 +46,7 @@ function loadTrackButton(audioIndex2) {
   currAudio.addEventListener("ended", nextAudio);
 
   updateScreen();
+  playAudio();
 }
 
 function resetValues() {
