@@ -23,7 +23,9 @@ let audioList = [];
 loadLists();
 loadTrack(audioIndex);
 
-if (localStorage.getItem("seekto") !== null) {
+let seekUpdater = localStorage.getItem("seekto", seekto);;
+
+if (typeof seekUpdater !== 'undefined' && seekUpdater !== null) {
   getTimestamps();
 }
 
@@ -146,7 +148,7 @@ function updateScreen() {
 }
 
 function getTimestamps() {
-  let seekto =  localStorage.getItem("seekto", seekto);
+  let seekto = seekUpdater
   currAudio.currentTime = seekto;
 }
 
