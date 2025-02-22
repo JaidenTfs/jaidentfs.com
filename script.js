@@ -4,7 +4,7 @@ let isPlaying = false;
 let updateTimer;
 
 if (localStorage.getItem("audioIndex") !== null) audioIndex = localStorage.getItem("audioIndex");
-if (localStorage.getItem("isPlaying") !== null) isPlaying = JSON.parse(localStorage.getItem("isPlaying"));
+if (localStorage.getItem("isPlaying") !== null) isPlaying = localStorage.getItem("isPlaying");
 if (localStorage.getItem("updateTimer") !== null) updateTimer = localStorage.getItem("updateTimer");
 
 //let now_playing = document.querySelector(".now-playing");
