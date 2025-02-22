@@ -86,7 +86,7 @@ function pauseAudio() {
   playpause_btn.innerHTML = "<img src='html-projects/play.png' class='audio-buttons' alt='Play Button'>";
 }
 
-function playAudio() {
+function prevAudio() {
   if (audioIndex < audioList.length - 1)
     audioIndex += 1;
   else audioIndex = 0;
