@@ -42,7 +42,7 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
-    cursor: url('media/custom-cursor/astro_arrow.cur'), default;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
 }
 
 body h1, body h2, body h3, body h4 {
@@ -92,7 +92,7 @@ nav ul li {
 }
 
 a {
-    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
 nav ul li a button {
@@ -105,7 +105,7 @@ nav ul li a button {
     transition: color 0.3s ease, border-bottom 0.3s ease;
     padding:.25em;
     border-bottom: 2px solid transparent;
-    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
 nav ul li button:hover, 
@@ -200,7 +200,7 @@ main {
 }
 
 .portfolio h4, .portfolio img {
-    cursor: url('media/custom-cursor/astro_helpsel.cur'), help;
+    cursor: url('media/custom-cursor/astro_helpsel.png'), help;
 }
 
 /* Contact Form */
