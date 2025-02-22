@@ -429,7 +429,7 @@ footer p {
     .project {
         background-color: var(--purple);
         margin: 0;
-        padding: 0;
+        padding: 10px;
         margin-top: 20px;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -439,6 +439,11 @@ footer p {
     .project-about {
         margin-bottom: 20px;
     }
+
+.portfolio { 
+    column-count: 1;
+    column-fill: balance;
+}
 
     nav ul li {
         font-size: small;
