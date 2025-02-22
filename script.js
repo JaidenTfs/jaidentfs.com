@@ -75,7 +75,7 @@ function playAudio() {
 function pauseAudio() {
   currAudio.pause();
   isPlaying = false;
-  playpause_btn.innerHTML = "<img src='media/play-button.png' class='audio-buttons' alt='Play Button'>";
+  playpause_btn.innerHTML = "<img src='media/play-button.png' class='audio-buttons' alt='Play Button' width='26px'>";
 }
 
 function nextAudio() {
