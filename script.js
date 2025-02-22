@@ -9,13 +9,13 @@ let audioIndex = audioList.length - 1;
 let isPlaying = false;
 let updateTimer;
 
-if (localStorage.getItem("audioIndex") !== null) 
-  audioIndex = localStorage.getItem("audioIndex");
-if (localStorage.getItem("isPlaying") !== null) 
-  isPlaying = localStorage.getItem("isPlaying"); 
-  getTimestamps();
-if (localStorage.getItem("updateTimer") !== null) 
-  updateTimer = localStorage.getItem("updateTimer");
+//if (localStorage.getItem("audioIndex") !== null) 
+//  audioIndex = localStorage.getItem("audioIndex");
+//if (localStorage.getItem("isPlaying") !== null) 
+//  isPlaying = localStorage.getItem("isPlaying"); 
+//  getTimestamps();
+//if (localStorage.getItem("updateTimer") !== null) 
+//  updateTimer = localStorage.getItem("updateTimer");
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
