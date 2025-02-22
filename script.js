@@ -139,9 +139,6 @@ function updateScreen() {
 }
 
 function getTimestamps() {
-  currAudio.duration = localStorage.getItem("audioDuration");
-  curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
-  total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
   seek_slider.value = localStorage.getItem("seekPosition");
 }
 
