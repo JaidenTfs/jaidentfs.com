@@ -23,7 +23,7 @@ let audioList = [];
 loadLists();
 loadTrack(audioIndex);
 
-if (localStorage.getItem("seekPosition") !== null) {
+if (localStorage.getItem("seekto") !== null) {
   getTimestamps();
 }
 
@@ -95,6 +95,7 @@ volume_slider.addEventListener("input", setVolume);
 function seekTo() {
   let seekto = currAudio.duration * (seek_slider.value / 100);
   currAudio.currentTime = seekto;
+  localStorage.setItem("seekto", seekto);
 }
 
 function setVolume() {
@@ -145,7 +146,8 @@ function updateScreen() {
 }
 
 function getTimestamps() {
-  seek_slider.value = localStorage.getItem("seekPosition");
+  let seekto =  localStorage.getItem("seekto", seekto);
+  currAudio.currentTime = seekto;
 }
 
 playAudio();
