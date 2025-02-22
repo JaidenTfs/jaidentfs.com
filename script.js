@@ -63,6 +63,22 @@ function loadTrack(audioIndex) {
   updateScreen()
 }
 
+function loadTrackButton(audioIndex2) {
+  clearInterval(updateTimer);
+  resetValues();
+  currAudio.src = projectList[audioList[audioIndex].projectIndex].audioPath + audioList[audioIndex].songFile; 
+  currAudio.load();
+  
+  updateTimer = setInterval(seekUpdate, 1000);
+  currAudio.addEventListener("ended", nextAudio);
+
+  audioIndex = audioIndex2
+  
+  playAudio()
+  seekUpdate();
+  updateScreen()
+}
+
 function resetValues() {
   curr_time.textContent = "00:00";
   seek_slider.value = 0;
