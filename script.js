@@ -1,21 +1,11 @@
-// Loads the data for projects
-let projectList = [];
-let audioList = [];
-loadLists();
-loadTrack(audioIndex);
-
 //Javascript!
 let audioIndex = 0;
 let isPlaying = false;
 let updateTimer;
 
-//if (localStorage.getItem("audioIndex") !== null) 
-//  audioIndex = localStorage.getItem("audioIndex");
-//if (localStorage.getItem("isPlaying") !== null) 
-//  isPlaying = localStorage.getItem("isPlaying"); 
-//  getTimestamps();
-//if (localStorage.getItem("updateTimer") !== null) 
-//  updateTimer = localStorage.getItem("updateTimer");
+if (localStorage.getItem("audioIndex") !== null) audioIndex = localStorage.getItem("audioIndex");
+if (localStorage.getItem("isPlaying") !== null) isPlaying = localStorage.getItem("isPlaying");
+if (localStorage.getItem("updateTimer") !== null) updateTimer = localStorage.getItem("updateTimer");
 
 //let now_playing = document.querySelector(".now-playing");
 let project_image = document.querySelector(".project-image");
@@ -30,11 +20,15 @@ let seek_slider = document.querySelector(".seek_slider");
 let volume_slider = document.querySelector(".volume_slider");
 let curr_time = document.querySelector(".current-time");
 let total_duration = document.querySelector(".total-duration");
-
 // Create new audio element
+
 let currAudio = document.createElement("audio");
 
-//Update Screen
+// Load the first track in the tracklist
+let projectList = [];
+let audioList = [];
+loadLists();
+loadTrack(audioIndex);
 updateScreen();
 
 // Only letting one audio play at a single time
@@ -137,23 +131,14 @@ function seekUpdate() {
 
     curr_time.textContent = currentMinutes + ":" + currentSeconds;
     total_duration.textContent = durationMinutes + ":" + durationSeconds;
-    
     localStorage.setItem("seekPosition", seekPosition);
     localStorage.setItem("currentMinutes", currentMinutes);
     localStorage.setItem("currentSeconds", currentSeconds);
     localStorage.setItem("durationMinutes", durationMinutes);
     localStorage.setItem("durationSeconds", durationSeconds);
-    localStorage.setItem("audioDuration", currAudio.currentTime);
     
     updateScreen();
   }
-}
-
-function getTimestamps() {
-    currAudio.duration = localStorage.setItem("audioDuration");
-    curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
-    total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
-    seek_slider.value = localStorage.getItem("seekPosition");
 }
 
 function updateScreen() {
