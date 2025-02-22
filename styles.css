@@ -188,15 +188,15 @@ main {
 
 .portfolio a {
     color: var(--orange);
+    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
 }
 
 .portfolio a:hover {
     color: var(--mid-orange);
-    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
 }
 
 .portfolio h4, .portfolio img {
-    cursor: url('media/custom-cursor/astro_help.cur'), help;
+    cursor: url('media/custom-cursor/astro_helpsel.cur'), help;
 }
 
 /* Contact Form */
