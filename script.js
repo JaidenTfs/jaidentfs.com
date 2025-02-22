@@ -92,6 +92,7 @@ function prevAudio() {
   else audioIndex = 0;
   loadTrack(audioIndex);
   playAudio();
+  seekUpdate()
 }
 
 function nextAudio() {
