@@ -3,7 +3,7 @@ let isPlaying = localStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
 let project_image = document.querySelector(".project-image");
-let audio_title = document.querySelector(".audio-title");
+let audio_title = document.querySelector(".audio-title-2");
 let project_title = document.querySelector(".project-title");
 
 let playpause_btn = document.querySelector(".playpause-track");
