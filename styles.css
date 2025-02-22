@@ -91,6 +91,10 @@ nav ul li {
     display: inline;
 }
 
+a {
+    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
+}
+
 nav ul li a button {
     font-family: 'Monster-Friend';
     font-size: 1.6em;
@@ -101,6 +105,7 @@ nav ul li a button {
     transition: color 0.3s ease, border-bottom 0.3s ease;
     padding:.25em;
     border-bottom: 2px solid transparent;
+    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
 }
 
 nav ul li button:hover, 
@@ -188,7 +193,6 @@ main {
 
 .portfolio a {
     color: var(--orange);
-    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
 }
 
 .portfolio a:hover {
