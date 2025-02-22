@@ -419,7 +419,7 @@ footer p {
     .project {
         background-color: var(--purple);
         margin: 0;
-        padding: 20px;
+        padding: 0;
         margin-top: 20px;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -436,6 +436,17 @@ footer p {
     }
 }
 
+	.player-middle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 0%;
+}
+
 @media (min-width: 740px) {
     .project {
         background-color: var(--purple);
@@ -450,17 +461,6 @@ footer p {
     .project-about {
         margin: 20px;
     }
-
-	.player-middle {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-		  position: fixed;
-		  bottom: 0;
-		  left: 25%;
-		  right: 0%;
-}
 
 .portfolio { 
     column-count: 2;
