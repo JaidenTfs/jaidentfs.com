@@ -2,6 +2,10 @@ let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localSto
 let isPlaying = localStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
+if (localStorage.getItem("currentMinutes") !== null) {
+  getTimestamps();
+}
+
 let project_image = document.querySelector(".project-image");
 let audio_title = document.querySelector(".audio-title");
 let project_title = document.querySelector(".project-title");
@@ -120,6 +124,7 @@ function seekUpdate() {
     localStorage.setItem("currentSeconds", currentSeconds);
     localStorage.setItem("durationMinutes", durationMinutes);
     localStorage.setItem("durationSeconds", durationSeconds);
+    localStorage.setItem("audioDuration", currAudio.duration);
 
     updateScreen();
   }
@@ -138,7 +143,7 @@ function updateScreen() {
 }
 
 function getTimestamps() {
-  currAudio.duration = localStorage.setItem("audioDuration");
+  currAudio.duration = localStorage.getItem("audioDuration");
   curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
   total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
   seek_slider.value = localStorage.getItem("seekPosition");
