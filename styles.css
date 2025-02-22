@@ -43,8 +43,6 @@ body {
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
     cursor: url('media/custom-cursor/astro_arrow.cur'), default;
-    cursor: url('media/custom-cursor/astro_link.ico'), pointer;
-    cursor: url('media/custom-cursor/astro_help.ico'), help;
 }
 
 body h1, body h2, body h3, body h4 {
