@@ -624,7 +624,7 @@ nav ul li a button {
 
 nav ul li a button:hover,
 nav ul li a button:focus {
-  background-color: var(--mid-orange);
+  background-color: var(--light-orange);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
