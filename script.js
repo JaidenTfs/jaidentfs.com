@@ -1,5 +1,5 @@
 //Javascript!
-let audioIndex = 0;
+let audioIndex = audioList.length - 1;
 let isPlaying = false;
 let updateTimer;
 
