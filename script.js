@@ -91,8 +91,8 @@ function prevAudio() {
     audioIndex += 1;
   else audioIndex = 0;
   loadTrack(audioIndex);
+  seekUpdate();
   playAudio();
-  seekUpdate()
 }
 
 function nextAudio() {
@@ -100,8 +100,8 @@ function nextAudio() {
     audioIndex -= 1;
   else audioIndex = audioList.length;
   loadTrack(audioIndex);
+  seekUpdate();
   playAudio();
-  seekUpdate()
 }
 
 function seekTo() {
