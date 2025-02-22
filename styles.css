@@ -386,7 +386,7 @@ button:hover{
         }
         
         .audio-buttons {
-              cursor: url('media/custom-cursor/astro_arrow.png'), default;
+              cursor: url('media/custom-cursor/astro_link.png'), pointer;
           width: 30px;
 		  align-content: center;
 			justify-content: center;
