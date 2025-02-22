@@ -100,6 +100,7 @@ function nextAudio() {
   else audioIndex = audioList.length;
   loadTrack(audioIndex);
   playAudio();
+  seekUpdate()
 }
 
 function seekTo() {
