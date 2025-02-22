@@ -192,10 +192,11 @@ main {
 
 .portfolio a:hover {
     color: var(--mid-orange);
-    cursor: url('media/custom-cursor/astro_link.ico'), pointer;
+    cursor: url('media/custom-cursor/astro_link.cur'), pointer;
 }
 
 .portfolio h4, .portfolio img {
+    cursor: url('media/custom-cursor/astro_help.cur'), help;
 }
 
 /* Contact Form */
