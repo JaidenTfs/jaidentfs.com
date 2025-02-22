@@ -478,6 +478,16 @@ footer p {
         column-count: 3;
         column-fill: balance;
     }
+	.player-middle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 25%;
+	}
 }
 
 /* Slider Styles */
