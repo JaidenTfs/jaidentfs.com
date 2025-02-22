@@ -42,9 +42,9 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
-    cursor: url('astro_arrow.cur'), default;
-    cursor: url('astro_link.ico'), pointer;
-    cursor: url('astro_help.ico'), help;
+    cursor: url('media/mouse-pointer/astro_arrow.cur'), default;
+    cursor: url('media/mouse-pointer/astro_link.ico'), pointer;
+    cursor: url('media/mouse-pointer/astro_help.ico'), help;
 }
 
 body h1, body h2, body h3, body h4 {
@@ -194,11 +194,11 @@ main {
 
 .portfolio a:hover {
     color: var(--mid-orange);
-    cursor: url('astro_link.ico'), pointer;
+    cursor: url('media/mouse-pointer/astro_link.ico'), pointer;
 }
 
 .portfolio h4, .portfolio img {
-    cursor: url('astro_help.ico'), help;
+    cursor: url('media/mouse-pointer/astro_help.ico'), help;
 }
 
 /* Contact Form */
