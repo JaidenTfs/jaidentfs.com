@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="public">
     <title>Portfolio - JaidenTfs</title>
     
     <!-- SEO Meta Tags -->
@@ -173,9 +174,10 @@
       <a href="/"><img src="media/logo.png" alt="JaidenTfs Logo"></a>
         <nav>
             <ul>
-                 <li><a href="/"><button>Home</button></a></li>
+                <li><a href="/"><button>Home</button></a></li>
                 <li><a href="portfolio"><button>Portfolio</button></a></li>
-                <li><a href="contact" wire:navigate><button>Contact</button></a></li>
+                <li><a href="commissions"><button>Commissions</button></a></li>
+                <li><a href="contact"><button>Contact</button></a></li>
             </ul>
         </nav>
     </header>
@@ -193,8 +195,8 @@
                    <!-- <img src="images/project2-banner.jpg" alt="Project 2 Banner"> -->
                 </div>
                 <div class="project-details">
-                    <img src="media/haunted-house.png" alt="Haunted House Single Cover" class="project-icon">
-                    <h3><a href="https://open.spotify.com/album/12nSM7gKCUaJKXMuFVejiz">Haunted House</a></h3>
+                    <img src="media/haunted-house.png" alt="Haunted House Single Cover" class="project-icon" title="Listen with music player" onclick="loadTrackButton(13)>
+                    <h3 title="Listen on Spotify!!" ><a href="https://open.spotify.com/album/12nSM7gKCUaJKXMuFVejiz" target="_blank" target="_blank">Haunted House</a></h3>
 		    <p>Chiptune-Esque single posted on Spotify and other streaming services.</p>
                     <!-- <audio controls autoplay id="s2">
                         <source src="audio/haunted-house.mp3" type="audio/wav">
@@ -206,17 +208,17 @@
             </div>
 
 
-<div class="project">
+<div class="project" id="kc">
                 <div class="project-banner">
                    <!-- <img src="images/project1-banner.jpg" alt="Project 1 Banner"> -->
                 </div>
                 <div class="project-details">
-                    <img src="media/kindled-core.png" alt="Kindled Core Icon" class="project-icon">
-                	<h3><a href="https://obliosworld.itch.io/kindled-core">Kindled Core (Official Soundtrack)</a></h3>
+                    <img src="media/kindled-core.png" alt="Kindled Core Icon" class="project-icon" title="Listen with music player" onclick="loadTrackButton(12)">
+                	<h3 title="Play the game!!"><a href="https://obliosworld.itch.io/kindled-core" target="_blank">Kindled Core (Official Soundtrack)</a></h3>
 			<p>Created for the <a href="https://itch.io/jam/1-bit-jam-5">1-Bit game jam.</a> It is a top-down arena styled game where you charge really large attacks with your growing sword in order to decimate enemies on screen.</p>
                         <br></div>
 		<div>
-                    <h4>Intro Theme</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(10)">Intro Theme</h4>
                         <!-- <audio controls id="kc1">
                             <source src="audio/kindled-core/intro-theme.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -224,7 +226,7 @@
                 </div><br>
                         <p>The Main Menu theme for the game: "Kindled Core"</p>
                 <div><br>
-                    <h4>The Hollow Winter</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(11)">The Hollow Winter</h4>
                         <!-- <audio controls id="kc2">
                             <source src="audio/kindled-core/hollow-winter.mp3" type="audio/mp3">
                             Your browser does not support the audio element.
@@ -232,7 +234,7 @@
                 </div><br>
                         <p>A theme accompanying the introduction monologue. Starting with a light-hearted waltz and turning unsettling as the story gets told. It has a lietmotif from the sadly unused boss theme.</p>
                 <div><br>
-                    <h4>House Theme</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(12)">House Theme</h4>
                         <!-- <audio controls id="kc3">
                             <source src="audio/kindled-core/house-theme.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -240,7 +242,7 @@
                 </div><br>
                         <p>After waking up, you're home. But you're not alone, and the cold morning air is starting to affect you.</p>
                 <div><br>
-                    <h4>City Theme</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(13)">City Theme</h4>
                         <!-- <audio controls id="kc4">
                             <source src="audio/kindled-core/city-theme.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -256,12 +258,12 @@
                    <!-- <img src="images/project1-banner.jpg" alt="Project 1 Banner"> -->
                 </div>
                 <div class="project-details">
-                    <img src="media/little-guy-big-sword.jpg" alt="Little Guy Big Sword Game Icon" class="project-icon">
-                	<h3><a href="https://fredder.itch.io/little-guy-big-sword">Little Guy, Big Sword (Official Soundtrack)</a></h3>
+                    <img src="media/little-guy-big-sword.jpg" alt="Little Guy Big Sword Game Icon" class="project-icon" title="Listen with music player" onclick="loadTrackButton(4)">
+                	<h3><a href="https://fredder.itch.io/little-guy-big-sword" title="Play the game!!" target="_blank">Little Guy, Big Sword (Official Soundtrack)</a></h3>
 			<p>Submission for the <a href="https://itch.io/jam/gmtk-2024">2024 GMTK game jam.</a> It is a top-down arena styled game where you charge really large attacks with your growing sword in order to decimate enemies on screen.</p>
                         <br></div>
 		<div>
-                    <h4>Journey Start (Intro Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(4)">Journey Start (Intro Theme)</h4>
                         <!-- <audio controls id="lgbs1">
                             <source src="audio/little-guy-big-sword/journey-start.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -269,7 +271,7 @@
                 </div><br>
                         <p>The Main Menu theme for the game: "Little Guy, Big Sword"</p>
                 <div><br>
-                    <h4>Into the Pit (Battle Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(5)">Into the Pit (Battle Theme)</h4>
                         <!-- <audio controls id="lgbs2">
                             <source src="audio/little-guy-big-sword/into-the-pit.mp3" type="audio/mp3">
                             Your browser does not support the audio element.
@@ -277,7 +279,7 @@
                 </div><br>
                         <p>The theme when you start the game. It's meant to be exciting, ear-catching, and replayable.</p>
                 <div><br>
-                    <h4>Second Chances (Death Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(6)">Second Chances (Death Theme)</h4>
                         <!-- <audio controls id="lgbs3">
                             <source src="audio/little-guy-big-sword/second-chances.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -285,7 +287,7 @@
                 </div><br>
                         <p>When you take to much damage you'll here this slower, almost bittersweet composition. You may have lost, but you can always try again.</p>
                 <div><br>
-                    <h4>Waiting Arena (Pause Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(7)">Waiting Arena (Pause Theme)</h4>
                         <!-- <audio controls id="lgbs4">
                             <source src="audio/little-guy-big-sword/waiting-arena.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -294,7 +296,7 @@
                         <p>Almost a sort of elevator music showing that you aren't in play anymore.</p>
                 <div>
                         <br>
-                    <h4>The Rooster (Boss Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(8)">The Rooster (Boss Theme)</h4>
                         <!-- <audio controls id="lgbs5">
                             <source src="audio/little-guy-big-sword/the-rooster.mp3" type="audio/mp3">
                             Your browser does not support the audio element.
@@ -303,7 +305,7 @@
                         <p>The boss is threatening, and the music should represent that. The theme that plays keeps you nervous and unsettled while you fight the final fight.</p>
                 <div>
                         <br>
-                    <h4>You Did It!! (Win Theme)</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(9)">You Did It!! (Win Theme)</h4>
                         <!-- <audio controls id="lgbs6">
                             <source src="audio/little-guy-big-sword/you-did-it.mp3" type="audio/wav">
                             Your browser does not support the audio element.
@@ -315,17 +317,17 @@
 
 
 		
-            <div class="project">
+            <div class="project" id="dc">
                 <div class="project-banner">
                    <!-- <img src="images/project1-banner.jpg" alt="Project 1 Banner"> -->
                 </div>
                 <div class="project-details">
-                    <img src="media/dear-clarent-songbook.png" alt="Dear Clarent Songbook Icon" class="project-icon">
-                    <h3><a href="https://dearclarent.com/#slsongbook">Seawright Line Songbook</a></h3>
+                    <img src="media/dear-clarent-songbook.png" alt="Dear Clarent Songbook Icon" class="project-icon" title="Listen with music player" onclick="loadTrackButton(3)>
+                    <h3 title="Play the game!!"><a href="https://dearclarent.com/#slsongbook" target="_blank">Seawright Line Songbook</a></h3>
 		    <p>Orchestral music made for the <a href="https://dearclarent.com/">Dear Clarent Rpg</a>. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn't what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.</p>
                     <br>
                 </div>
-		<div><h4>Ruckkehrunruhe</h4>
+		<div title="Listen with music player" onclick="loadTrackButton(3)"><h4>Ruckkehrunruhe</h4>
                     <!-- <audio controls id="dc1">
                         <source src="audio/Seawright Line Songbook Audio Mixing - 4-rückkehrunruhe.wav (1).wav" type="audio/wav">
                         Your browser does not support the audio element.
@@ -334,7 +336,7 @@
                 	<p>This is about the main character, Isodore, being pressured by his father into inheriting his company. His father is also hesitent because Isodore wants to marry a girl, Phoebe. Towards the end of the song the "Proposal" waltz melody was referenced in the song.</p>
                 <div>
                     <br>
-                    <h4>Birth and Beloiter</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(2)">Birth and Beloiter</h4>
                     <!-- <audio controls id="dc2">
                         <source src="audio/Seawright Line Songbook Audio Mixing - 9-birth-and-beloiter.wav (1).wav" type="audio/mp3">
                         Your browser does not support the audio element.
@@ -343,7 +345,7 @@
                 	<p>Towards the beginning of the song, Phoebe is thinking about her simple life at home with her 3 kids. However, she also feels her longing to return to her old like as an opera singer. Halfway though, the music is supposed to represent Phoebe and Isodore getting into a fight. Isodore is never home and Phoebe wants more out of her life. </p>
                 <div>
                     <br>
-                    <h4>Enoument</h4>
+                    <h4 title="Listen with music player" onclick="loadTrackButton(1)">Enoument</h4>
                     <!-- <audio controls id="dc3">
                         <source src="audio/Seawright Line Songbook Audio Mixing - 10-énoument.wav (1).wav" type="audio/wav">
                         Your browser does not support the audio element.
@@ -358,8 +360,8 @@
                    <!-- <img src="images/project2-banner.jpg" alt="Project 2 Banner"> -->
                 </div>
                 <div class="project-details">
-                    <img src="media/attack-on-saturn.png" alt="Attack On Saturn Single Cover" class="project-icon">
-                    <h3><a href="https://open.spotify.com/album/7hTEt49WhQyVw3OXxY1zyy">Attack On Saturn</a></h3>
+                    <img src="media/attack-on-saturn.png" alt="Attack On Saturn Single Cover" class="project-icon" title="Listen with music player" onclick="loadTrackButton(0)>
+                    <h3 title="Play the game!!"><a href="https://open.spotify.com/album/7hTEt49WhQyVw3OXxY1zyy" target="_blank">Attack On Saturn</a></h3>
 		    <p>Chiptune-Esque single posted on Spotify and other streaming services.</p>
                     <!-- <audio controls id="s1">
                         <source src="audio/Attack on Saturn - updated.wav" type="audio/wav">
@@ -383,21 +385,21 @@
     <!-- Define the section for displaying details -->
     <div class="details">
       <div><img class="project-image" src="media/haunted-house.png" alt="song icon"></div>
-      <div class="audio-title"><h1>Haunted House</h1></div>
+      <div class="audio-title"><h1 class="audio-title-2">Haunted House</h1></div>
       <div class="project-title"><p>Singles</p></div>
 	 </div>
 
  
    <div class="player-middle"> <!-- Define the section for displaying track buttons -->
     <div class="buttons">
-      <div class="prev-track" onclick="prevAudio()">
-        <img src="html-projects/back.png" class="audio-buttons">
+      <div class="prev-track" title="Listen with music player" onclick="prevAudio()">
+        <img src="media/prev-button.png" class="audio-buttons">
       </div>
-      <div class="playpause-track" onclick="playpauseAudio()">
-        <img src="html-projects/play.png" class="audio-buttons">
+      <div class="playpause-track" title="Listen with music player" onclick="playpauseAudio()">
+        <img src="media/play-button.png" class="audio-buttons">
       </div>
-      <div class="next-track" onclick="nextAudio()">
-        <img src="html-projects/next.png" class="audio-buttons">
+      <div class="next-track" title="Listen with music player" onclick="nextAudio()">
+        <img src="media/next-button.png" class="audio-buttons">
       </div>
     </div>
  
@@ -411,10 +413,10 @@
  
     <!-- Define the section for displaying the volume slider-->
     <div class="slider_container2">
-		<i class="fa fa-volume-down"><img src="html-projects/mute.png" width="30px"></i>
+		<i class="fa fa-volume-down" onclick="muteVolume()"><img src="media/mute-icon.png" width="30px"></i>
 		<input type="range" min="1" max="100"
         value="99" class="volume_slider" onchange="setVolume()">
-      <i class="fa fa-volume-up"><img src="html-projects/volume.png" width="30px"></i>
+      <i class="fa fa-volume-up" onclick="unmuteVolume()"><img src="media/volume-icon.png" width="30px"></i>
 		</div>
     </div>
     <footer>

@@ -42,6 +42,7 @@ body {
     background-size: 100% 150%, auto;
     background-position: center, 0% 0%;
     background-repeat: no-repeat, repeat;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
 }
 
 body h1, body h2, body h3, body h4 {
@@ -90,6 +91,10 @@ nav ul li {
     display: inline;
 }
 
+a {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+}
+
 nav ul li a button {
     font-family: 'Monster-Friend';
     font-size: 1.6em;
@@ -100,6 +105,7 @@ nav ul li a button {
     transition: color 0.3s ease, border-bottom 0.3s ease;
     padding:.25em;
     border-bottom: 2px solid transparent;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
 nav ul li button:hover, 
@@ -191,7 +197,10 @@ main {
 
 .portfolio a:hover {
     color: var(--mid-orange);
-    cursor: pointer;
+}
+
+.portfolio h4, .portfolio img {
+    cursor: url('media/custom-cursor/astro_helpsel.png'), help;
 }
 
 /* Contact Form */
@@ -229,7 +238,7 @@ main {
     color: var(--light-bg);
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -240,7 +249,7 @@ main {
 }
 
 button:hover{
-    cursor: pointer;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
 
@@ -260,7 +269,7 @@ button:hover{
     flex-direction: column;
     float: left;
 	padding: 5px;
-	width: 30%;
+	width: 50%;
 }
         
 .project-image {
@@ -295,6 +304,7 @@ button:hover{
         .prev-track:hover,
         .next-track:hover {
           opacity: 1.0;
+    	  cursor: url('media/custom-cursor/astro_link.png'), pointer;
         }
 	.player-middle {
           display: flex;
@@ -335,6 +345,7 @@ button:hover{
           opacity: 0.7;
           -webkit-transition: .2s;
           transition: opacity .2s;
+	  cursor: url('media/custom-cursor/astro_arrow.png'), default;
         }
         
         /* Modify the appearance of the slider thumb */
@@ -346,7 +357,7 @@ button:hover{
           width: 15px;
           height: 15px;
           background: var(--light-orange);
-          cursor: pointer;
+          cursor: url('media/custom-cursor/astro_link.png'), pointer;
           border-radius: 50%;
         }
         
@@ -376,12 +387,13 @@ button:hover{
         }
         
         .audio-buttons {
-          cursor: pointer;
+              cursor: url('media/custom-cursor/astro_link.png'), pointer;
           width: 30px;
 		  align-content: center;
 			justify-content: center;
 			align-items: center;
 			display: flex;
+		padding: 5px;
         }
 
 /* Footer */
@@ -419,7 +431,7 @@ footer p {
     .project {
         background-color: var(--purple);
         margin: 0;
-        padding: 20px;
+        padding: 10px;
         margin-top: 20px;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -430,10 +442,26 @@ footer p {
         margin-bottom: 20px;
     }
 
+.portfolio { 
+    column-count: 1;
+    column-fill: balance;
+}
+
     nav ul li {
         font-size: small;
         background-color: var(--transparent-light-orange);
     }
+}
+
+	.player-middle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 0%;
 }
 
 @media (min-width: 740px) {
@@ -467,6 +495,16 @@ footer p {
         column-count: 3;
         column-fill: balance;
     }
+	.player-middle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+		  position: fixed;
+		  bottom: 0;
+		  left: 25%;
+		  right: 25%;
+	}
 }
 
 /* Slider Styles */
@@ -562,8 +600,8 @@ nav ul li a button {
   border-radius: .25rem;
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
+  color: var(--light-orange);
+      cursor: url('media/custom-cursor/astro_link.png'), pointer;
   display: inline-flex;
   /* font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif; */
   font-size: 16px;
@@ -587,7 +625,7 @@ nav ul li a button {
 
 nav ul li a button:hover,
 nav ul li a button:focus {
-  background-color: var(--mid-orange);
+  background-color: var(--light-orange);
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
