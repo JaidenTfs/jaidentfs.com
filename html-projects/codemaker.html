@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Untitled Document</title>
+</head>
+
+<body>
+  <button onclick="convert()">Convert</button> <br><br>
+  <p>You should have made the folder already before doing all of this as putting incorrect information can break the music player :)</p><br>
+
+  <input type="text" id="album" placeholder="album name">
+  <input type="text" id="num" placeholder="number of songs"> 
+  <button onclick="generateInputs()">Generate inputs</button>
+  <br><br>
+
+  <input type="text" id="keyword" placeholder="code name">
+  <br><p style="display:inline;">Please have no spaces and capitalize the first letter(s) of each word also try to simplify (example: Miracle Musical would be MiracleMusical, and Funeral Soundtrack #4 would be simplified to FuneralSoundtrack, etc.)</p>
+  <br><br>
+
+  <input type="text" id="accent" name="username" placeholder="accent color/hex code">
+  <input type="text" id="text" name="username" placeholder="text color/hex code">
+  <input type="text" id="body" name="username" placeholder="background color/file-name">
+  <input type="text" id="panel" name="username" placeholder="panel color/file-name">
+  <br><br>
+  <input type="text" id="folder" name="username" placeholder="folder name(must be exact)">
+  <input type="text" id="icon" name="username" placeholder="album art file name (also exact)">
+  
+  <div id="songs"></div>
+  
+  <p id="p">Make sure ALL boxes are filled out correctly before converting!!</p>
+
+  <script>
+    // Generates input fields for song details based on the number entered
+    function generateInputs() {
+      let num = document.getElementById("num").value;
+      let songsDiv = document.getElementById("songs");
+      songsDiv.innerHTML = "";  // Clear any existing content
+
+      // Generate inputs for each song
+      for (let i = 0; i < num; i++) {
+        // Song Name
+        let songNameInput = document.createElement("input");
+        songNameInput.type = "text";
+        songNameInput.placeholder = `Song ${i + 1} Name`;
+        songNameInput.id = `songName${i + 1}`;
+        songsDiv.appendChild(songNameInput);
+        songsDiv.appendChild(document.createElement("br"));
+
+        // Artist Name
+        let artistNameInput = document.createElement("input");
+        artistNameInput.type = "text";
+        artistNameInput.placeholder = `Song ${i + 1} Artist`;
+        artistNameInput.id = `artist${i + 1}`;
+        songsDiv.appendChild(artistNameInput);
+        songsDiv.appendChild(document.createElement("br"));
+
+        // Song Path
+        let songPathInput = document.createElement("input");
+        songPathInput.type = "text";
+        songPathInput.placeholder = `Song ${i + 1} Path (mp3)`;
+        songPathInput.id = `songPath${i + 1}`;
+        songsDiv.appendChild(songPathInput);
+        songsDiv.appendChild(document.createElement("br"));
+      }
+    }
+
+    // Main function to convert and generate the necessary output
+    function convert() {
+      // Get all input values
+      let album = document.getElementById("album").value;
+      let num = document.getElementById("num").value;
+      let keyword = document.getElementById("keyword").value;
+      let accent = document.getElementById("accent").value;  // Corrected
+      let text = document.getElementById("text").value;  // Corrected
+      let body = document.getElementById("body").value;  // Corrected
+      let panel = document.getElementById("panel").value;  // Corrected
+      let folder = document.getElementById("folder").value;
+      let icon = document.getElementById("icon").value;
+
+      // Make sure all fields are filled out
+      if (!album || !num || !keyword || !accent || !text || !body || !panel || !folder || !icon) {
+        alert("Please fill out all fields before converting!");
+        return;
+      }
+
+      // Construct the track list dynamically based on user inputs
+      let trackList = "track_list = [";
+      for (let i = 0; i < num; i++) {
+        let songName = document.getElementById(`songName${i + 1}`).value || `Song ${i + 1}`;
+        let artist = document.getElementById(`artist${i + 1}`).value || "Unknown Artist";
+        let songPath = document.getElementById(`songPath${i + 1}`).value || `${folder}/${songName.toLowerCase().replace(/\s+/g, '-')}.mp3`;
+
+        trackList += `{name: "${songName}", artist: "${artist}", image: "covers/${folder}/${icon}", path: "${songPath}"},\n`;
+      }
+      trackList = trackList.slice(0, -2) + "\n]";  // Remove trailing comma and close the list
+
+      // Generate the JavaScript for the album settings
+      let innerHtml = `
+        function album${keyword}() {
+          backgroundImage = "url('${folder}/${body}')";
+          panelImage = "url('${folder}/${panel}')";
+          accentColor = "${accent}";
+          textColor = "${text}";
+          textShadow = "1px 1px 2px white, 0 0 15px black, 0 0 5px black";
+          track_index = 0;
+        }
+      `;
+
+      // Display the result in the <p> element
+      document.getElementById("p").innerHTML = `
+        <strong>Album:</strong> ${album} <br>
+        <strong>Number of Songs:</strong> ${num} <br>
+        <strong>Code Name:</strong> ${keyword} <br>
+        <strong>Accent Color:</strong> ${accent} <br><br>
+        <strong>Track List:</strong><br>
+        ${innerHtml}<br><br>
+        ${trackList}
+      `;
+    }
+  </script>
+</body>
+</html>
