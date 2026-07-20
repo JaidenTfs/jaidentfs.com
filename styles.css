@@ -104,8 +104,8 @@ header img {
 }
 
 header.header-shrunk img {
-    width: 130px;
-    padding: 0.4em;
+    width: 260px;
+    padding: 0.6em;
 }
 
 header.header-shrunk nav ul {
@@ -238,6 +238,12 @@ main {
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px var(--dark-shadow);
 }
 
 .project-about {
@@ -272,8 +278,82 @@ main {
     color: var(--orange);
 }
 
+.project.now-playing {
+    outline: 3px solid var(--light-orange);
+    outline-offset: 2px;
+    box-shadow: 0 0 16px var(--light-orange);
+}
+
 .portfolio h4, .portfolio img {
     cursor: url('media/custom-cursor/astro_helpsel.png'), help;
+}
+
+/* ---------- Collapsible track list ---------- */
+
+.track-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 5px;
+    color: var(--light-orange);
+    font-family: 'VCR';
+    font-size: 0.9em;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.track-toggle:hover {
+    background-color: var(--dark-orange);
+}
+
+.track-toggle-icon {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.track-toggle.expanded .track-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.track-list {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.track-list.expanded {
+    max-height: 2400px;
+    opacity: 1;
+}
+
+.track {
+    margin-top: 16px;
+}
+
+.track:first-child {
+    margin-top: 12px;
+}
+
+.track h4 {
+    margin: 0 0 4px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.track h4:hover {
+    color: var(--mid-orange);
+    padding-left: 6px;
+}
+
+.track p {
+    margin: 0;
 }
 
 /* ---------- Filters ---------- */
@@ -451,6 +531,73 @@ main {
 .cta-button:hover {
     background-color: var(--mid-orange);
     transform: translateY(-2px);
+}
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+
+.contact {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact label {
+    font-size: 1.1em;
+}
+
+.contact input,
+.contact textarea {
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid var(--pinkish-purple);
+    border-radius: 5px;
+    background-color: var(--light-bg);
+    color: var(--mid-blue);
+}
+
+.contact button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: var(--orange);
+    color: var(--light-bg);
+    border: none;
+    border-radius: 5px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.contact button:hover {
+    border-bottom: 2px solid transparent;
+    background-color: var(--mid-orange);
+    transform: scale(1.05);
+}
+
+.contact button:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
+}
+
+#form-status {
+    font-size: 0.95em;
+    min-height: 1.2em;
+}
+
+.form-status-success {
+    color: var(--light-bg);
+}
+
+.form-status-error {
+    color: #FFB3B3;
 }
 
 /* ============================================================
