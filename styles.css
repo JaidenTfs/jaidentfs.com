@@ -259,23 +259,14 @@ main {
     border-radius: 0;
 }
 
-/* Fixed-column layout: each project is assigned to one column (see
-   renderProjects in script.js) instead of using CSS column-count,
-   which continuously rebalances column heights -- that was causing a
-   project to visually jump to a different column whenever its own or
-   any other card's height changed. */
-.portfolio-columns {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+/* Masonry layout via CSS column-count, same as the original design --
+   natural reading/balance order instead of a fixed round-robin split.
+   Expanding a project can shift things between columns; rather than
+   fight that, script.js scrolls the relevant project into view when
+   you expand it or a track starts playing. */
+#projects-container {
+    column-gap: 20px;
     padding: 0 20px;
-}
-
-.portfolio-column {
-    flex: 1 1 0;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .project-half {
@@ -284,6 +275,9 @@ main {
 
 .project {
     position: relative;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
     transition: box-shadow 0.25s ease;
 }
 
@@ -1042,9 +1036,8 @@ footer p {
         background-color: var(--transparent-light-orange);
     }
 
-    .portfolio-columns {
-        flex-direction: column;
-        padding: 0;
+    #projects-container {
+        column-count: 1;
     }
 }
 
@@ -1066,6 +1059,16 @@ footer p {
     nav ul li {
         margin: 0 20px;
         background-color: var(--transparent-light-orange);
+    }
+
+    #projects-container {
+        column-count: 2;
+    }
+}
+
+@media (min-width: 1050px) {
+    #projects-container {
+        column-count: 3;
     }
 }
 
