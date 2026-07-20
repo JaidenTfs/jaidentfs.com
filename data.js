@@ -82,8 +82,8 @@ const projects = [
       },
 	  {
         title: "Jazz A",
-        file: "jazz-a.mp3",
-        description: 'vinyl_jam_jazz_1.ogg'
+        file: "vinyl_jam_jazz_1.ogg",
+        description: ''
       },
     ]
 },
