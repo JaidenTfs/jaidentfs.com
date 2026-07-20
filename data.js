@@ -20,11 +20,14 @@
    id          - unique slug, no spaces (used internally)
    title       - project name shown as the heading
    link        - URL the title links to (game page, Spotify, etc.)
-   linkLabel   - hover tooltip text for the title link
+                 leave as "" if you don't have one yet -- the title
+                 just renders as plain (non-clickable) text instead
+   linkLabel   - hover tooltip text for the title link (ignored if
+                 link is empty)
    icon        - path to the project thumbnail image
    genres      - array of tags, e.g. ["chiptune"], ["orchestral"]
                  used to build the genre filter buttons automatically
-   category    - what kind of project this is. Pick ONE of:
+   category    - what kind of project this is. Suggested values:
                    "Game Jam"  - made for a game jam
                    "Full Game" - a complete, released game (e.g. Dear Clarent)
                    "Game OST"  - a game soundtrack that isn't a jam entry
@@ -32,29 +35,43 @@
                    "Film"      - music made for a film/video
                    "Release"   - standalone music not tied to a game --
                                  singles, EPs, albums, whatever
-                 This builds the category filter buttons automatically,
-                 same as genres -- add a project with a new category
-                 (e.g. "Film") and a button for it appears on its own.
+                 This isn't a fixed list -- any string works (e.g. "Misc")
+                 and a filter button appears for it automatically, same
+                 as genres.
    jamName     - if category is "Game Jam", the jam's name (e.g. "GMTK 2024")
-                 shown next to the category tag. null otherwise.
+                 shown next to the category tag. null (not the text
+                 "Null") otherwise.
    year        - release year (number) or null if unknown/TBD
    description - short blurb shown under the title
    audioPath   - folder that all this project's audio files live in
+   theme       - OPTIONAL. Recolors the player bar while one of this
+                 project's tracks is playing, to match its vibe. Leave
+                 the whole field out for the normal site colors.
+                   theme: { background: "#1a1a1a", accent: "#EDE0C8" }
+                 "background" is the player bar's fill color, "accent"
+                 is used for the song title, seek/volume fill, and
+                 slider handle. Fades back to normal automatically
+                 when a track without a theme starts playing.
    tracks      - array of { title, file, description }
                  "file" is just the filename inside audioPath
+
+   Not ready to publish a project yet (missing audio/images)? Just
+   wrap the whole object in a comment block, like cubase-misc-2026
+   and minutes-to-meltdown below -- it'll be skipped entirely until
+   you uncomment it.
    ============================================================ */
 
 const projects = [
-	{
+  {
     id: "spinning-records-inc",
-    title: "Solar Drift (Official Soundtrack)",
+    title: "Spinning Records Inc. (Official Soundtrack)",
     link: "https://killacook93.itch.io/spinning-records-inc",
     linkLabel: "Play the game!!",
     icon: "media/spinning-records-inc.png",
     genres: ["chiptune"],
     category: "Game Jam",
     jamName: "The Very Serious Juniper Dev Game Jam",
-    year: 2026, // TODO: fill in release year
+    year: 2026,
     description:
       "Submission to The Very Serious Juniper Dev Game Jam. This concept was you own a vinyl decorating shop, and you fullfill requests for customers, and as such you need a lot of different vinyl music tracks for the immersion. Btw we placed #6 in audio out of 3500+ games.",
     audioPath: "audio/spinning-records-inc/",
@@ -62,35 +79,32 @@ const projects = [
       {
         title: "Rock A",
         file: "vinyl_jam_rock_1.ogg",
-        description: ''
+        description: ""
       },
-	  {
+      {
         title: "Rock B",
         file: "vinyl_jam_rock_2.ogg",
         description: ""
       },
-
-	  {
+      {
         title: "Classical A",
         file: "vinyl_jam_classical_1.ogg",
         description: ""
       },
-	  {
+      {
         title: "Classical B",
         file: "vinyl_jam_classical_2.ogg",
-        description: ''
+        description: ""
       },
-	  {
+      {
         title: "Jazz A",
         file: "vinyl_jam_jazz_1.ogg",
-        description: ''
-      },
+        description: ""
+      }
     ]
-},
-	
-	
-	
-/*{
+  },
+
+  /*{
     id: "cubase-misc-2026",
     title: "Miscellanious Cinematic Music 2026",
     link: "",
@@ -99,7 +113,7 @@ const projects = [
     genres: ["cinematic"],
     category: "Misc",
     jamName: null,
-    year: 2026, // TODO: fill in release year
+    year: 2026,
     description:
       "I bought a new music program, Cubase, in 2026 and have been messing around with it to make music.",
     audioPath: "audio/cubase-misc-2026/",
@@ -108,13 +122,11 @@ const projects = [
         title: "Insert Cool Song Here",
         file: "song.mp3",
         description: "I'll upload all of this later probably"
-      },
+      }
     ]
-},*/
+  },*/
 
-	
-	
-{
+  {
     id: "solar-drift",
     title: "Solar Drift (Official Soundtrack)",
     link: "https://killacook93.itch.io/solar-drift",
@@ -123,7 +135,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Game Jam",
     jamName: "Brackeys Jam",
-    year: 2025, // TODO: fill in release year
+    year: 2025,
     description:
       "Submission to Novice Summer Jam Series 2025, you fly through space, hiding from the sun behind asteroids to prevent your ship from overheating. If it seems hard at first, it's because you havn't bought some of the various upgrades from the shop!!",
     audioPath: "audio/solar-drift/",
@@ -131,24 +143,22 @@ const projects = [
       {
         title: "Meteor Shower",
         file: "meteor-shower.mp3",
-        description: 'Main Menu theme'
+        description: "Main Menu theme"
       },
-	  {
+      {
         title: "Asteroid Shooter",
         file: "astroid-shooter.mp3",
         description: "The main gameplay theme, it's meant to capture the fast-paced gameplay, and it's sort of on homage to old NES-era games."
       },
-	  {
+      {
         title: "Breath of Space Air",
         file: "breath-of-space-air.mp3",
-        description: 'This is when you have a break from the action and get to shop for some upgrades!'
+        description: "This is when you have a break from the action and get to shop for some upgrades!"
       }
     ]
-},
-	
+  },
 
-	
-/*{
+  /*{
     id: "minutes-to-meltdown",
     title: "Minutes to Meltdown (Official Soundtrack)",
     link: "https://jaidentfs.itch.io/minutes-to-meltdown",
@@ -157,39 +167,37 @@ const projects = [
     genres: ["cinematic"],
     category: "Game Jam",
     jamName: "Brackeys Jam",
-    year: 2025, // TODO: fill in release year
+    year: 2025,
     description:
-      "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast. As part of this, I worked with the programmer to make one track that changes depending on what is happening in game, so eventually I will make it so you can toggle the various different game states, but for now they will exist as seperate audio files lol.",
+      "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast. As part of this, I worked with the programmer to make one track that changes depending on what is happening in game.",
     audioPath: "audio/minutes-to-meltdown/",
-	tracks: [
-       {
-         title: "Main Theme",
-         file: "main-theme.mp3",         // what plays by default
-         description:
-           'The Main theme for the game: "Kindled Core"' +
-           "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
-           "While doing mini games there would be a slight variation to the main theme with different melodies.",
-         interactive: {
-           mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
-           variations: [
-             // each needs its own audio file, same folder (audioPath above),
-             // ideally the same length/tempo so a loopable layer stays lined up
-             { label: "Tunnel", file: "tunnel-variation.mp3" },
-             { label: "Mini Games", file: "mini-game-variation.mp3" }
-           ],
-           layer: {
-             // optional -- omit this whole "layer" key if you don't want
-             // a toggleable instrument layer on this track
-             label: "Enemy Drums",
-             file: "enemy-drums-layer.mp3"
-           }
-         }
-       }
+    tracks: [
+      {
+        title: "Main Theme",
+        file: "main-theme.mp3",         // what plays by default
+        description:
+          'The main theme for "Minutes to Meltdown." ' +
+          "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
+          "While doing mini games there would be a slight variation to the main theme with different melodies.",
+        interactive: {
+          mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
+          variations: [
+            // each needs its own audio file, same folder (audioPath above),
+            // ideally the same length/tempo so a loopable layer stays lined up
+            { label: "Tunnel", file: "tunnel-variation.mp3" },
+            { label: "Mini Games", file: "mini-game-variation.mp3" }
+          ],
+          layer: {
+            // optional -- omit this whole "layer" key if you don't want
+            // a toggleable instrument layer on this track
+            label: "Enemy Drums",
+            file: "enemy-drums-layer.mp3"
+          }
+        }
+      }
     ]
   },*/
-	
-	
-	
+
   {
     id: "kindled-core",
     title: "Kindled Core (Official Soundtrack)",
@@ -199,10 +207,11 @@ const projects = [
     genres: ["chiptune"],
     category: "Game Jam",
     jamName: "1-Bit Jam",
-    year: 2025, // TODO: fill in release year
+    year: 2025,
     description:
       "Created for the 1-Bit game jam. It is a top-down arena styled game where you charge really large attacks with your growing sword in order to decimate enemies on screen.",
     audioPath: "audio/kindled-core/",
+    theme: { background: "#1a1a1a", accent: "#EDE0C8" }, // matches the 1-bit jam's dark/cream look
     tracks: [
       {
         title: "Intro Theme",
@@ -227,7 +236,7 @@ const projects = [
         description:
           "This theme is supposed to emulate the cold and dark winter in this isolating world. In your search for food you find yourself trapped in a maze of buildings outside. The wind blows strong and the creatures get faster and scarier."
       },
-	  {
+      {
         title: "Amanita's Wrath",
         file: "amanita-wrath.wav",
         description:
@@ -235,7 +244,7 @@ const projects = [
       }
     ]
   },
-	
+
   {
     id: "haunted-house",
     title: "Haunted House",
@@ -245,7 +254,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: 2024,
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
@@ -317,7 +326,7 @@ const projects = [
     genres: ["orchestral"],
     category: "Full Game",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: 2024,
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
@@ -352,7 +361,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: 2024,
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
@@ -386,70 +395,4 @@ const projects = [
     ]
   }
   */
-
-  /* ============================================================
-     Example of a track with the interactive variation/layer
-     mechanic (crossfade between mood variations of one cue, plus
-     an optional toggleable instrument layer) -- e.g. for something
-     like "Minutes to Meltdown".
-
-     This is entirely OPT-IN: a track behaves completely normally
-     unless it has an "interactive" field. To turn this mechanic on
-     for a project, add an "interactive" object to ONE of its tracks
-     (the "main theme" for that cue) shaped like this:
-
-     tracks: [
-       {
-         title: "Main Theme",
-         file: "main-theme.mp3",         // what plays by default
-         description:
-           "The main combat theme. Switch between moods below, or " +
-           "layer in the drums -- it only affects this track, and " +
-           "resets back to the main version whenever you leave the page.",
-         interactive: {
-           mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
-           variations: [
-             // each needs its own audio file, same folder (audioPath above),
-             // ideally the same length/tempo so a loopable layer stays lined up
-             { label: "Calm", file: "calm-variation.mp3" },
-             { label: "Intense", file: "intense-variation.mp3" }
-           ],
-           layer: {
-             // optional -- omit this whole "layer" key if you don't want
-             // a toggleable instrument layer on this track
-             label: "Enemy Drums",
-             file: "enemy-drums-layer.mp3"
-           }
-         }
-       }
-     ]
-
-     HOW IT BEHAVES
-     ------------------------------------------------------------
-     - The track counts as ONE entry in the queue/player (next/prev
-       treat it like any other single track) -- the variations and
-       layer are a mini-player nested inside that track's own
-       description, not separate queue entries.
-     - Clicking a variation crossfades the audio (fades the old one
-       out while fading the new one in) rather than cutting instantly.
-     - Clicking the layer button adds a looping instrument track on
-       top of whatever variation is currently playing; clicking again
-       removes it. It follows the main play/pause and volume controls.
-     - Switching to a different track (via next/prev, clicking another
-       song, or the queue naturally advancing) resets this back to the
-       plain Main Theme with the layer off -- so it always starts fresh
-       rather than carrying a variation/layer choice into whatever song
-       plays next.
-
-     HONEST CAVEAT
-     ------------------------------------------------------------
-     The crossfade and the layer both use real, separate audio files
-     playing at once, which is the only way to do this without a full
-     audio-engine rewrite. They resync to each other every time you
-     switch a variation or toggle the layer, so drift stays small in
-     practice -- but this isn't a frame-accurate game audio engine, and
-     very long uninterrupted sessions (or the tab sitting backgrounded,
-     which browsers throttle) can let them drift apart slightly. Test
-     it with your actual files before relying on it for a launch.
-     ============================================================ */
 ];
