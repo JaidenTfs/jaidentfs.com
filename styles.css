@@ -230,14 +230,60 @@ main {
     max-width: 100%;
 }
 
+.portfolio-header {
+    background-color: var(--purple);
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+    padding: 24px;
+    margin: 20px;
+}
+
+.portfolio-header h1 {
+    color: var(--orange);
+    margin: 0 0 10px;
+}
+
+.portfolio-subtitle {
+    color: var(--light-orange);
+    margin: 0 0 20px;
+    max-width: 640px;
+    line-height: 1.5;
+}
+
+.portfolio-header #filters {
+    background-color: transparent;
+    margin: 0;
+    padding: 18px 0 0;
+    border-top: 2px solid var(--dark-orange);
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* Fixed-column layout: each project is assigned to one column (see
+   renderProjects in script.js) instead of using CSS column-count,
+   which continuously rebalances column heights -- that was causing a
+   project to visually jump to a different column whenever its own or
+   any other card's height changed. */
+.portfolio-columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.portfolio-column {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .project-half {
     display: inline;
 }
 
 .project {
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    break-inside: avoid;
+    position: relative;
     transition: box-shadow 0.25s ease;
 }
 
@@ -263,6 +309,7 @@ main {
 .project-details {
     align-items: center;
     margin-top: 15px;
+    padding-right: 36px;
 }
 
 .project-icon {
@@ -278,10 +325,15 @@ main {
     color: var(--orange);
 }
 
+@keyframes now-playing-pulse {
+    0%, 100% { box-shadow: 0 0 10px var(--light-orange); }
+    50%      { box-shadow: 0 0 20px var(--light-orange); }
+}
+
 .project.now-playing {
     outline: 3px solid var(--light-orange);
     outline-offset: 2px;
-    box-shadow: 0 0 16px var(--light-orange);
+    animation: now-playing-pulse 2.4s ease-in-out infinite;
 }
 
 .portfolio h4, .portfolio img {
@@ -291,21 +343,23 @@ main {
 /* ---------- Collapsible track list ---------- */
 
 .track-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    width: 100%;
-    margin-top: 12px;
-    padding: 8px 12px;
-    background-color: var(--mid-blue);
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background-color: rgba(3, 37, 65, 0.55);
     border: 2px solid var(--dark-orange);
-    border-radius: 5px;
+    border-radius: 50%;
     color: var(--light-orange);
-    font-family: 'VCR';
-    font-size: 0.9em;
     cursor: url('media/custom-cursor/astro_link.png'), pointer;
     transition: background-color 0.2s ease;
     box-sizing: border-box;
+    z-index: 2;
 }
 
 .track-toggle:hover {
@@ -314,6 +368,8 @@ main {
 
 .track-toggle-icon {
     display: inline-block;
+    font-size: 0.85em;
+    line-height: 1;
     transition: transform 0.25s ease;
 }
 
@@ -716,6 +772,8 @@ main {
    ============================================================ */
 
 .player {
+    --player-bg: var(--orange);
+    --player-accent: var(--light-orange);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -726,16 +784,19 @@ main {
     right: 0;
     bottom: 0;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     height: auto;
     min-height: 90px;
     padding: 10px 20px;
     box-sizing: border-box;
     z-index: 40;
-    margin: 0;
-    background-color: var(--orange);
-    color: var(--light-orange);
+    background-color: var(--player-bg);
+    color: var(--player-accent);
     box-shadow: 0 -4px 12px var(--dark-shadow);
     border-top: 2px solid var(--dark-orange);
+    border-radius: 10px 10px 0 0;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .details {
@@ -754,6 +815,12 @@ main {
     flex-direction: column;
     min-width: 0;
     overflow: hidden;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: opacity 0.2s ease;
+}
+
+.audio-info:hover {
+    opacity: 0.8;
 }
 
 .project-image {
@@ -765,12 +832,13 @@ main {
 }
 
 .audio-title h1 {
-    color: var(--light-orange);
+    color: var(--player-accent);
     font-size: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    transition: color 0.4s ease;
 }
 
 .project-title {
@@ -851,9 +919,10 @@ main {
     appearance: none;
     width: 15px;
     height: 15px;
-    background: var(--light-orange);
+    background: var(--player-accent, var(--light-orange));
     cursor: url('media/custom-cursor/astro_link.png'), pointer;
     border-radius: 50%;
+    transition: background-color 0.4s ease;
 }
 
 .seek_slider:hover,
@@ -968,14 +1037,14 @@ footer p {
         margin: 0 0 20px;
     }
 
-    .portfolio {
-        column-count: 1;
-        column-fill: balance;
-    }
-
     nav ul li {
         font-size: small;
         background-color: var(--transparent-light-orange);
+    }
+
+    .portfolio-columns {
+        flex-direction: column;
+        padding: 0;
     }
 }
 
@@ -994,21 +1063,9 @@ footer p {
         margin: 20px;
     }
 
-    .portfolio {
-        column-count: 2;
-        column-fill: balance;
-    }
-
     nav ul li {
         margin: 0 20px;
         background-color: var(--transparent-light-orange);
-    }
-}
-
-@media (min-width: 1050px) {
-    .portfolio {
-        column-count: 3;
-        column-fill: balance;
     }
 }
 
