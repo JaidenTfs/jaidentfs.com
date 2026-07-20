@@ -28,7 +28,6 @@
 	"sameAs": ["https://twitter.com/JaidenTfs","https://www.youtube.com/channel/UCWO1eKj8Ph590Bb4M3qcSXg","https://open.spotify.com/artist/7k4kbNTGGtrEaSX1irH3ro","https://linktr.ee/jaidentfs","https://www.twitch.tv/jaidentfs?tt_content=embed_visit_channel&tt_medium=embed","https://soundcloud.com/user-62010317","https://instagram.com/jaidentfs","https://www.jaidentfs.com/"]
 }
 </script>
-
     
 </head>
 <body>
@@ -47,8 +46,11 @@
         <div class="project">
         <section class="contact">
             <h2>Contact</h2>
-            <p>Feel free to reach out to JaidenTfs for any inquiries, collaborations, or commissions.</p>
-            <form action="mailto:jaidentfs@example.com" method="post" enctype="text/plain">
+            <p>Feel free to reach out to JaidenTfs for any inquiries, collaborations, or commissions.
+              You can also reach me directly on <a href="discord.jaidentfs.com" target="_blank">Discord</a>
+              or <a href="https://instagram.jaidentfs.com" target="_blank">Instagram</a>.</p>
+
+            <form id="contact-form" action="https://formspree.io/f/xwvgblnr" method="POST">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
 
@@ -58,21 +60,34 @@
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
 
-                <button type="submit">Send</button>
+                <!-- Honeypot field -- invisible to real visitors, catches basic spam bots -->
+                <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+                <button type="submit" id="contact-submit">Send</button>
+
+                <p id="form-status" role="status" aria-live="polite"></p>
             </form>
         </section></div>
     </main>
     <footer>
-        <div class="social-links">
-            <a href="http://youtube.jaidentfs.com">YouTube</a>
-            <a href="http://spotify.jaidentfs.com">Spotify</a>
-            <a href="https://instagram.com/jaidentfs">Instagram</a>
-            <a href="https://linktr.ee/jaidentfs">Linktree</a>
-            <a href="https://twitter.com/JaidenTfs">Twitter</a>
+        <div class="social-group">
+          <span class="social-group-label">Listen</span>
+          <a href="https://open.spotify.com/artist/7k4kbNTGGtrEaSX1irH3ro" target="_blank">Spotify</a>
+          <a href="https://www.youtube.com/channel/UCWO1eKj8Ph590Bb4M3qcSXg" target="_blank">YouTube Music</a>
+          <a href="https://music.apple.com/us/artist/jaidentfs/1730537444" target="_blank">Apple Music</a>
+          <a href="https://soundcloud.com/user-62010317" target="_blank">SoundCloud</a>
         </div>
-        <p>&copy; 2024 JaidenTfs. All rights reserved.</p>
+        <div class="social-group">
+          <span class="social-group-label">Follow</span>
+          <a href="https://www.twitch.tv/jaidentfs" target="_blank">Twitch</a>
+          <a href="https://www.youtube.com/channel/UCWO1eKj8Ph590Bb4M3qcSXg" target="_blank">YouTube</a>
+          <a href="https://www.tiktok.com/@jaidentfs" target="_blank">TikTok</a>
+          <a href="https://instagram.com/jaidentfs" target="_blank">Instagram</a>
+        </div>
+        <p>&copy; 2026 JaidenTfs. All rights reserved.</p>
     </footer>
-    <script src="music-data.js"></script>
+    <script src="data.js"></script>
     <script src="script.js"></script>
+    <script src="contact-form.js"></script>
 </body>
 </html>

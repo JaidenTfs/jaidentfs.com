@@ -638,3 +638,361 @@ nav ul li a button:active {
   box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
   transform: translateY(0);
 }
+
+/* Portfolio Filters */
+#filters {
+    background-color: var(--purple);
+    margin: 0 auto 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+    text-align: left;
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.filter-label {
+    font-family: 'Monster-Friend';
+    color: var(--light-orange);
+    margin-right: 6px;
+}
+
+.filter-btn {
+    font-family: 'VCR';
+    font-size: 0.95em;
+    color: var(--light-orange);
+    background-color: var(--mid-blue);
+    border: 2px solid var(--orange);
+    border-radius: 5px;
+    padding: 5px 12px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: var(--dark-orange);
+}
+
+.filter-btn.active {
+    background-color: var(--orange);
+    color: var(--dark-blue);
+}
+
+.filter-select {
+    font-family: 'VCR';
+    font-size: 0.95em;
+    color: var(--mid-blue);
+    background-color: var(--light-bg);
+    border: 2px solid var(--orange);
+    border-radius: 5px;
+    padding: 4px 8px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+}
+
+.project-tags {
+    font-size: 0.85em;
+    color: var(--light-orange);
+    opacity: 0.85;
+    margin: 4px 0;
+}
+
+/* ============================================================
+   Custom scrollbar
+   ============================================================ */
+
+html {
+    scrollbar-color: var(--orange) var(--mid-blue); /* Firefox: thumb, track */
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 14px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mid-blue);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--orange);
+    border-radius: 10px;
+    border: 3px solid var(--mid-blue); /* creates the "padding" look */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--mid-orange);
+}
+
+/* ============================================================
+   Music player polish
+   ============================================================ */
+
+.player {
+    box-shadow: 0 -4px 12px var(--dark-shadow);
+    border-top: 2px solid var(--dark-orange);
+}
+
+/* The seek slider's fill color is painted in JS (script.js sets
+   an inline gradient as the track plays), this just makes sure
+   the rounded track/thumb still look right on top of that fill. */
+.seek_slider {
+    border-radius: 5px;
+}
+
+/* Gentle glow on the thumb while a track is actively playing */
+@keyframes seek-thumb-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 213, 164, 0.7); }
+    50%      { box-shadow: 0 0 10px 4px rgba(255, 213, 164, 0.7); }
+}
+
+.player.is-playing .seek_slider::-webkit-slider-thumb {
+    animation: seek-thumb-pulse 1.6s ease-in-out infinite;
+}
+
+.player.is-playing .seek_slider::-moz-range-thumb {
+    animation: seek-thumb-pulse 1.6s ease-in-out infinite;
+}
+
+/* Clickable genre / category tags under a project description */
+.tag-link {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.tag-link:hover {
+    color: var(--mid-orange);
+}
+
+/* Small screens: the player used to overlap itself because
+   .details and .player-middle both float/position independently.
+   Stack everything vertically and give it room to breathe. */
+@media (max-width: 600px) {
+    .player {
+        height: auto;
+        padding-bottom: 8px;
+    }
+
+    .details {
+        float: none;
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding-bottom: 0;
+    }
+
+    .project-image {
+        float: none;
+        margin: 0 auto 5px;
+        display: block;
+    }
+
+    .audio-title-2 {
+        font-size: 16px;
+        margin-left: 0;
+    }
+
+    .player-middle {
+        position: static;
+        left: auto;
+        right: auto;
+        width: 100%;
+    }
+
+    .slider_container2 {
+        float: none;
+        padding-top: 5px;
+        margin: 0 auto;
+    }
+
+    .volume_slider {
+        width: 50%;
+    }
+
+    main {
+        padding-bottom: 220px; /* keep content clear of the taller stacked player */
+    }
+}
+
+/* ---------- Commission page notes ---------- */
+
+.commission-note {
+    font-size: 0.85em;
+    opacity: 0.8;
+}
+
+/* ---------- Pricing cards ---------- */
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.pricing-card {
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.pricing-card.featured {
+    border-color: var(--light-orange);
+    box-shadow: 0 0 12px var(--dark-shadow);
+}
+
+.pricing-card h4 {
+    margin: 0 0 8px;
+    color: var(--light-orange);
+}
+
+.pricing-card .price {
+    font-family: 'Monster-Friend';
+    font-size: 1.4em;
+    color: var(--orange);
+    margin: 8px 0;
+}
+
+.pricing-card .price span {
+    font-family: 'VCR';
+    font-size: 0.5em;
+    color: var(--light-orange);
+}
+
+.pricing-card p:not(.price) {
+    font-size: 0.85em;
+}
+
+/* ---------- Callout box (passion projects) ---------- */
+
+.callout-box {
+    background-color: var(--pinkish-purple);
+    border-left: 4px solid var(--light-orange);
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin: 20px 0;
+}
+
+.callout-box h3 {
+    margin-top: 0;
+    color: var(--light-orange);
+}
+
+/* ---------- Process / TOS lists ---------- */
+
+.process-list,
+.tos-list {
+    padding-left: 20px;
+}
+
+.process-list li,
+.tos-list li {
+    margin-bottom: 10px;
+}
+
+/* ---------- CTA buttons ---------- */
+
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.cta-button {
+    display: inline-block;
+    font-family: 'Monster-Friend';
+    background-color: var(--orange);
+    color: var(--dark-blue) !important;
+    padding: 10px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--mid-orange);
+    transform: translateY(-2px);
+}
+
+/* ---------- YouTube subscribe embed ---------- */
+
+.youtube-embed-wrapper {
+    margin: 15px 0;
+    min-height: 20px; /* keeps layout stable while the widget script loads */
+}
+
+/* ---------- Social link groups (Listen / Follow) in the footer ---------- */
+
+footer .social-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 14px;
+    margin-bottom: 8px;
+}
+
+footer .social-group-label {
+    font-family: 'Monster-Friend';
+    color: var(--dark-blue);
+    margin-right: 4px;
+}
+
+footer .social-group a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer .social-group a:hover {
+    color: var(--purple);
+    text-decoration: underline;
+}
+
+/* ---------- Mobile polish ---------- */
+
+@media (max-width: 600px) {
+    header img {
+        width: 60vw;
+        max-width: 250px;
+        padding: 0.75em;
+    }
+
+    nav ul li a button {
+        font-size: 1.1em;
+        min-height: 2.5rem;
+        padding: 0.5em 0.75em;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-row {
+        flex-direction: column;
+    }
+
+    .cta-button {
+        text-align: center;
+    }
+
+    footer .social-group {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
