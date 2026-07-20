@@ -160,11 +160,14 @@ function capitalize(str) {
 
 /* ---------- Rendering project cards ---------- */
 
+let currentQueue = []; // global audio indices, in the order currently visible on screen
+
 function renderProjects(trackIndexMap) {
   const container = document.getElementById("projects-container");
   if (!container) return;
 
   const visibleProjects = projects.filter(projectMatchesFilters);
+  currentQueue = [];
 
   if (visibleProjects.length === 0) {
     container.innerHTML = '<div class="project-about" style="column-span: all;"><p>No projects match those filters.</p></div>';
@@ -188,7 +191,7 @@ function renderProjects(trackIndexMap) {
       .filter(Boolean)
       .join(" &middot; ");
 
-    html += `<div class="project" id="${project.id}">`;
+    html += `<div class="project reveal" id="${project.id}">`;
     html += `<div class="project-banner"></div>`;
     html += `<div class="project-details">`;
     html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon" title="Listen with music player" data-audio-index="${firstTrackIndex}">`;
@@ -199,6 +202,7 @@ function renderProjects(trackIndexMap) {
 
     project.tracks.forEach((track, i) => {
       const audioIndex = trackIndexMap[projectIndex][i];
+      currentQueue.push(audioIndex);
       html += `<div><br><h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4></div><br>`;
       html += `<p>${track.description}</p>`;
     });
@@ -207,6 +211,7 @@ function renderProjects(trackIndexMap) {
   });
 
   container.innerHTML = html;
+  observeReveals(container);
 }
 
 function applyFilters() {
@@ -272,8 +277,16 @@ let currAudio = document.createElement("audio");
 let playerEl = document.querySelector(".player");
 
 function updateSeekFill(percent) {
+  paintSliderFill(seek_slider, percent);
+}
+
+function updateVolumeFill(percent) {
+  paintSliderFill(volume_slider, percent);
+}
+
+function paintSliderFill(slider, percent) {
   const clamped = Math.max(0, Math.min(100, percent));
-  seek_slider.style.background =
+  slider.style.background =
     `linear-gradient(to right, var(--light-orange) ${clamped}%, var(--dark-blue) ${clamped}%)`;
 }
 
@@ -328,14 +341,27 @@ function pauseAudio() {
   if (playerEl) playerEl.classList.remove("is-playing");
 }
 
+/* Returns the queue to navigate through: the currently filtered/visible
+   tracks on the portfolio page, or the full library everywhere else
+   (or if nothing's been rendered into a queue yet). */
+function getPlaybackQueue() {
+  return currentQueue.length ? currentQueue : audioList.map((_, i) => i);
+}
+
 function nextAudio() {
-  audioIndex = (audioIndex < audioList.length - 1) ? audioIndex + 1 : 0;
+  const queue = getPlaybackQueue();
+  const pos = queue.indexOf(audioIndex);
+  const nextPos = pos === -1 ? 0 : (pos + 1) % queue.length;
+  audioIndex = queue[nextPos];
   loadTrack(audioIndex);
   playAudio();
 }
 
 function prevAudio() {
-  audioIndex = (audioIndex > 0) ? audioIndex - 1 : audioList.length - 1;
+  const queue = getPlaybackQueue();
+  const pos = queue.indexOf(audioIndex);
+  const prevPos = pos === -1 ? 0 : (pos - 1 + queue.length) % queue.length;
+  audioIndex = queue[prevPos];
   loadTrack(audioIndex);
   playAudio();
 }
@@ -349,6 +375,8 @@ function seekTo() {
 
 function setVolume() {
   currAudio.volume = volume_slider.value / 100;
+  localStorage.setItem("volume", volume_slider.value);
+  updateVolumeFill(volume_slider.value);
 }
 
 function muteVolume() {
@@ -412,6 +440,68 @@ function getTimestamps() {
   total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
 }
 
+/* ---------- Reveal-on-scroll animations ---------- */
+
+let revealObserver = null;
+
+function getRevealObserver() {
+  if (revealObserver) return revealObserver;
+  if (!("IntersectionObserver" in window)) return null;
+  revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+  );
+  return revealObserver;
+}
+
+function observeReveals(scope) {
+  const root = scope || document;
+  const targets = root.querySelectorAll(".reveal:not(.reveal-visible)");
+  const observer = getRevealObserver();
+  if (!observer) {
+    // No IntersectionObserver support -- just show everything immediately.
+    targets.forEach((el) => el.classList.add("reveal-visible"));
+    return;
+  }
+  targets.forEach((el) => observer.observe(el));
+}
+
+/* ---------- Shrinking header on scroll ---------- */
+
+function initHeaderShrink() {
+  const header = document.querySelector("header");
+  if (!header) return;
+
+  const SHRINK_KEY = "headerShrunk";
+  const SHRINK_THRESHOLD = 60;
+
+  function setShrunk(isShrunk) {
+    header.classList.toggle("header-shrunk", isShrunk);
+    localStorage.setItem(SHRINK_KEY, isShrunk ? "true" : "false");
+  }
+
+  // Pick up wherever the header was left last time, so it doesn't
+  // flash big-then-small on pages the person revisits.
+  if (localStorage.getItem(SHRINK_KEY) === "true") {
+    header.classList.add("header-shrunk");
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      setShrunk(window.scrollY > SHRINK_THRESHOLD);
+    },
+    { passive: true }
+  );
+}
+
 /* Spacebar toggles play/pause instead of scrolling the page.
    Skipped while typing in a form field or focused on a slider,
    so the contact form and the range inputs still behave normally. */
@@ -430,6 +520,8 @@ function handleSpacebarShortcut(e) {
 }
 
 document.addEventListener("keydown", handleSpacebarShortcut);
+initHeaderShrink();
+observeReveals();
 
 /* ---------- Boot everything ---------- */
 
@@ -440,6 +532,15 @@ setupProjectClickHandler();
 
 seek_slider.addEventListener("input", seekTo);
 volume_slider.addEventListener("input", setVolume);
+
+/* Restore the volume the person had set on whatever page they were on
+   before, so it carries over as they browse the site. */
+const savedVolume = localStorage.getItem("volume");
+if (savedVolume !== null) {
+  volume_slider.value = savedVolume;
+}
+currAudio.volume = volume_slider.value / 100;
+updateVolumeFill(volume_slider.value);
 
 loadTrack(audioIndex);
 
