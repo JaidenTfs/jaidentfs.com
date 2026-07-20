@@ -265,6 +265,7 @@ main {
    fight that, script.js scrolls the relevant project into view when
    you expand it or a track starts playing. */
 #projects-container {
+    display: block !important; /* guards against a stray leftover inline style */
     column-gap: 20px;
     padding: 0 20px;
 }
