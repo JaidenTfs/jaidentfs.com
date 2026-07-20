@@ -98,7 +98,7 @@ const projects = [
     icon: "media/cubase-misc-2026.png",
     genres: ["cinematic"],
     category: "Misc",
-    jamName: "Null",
+    jamName: null,
     year: 2026, // TODO: fill in release year
     description:
       "I bought a new music program, Cubase, in 2026 and have been messing around with it to make music.",
@@ -245,7 +245,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: null, // TODO: fill in release year
+    year: 2024, // TODO: fill in release year
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
@@ -317,7 +317,7 @@ const projects = [
     genres: ["orchestral"],
     category: "Full Game",
     jamName: null,
-    year: null, // TODO: fill in release year
+    year: 2024, // TODO: fill in release year
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
@@ -352,7 +352,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: null, // TODO: fill in release year
+    year: 2024, // TODO: fill in release year
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
