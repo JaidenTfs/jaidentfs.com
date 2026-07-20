@@ -1,6 +1,12 @@
 /* ============================================================
    data.js
    ------------------------------------------------------------
+   This is the ONLY place you should need to touch to add,
+   remove, or edit a project or a track. Everything else
+   (the portfolio cards, the filter buttons, and the music
+   player) is generated automatically from this array in
+   script.js.
+
    HOW TO ADD A NEW PROJECT
    ------------------------------------------------------------
    Copy one of the objects below, give it a unique "id", and
@@ -38,29 +44,153 @@
                  "file" is just the filename inside audioPath
    ============================================================ */
 
-const projects = [
-  {
-    id: "haunted-house",
-    title: "Haunted House",
-    link: "https://open.spotify.com/album/12nSM7gKCUaJKXMuFVejiz",
-    linkLabel: "Listen on Spotify!!",
-    icon: "media/haunted-house.png",
+const projects = [  
+{
+    id: "spinning-records-inc",
+    title: "Solar Drift (Official Soundtrack)",
+    link: "https://killacook93.itch.io/spinning-records-inc",
+    linkLabel: "Play the game!!",
+    icon: "media/spinning-records-inc.png",
     genres: ["chiptune"],
-    category: "Release",
-    jamName: null,
-    year: null, // TODO: fill in release year
-    description: "Chiptune-Esque single posted on Spotify and other streaming services.",
-    audioPath: "audio/starburn/",
+    category: "Game Jam",
+    jamName: "The Very Serious Juniper Dev Game Jam",
+    year: 2026, // TODO: fill in release year
+    description:
+      "Submission to The Very Serious Juniper Dev Game Jam. This concept was you own a vinyl decorating shop, and you fullfill requests for customers, and as such you need a lot of different vinyl music tracks for the immersion. Btw we placed #6 in audio out of 3500+ games.",
+    audioPath: "audio/spinning-records-inc/",
     tracks: [
       {
-        title: "Haunted House",
-        file: "haunted-house.mp3",
-        description:
-          "Haunted House is a remake of a song from my first album that I made in 2023. It is supposed to have a spooky vibe with instruments to convey the hauntedness of it. This reworked version has a lot more dynamic contrast, as well as better sound mixing."
+        title: "Rock A",
+        file: "rock-a.mp3",
+        description: ''
+      },
+	  {
+        title: "Rock B",
+        file: "rock-b.mp3",
+        description: ""
+      },
+	  {
+        title: "Jazz A",
+        file: "jazz-a.mp3",
+        description: ''
+      },
+	  {
+        title: "Jazz B",
+        file: "jazz-b.mp3",
+        description: ''
+      },
+	  {
+        title: "Classical A",
+        file: "classical-a.mp3",
+        description: ""
+      },
+	  {
+        title: "Classical B",
+        file: "classical-b.mp3",
+        description: ''
+      }
+    ]
+},
+	
+	
+	
+{
+    id: "cubase-misc-2026",
+    title: "Miscellanious Cinematic Music 2026",
+    link: "",
+    linkLabel: "",
+    icon: "media/cubase-misc-2026.png",
+    genres: ["symphonic"],
+    category: "Misc",
+    jamName: null,
+    year: 2026, // TODO: fill in release year
+    description:
+      "I bought a new music program, Cubase, in 2026 and have been messing around with it to make music.",
+    audioPath: "audio/cubase-misc-2026/",
+    tracks: [
+      {
+        title: "Insert Cool Song Here",
+        file: "song.mp3",
+        description: "I'll upload all of this later probably"
+      },
+    ]
+},
+
+	
+	
+{
+    id: "solar-drift",
+    title: "Solar Drift (Official Soundtrack)",
+    link: "https://killacook93.itch.io/solar-drift",
+    linkLabel: "Play the game!!",
+    icon: "media/solar-drift.png",
+    genres: ["chiptune"],
+    category: "Game Jam",
+    jamName: "Brackeys Jam",
+    year: 2025, // TODO: fill in release year
+    description:
+      "Submission to Novice Summer Jam Series 2025, you fly through space, hiding from the sun behind asteroids to prevent your ship from overheating. If it seems hard at first, it's because you havn't bought some of the various upgrades from the shop!!",
+    audioPath: "audio/solar-drift/",
+    tracks: [
+      {
+        title: "Meteor Shower",
+        file: "meteor-shower.mp3",
+        description: 'Main Menu theme'
+      },
+	  {
+        title: "Asteroid Shooter",
+        file: "asteroid-shooter.mp3",
+        description: "The main gameplay theme, it's meant to capture the fast-paced gameplay, and it's sort of on homage to old NES-era games."
+      },
+	  {
+        title: "Breath of Space Air",
+        file: "breath-of-space-air.mp3",
+        description: 'This is when you have a break from the action and get to shop for some upgrades!'
+      }
+    ]
+},
+	
+	
+	
+{
+    id: "minutes-to-meltdown",
+    title: "Minutes to Meltdown (Official Soundtrack)",
+    link: "https://jaidentfs.itch.io/minutes-to-meltdown",
+    linkLabel: "Play the game!!",
+    icon: "media/minutes-to-meltdown.png",
+    genres: ["orchestral"],
+    category: "Game Jam",
+    jamName: "Brackeys Jam",
+    year: 2025, // TODO: fill in release year
+    description:
+      "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast. As part of this, I worked with the programmer to make one track that changes depending on what is happening in game, so eventually I will make it so you can toggle the various different game states, but for now they will exist as seperate audio files lol.",
+    audioPath: "audio/minutes-to-meltdown/",
+    tracks: [
+      {
+        title: "Main Theme",
+        file: "main-theme.mp3",
+        description: 'The Main theme for the game: "Kindled Core"'
+      },
+	  {
+        title: "Chase Drums",
+        file: "chase-drums.mp3",
+        description: 'When close enough to the enemy, drums will play to amplify the intensity of that moment.'
+      },
+	  {
+        title: "Mini Game Variation",
+        file: "mini-game.mp3",
+        description: 'While doing mini games there would be a slight variation to the main theme with different melodies.'
+      },
+	  {
+        title: "Tunnel Variation",
+        file: "tunnel-main-theme.mp3",
+        description: 'While traversing the tunnels inbetween you safe zones, this echoed version of the song would play.'
       }
     ]
   },
-
+	
+	
+	
   {
     id: "kindled-core",
     title: "Kindled Core (Official Soundtrack)",
@@ -70,7 +200,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Game Jam",
     jamName: "1-Bit Jam",
-    year: null, // TODO: fill in release year
+    year: 2025, // TODO: fill in release year
     description:
       "Created for the 1-Bit game jam. It is a top-down arena styled game where you charge really large attacks with your growing sword in order to decimate enemies on screen.",
     audioPath: "audio/kindled-core/",
@@ -97,9 +227,41 @@ const projects = [
         file: "city-theme.mp3",
         description:
           "This theme is supposed to emulate the cold and dark winter in this isolating world. In your search for food you find yourself trapped in a maze of buildings outside. The wind blows strong and the creatures get faster and scarier."
+      },
+	  {
+        title: "Amanita's Wrath",
+        file: "amanita-wrath.mp3",
+        description:
+          "A scrapped boss theme for the end of the game, sadly we didn't have time to implement the boss fight between the main character and the witch who cause this whole mess, amanita!! It's okay because you can listen to it here."
       }
     ]
   },
+	
+	
+	
+  {
+    id: "haunted-house",
+    title: "Haunted House",
+    link: "https://open.spotify.com/album/12nSM7gKCUaJKXMuFVejiz",
+    linkLabel: "Listen on Spotify!!",
+    icon: "media/haunted-house.png",
+    genres: ["chiptune"],
+    category: "Release",
+    jamName: null,
+    year: 2024, // TODO: fill in release year
+    description: "Chiptune-Esque single posted on Spotify and other streaming services.",
+    audioPath: "audio/starburn/",
+    tracks: [
+      {
+        title: "Haunted House",
+        file: "haunted-house.mp3",
+        description:
+          "Haunted House is a remake of a song from my first album that I made in 2023. It is supposed to have a spooky vibe with instruments to convey the hauntedness of it. This reworked version has a lot more dynamic contrast, as well as better sound mixing."
+      }
+    ]
+  },
+
+
 
   {
     id: "little-guy-big-sword",
@@ -160,7 +322,7 @@ const projects = [
     genres: ["orchestral"],
     category: "Full Game",
     jamName: null,
-    year: null, // TODO: fill in release year
+    year: 2024, // TODO: fill in release year
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
@@ -195,7 +357,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: null, // TODO: fill in release year
+    year: 2024, // TODO: fill in release year
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
