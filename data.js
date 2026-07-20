@@ -158,7 +158,7 @@ const projects = [
     link: "https://jaidentfs.itch.io/minutes-to-meltdown",
     linkLabel: "Play the game!!",
     icon: "media/minutes-to-meltdown.png",
-    genres: ["orchestral"],
+    genres: ["cinematic"],
     category: "Game Jam",
     jamName: "Brackeys Jam",
     year: 2025, // TODO: fill in release year
