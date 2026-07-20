@@ -135,7 +135,7 @@ const projects = [
       },
 	  {
         title: "Asteroid Shooter",
-        file: "asteroid-shooter.mp3",
+        file: "astroid-shooter.mp3",
         description: "The main gameplay theme, it's meant to capture the fast-paced gameplay, and it's sort of on homage to old NES-era games."
       },
 	  {
