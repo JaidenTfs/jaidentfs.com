@@ -1,672 +1,1208 @@
 /* ============================================================
-   script.js
-   ------------------------------------------------------------
-   Builds the portfolio cards + filter controls from the
-   "projects" array in data.js, and drives the sticky music
-   player at the bottom of the page. You shouldn't need to
-   edit this file to add new music -- just edit data.js.
+   JaidenTfs -- styles.css
+   Single consolidated stylesheet. Organized by section:
+   Variables & Fonts -> Global -> Header & Nav -> Layout ->
+   Portfolio & Filters -> Commissions -> Widgets & CTAs ->
+   Reveal Animations -> Music Player -> Footer -> Responsive
    ============================================================ */
 
-/* ---------- Flatten data.js into the two lists the player needs ---------- */
-
-let projectList = [];
-let audioList = [];
-
-function buildAudioLists() {
-  projectList = [];
-  audioList = [];
-
-  projects.forEach((project, projectIndex) => {
-    projectList.push({
-      title: project.title,
-      imagePath: project.icon,
-      audioPath: project.audioPath
-    });
-
-    project.tracks.forEach((track) => {
-      audioList.push({
-        title: track.title,
-        projectIndex: projectIndex,
-        songFile: track.file
-      });
-    });
-  });
+/* ---------- Color Variables ---------- */
+:root {
+    --light-orange: #FFD5A4;
+    --mid-orange: #FFAA5C;
+    --orange: #D08158;
+    --dark-orange:#BF6536;
+    --pinkish-purple: #8F697A;
+    --purple: #534D68;
+    --mid-blue: #1A3955;
+    --dark-blue: #032541;
+    --light-bg: #E6E6E6;
+    --transparent-light-orange: rgba(255, 213, 164, 0);
+    --dark-shadow: rgba(0, 0, 0, 0.5);
+    --highlight-shadow: rgba(255, 255, 255, 0.25);
+    --lowlight-shadow: rgba(0, 0, 0, 0.25);
 }
 
-/* Give every track a flat, stable index into audioList so the
-   player and the rendered HTML agree on "which song is this". */
-function buildTrackIndex() {
-  let counter = 0;
-  const map = []; // map[projectIndex] = [audioIndex, audioIndex, ...]
-  projects.forEach((project, projectIndex) => {
-    map[projectIndex] = [];
-    project.tracks.forEach(() => {
-      map[projectIndex].push(counter);
-      counter++;
-    });
-  });
-  return map;
+/* ---------- Font Faces ---------- */
+@font-face {
+    font-family: 'VCR';
+    src: url('fonts/vcr.ttf');
+}
+@font-face {
+    font-family: 'Monster-Friend';
+    src: url('fonts/monster-friend.otf');
+}
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+body {
+    font-family: 'VCR';
+    margin: 0;
+    padding: 0;
+    padding-bottom: 110px;
+    background-color: var(--light-orange);
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20preserveAspectRatio%3D%22none%22%3E%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20line%20%7B%20stroke%3A%20rgba(0,0,0,0.502)%3B%20stroke-width%3A%202.01px%3B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%20%3C%2Fstyle%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22528.0%22%20x2%3D%22381.9355%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22512.0%22%20y1%3D%22528.0%22%20x2%3D%22350.9677%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22320.0%22%20y1%3D%22528.0%22%20x2%3D%22320.0%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22128.0%22%20y1%3D%22528.0%22%20x2%3D%22289.0323%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22528.0%22%20x2%3D%22258.0645%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22384.0%22%20y1%3D%22288.0%22%20x2%3D%22256.0%22%20y2%3D%22288.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22384.0%3B386.2069%3B388.5714%3B391.1111%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22288.0%3B289.6552%3B291.4286%3B293.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22256.0%3B253.7931%3B251.4286%3B248.8889%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22288.0%3B289.6552%3B291.4286%3B293.3333%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22391.1111%22%20y1%3D%22293.3333%22%20x2%3D%22248.8889%22%20y2%3D%22293.3333%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22391.1111%3B393.8462%3B396.8%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22293.3333%3B295.3846%3B297.6%3B300.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22248.8889%3B246.1538%3B243.2%3B240.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22293.3333%3B295.3846%3B297.6%3B300.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22400.0%22%20y1%3D%22300.0%22%20x2%3D%22240.0%22%20y2%3D%22300.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B403.4783%3B407.2727%3B411.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22300.0%3B302.6087%3B305.4545%3B308.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22240.0%3B236.5217%3B232.7273%3B228.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22300.0%3B302.6087%3B305.4545%3B308.5714%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22411.4286%22%20y1%3D%22308.5714%22%20x2%3D%22228.5714%22%20y2%3D%22308.5714%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22411.4286%3B416.0%3B421.0526%3B426.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22308.5714%3B312.0%3B315.7895%3B320.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22228.5714%3B224.0%3B218.9474%3B213.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22308.5714%3B312.0%3B315.7895%3B320.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22426.6667%22%20y1%3D%22320.0%22%20x2%3D%22213.3333%22%20y2%3D%22320.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22426.6667%3B432.9412%3B440.0%3B448.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22320.0%3B324.7059%3B330.0%3B336.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22213.3333%3B207.0588%3B200.0%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22320.0%3B324.7059%3B330.0%3B336.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22448.0%22%20y1%3D%22336.0%22%20x2%3D%22192.0%22%20y2%3D%22336.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22448.0%3B457.1429%3B467.6923%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22336.0%3B342.8571%3B350.7692%3B360.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B182.8571%3B172.3077%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22336.0%3B342.8571%3B350.7692%3B360.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22480.0%22%20y1%3D%22360.0%22%20x2%3D%22160.0%22%20y2%3D%22360.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B494.5455%3B512.0%3B533.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22360.0%3B370.9091%3B384.0%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B145.4545%3B128.0%3B106.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22360.0%3B370.9091%3B384.0%3B400.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22533.3333%22%20y1%3D%22400.0%22%20x2%3D%22106.6667%22%20y2%3D%22400.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22533.3333%3B560.0%3B594.2857%3B640.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B420.0%3B445.7143%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22106.6667%3B80.0%3B45.7143%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B420.0%3B445.7143%3B480.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22640.0%22%20y1%3D%22480.0%22%20x2%3D%220.0%22%20y2%3D%22480.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22640.0%3B704.0%3B704.0%3B704.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B528.0%3B528.0%3B528.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-64.0%3B-64.0%3B-64.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B528.0%3B528.0%3B528.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%221%3B1%3B0%3B0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22286.4516%22%20x2%3D%22381.9355%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22350.9677%22%20y1%3D%22286.4516%22%20x2%3D%22350.9677%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22320.0%22%20y1%3D%22286.4516%22%20x2%3D%22320.0%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22289.0323%22%20y1%3D%22286.4516%22%20x2%3D%22289.0323%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22258.0645%22%20y1%3D%22286.4516%22%20x2%3D%22258.0645%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22286.4516%22%20x2%3D%22258.0645%22%20y2%3D%22286.4516%22%20%2F%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22263.2258%22%20x2%3D%22258.0645%22%20y2%3D%22263.2258%22%20%2F%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22240.0%22%20x2%3D%22258.0645%22%20y2%3D%22240.0%22%20%2F%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22216.7742%22%20x2%3D%22258.0645%22%20y2%3D%22216.7742%22%20%2F%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22193.5484%22%20x2%3D%22258.0645%22%20y2%3D%22193.5484%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22528.0%22%20x2%3D%22258.0645%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22384.0%22%20x2%3D%22258.0645%22%20y2%3D%22263.2258%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22240.0%22%20x2%3D%22258.0645%22%20y2%3D%22240.0%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%2296.0%22%20x2%3D%22258.0645%22%20y2%3D%22216.7742%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22-48.0%22%20x2%3D%22258.0645%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22256.0%22%20y1%3D%22288.0%22%20x2%3D%22256.0%22%20y2%3D%22192.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22256.0%3B253.7931%3B251.4286%3B248.8889%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22288.0%3B289.6552%3B291.4286%3B293.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22256.0%3B253.7931%3B251.4286%3B248.8889%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B190.3448%3B188.5714%3B186.6667%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22248.8889%22%20y1%3D%22293.3333%22%20x2%3D%22248.8889%22%20y2%3D%22186.6667%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22248.8889%3B246.1538%3B243.2%3B240.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22293.3333%3B295.3846%3B297.6%3B300.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22248.8889%3B246.1538%3B243.2%3B240.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22186.6667%3B184.6154%3B182.4%3B180.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22240.0%22%20y1%3D%22300.0%22%20x2%3D%22240.0%22%20y2%3D%22180.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22240.0%3B236.5217%3B232.7273%3B228.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22300.0%3B302.6087%3B305.4545%3B308.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22240.0%3B236.5217%3B232.7273%3B228.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22180.0%3B177.3913%3B174.5455%3B171.4286%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22228.5714%22%20y1%3D%22308.5714%22%20x2%3D%22228.5714%22%20y2%3D%22171.4286%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22228.5714%3B224.0%3B218.9474%3B213.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22308.5714%3B312.0%3B315.7895%3B320.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22228.5714%3B224.0%3B218.9474%3B213.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22171.4286%3B168.0%3B164.2105%3B160.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22213.3333%22%20y1%3D%22320.0%22%20x2%3D%22213.3333%22%20y2%3D%22160.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22213.3333%3B207.0588%3B200.0%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22320.0%3B324.7059%3B330.0%3B336.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22213.3333%3B207.0588%3B200.0%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B155.2941%3B150.0%3B144.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22192.0%22%20y1%3D%22336.0%22%20x2%3D%22192.0%22%20y2%3D%22144.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B182.8571%3B172.3077%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22336.0%3B342.8571%3B350.7692%3B360.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B182.8571%3B172.3077%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22144.0%3B137.1429%3B129.2308%3B120.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22160.0%22%20y1%3D%22360.0%22%20x2%3D%22160.0%22%20y2%3D%22120.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B145.4545%3B128.0%3B106.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22360.0%3B370.9091%3B384.0%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B145.4545%3B128.0%3B106.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22120.0%3B109.0909%3B96.0%3B80.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22106.6667%22%20y1%3D%22400.0%22%20x2%3D%22106.6667%22%20y2%3D%2280.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22106.6667%3B80.0%3B45.7143%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B420.0%3B445.7143%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22106.6667%3B80.0%3B45.7143%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%2280.0%3B60.0%3B34.2857%3B0.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%220.0%22%20y1%3D%22480.0%22%20x2%3D%220.0%22%20y2%3D%220.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-64.0%3B-64.0%3B-64.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B528.0%3B528.0%3B528.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-64.0%3B-64.0%3B-64.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-48.0%3B-48.0%3B-48.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%221%3B1%3B0%3B0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22-64.0%22%20y1%3D%22-48.0%22%20x2%3D%22258.0645%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22128.0%22%20y1%3D%22-48.0%22%20x2%3D%22289.0323%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22320.0%22%20y1%3D%22-48.0%22%20x2%3D%22320.0%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22512.0%22%20y1%3D%22-48.0%22%20x2%3D%22350.9677%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22-48.0%22%20x2%3D%22381.9355%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22256.0%22%20y1%3D%22192.0%22%20x2%3D%22384.0%22%20y2%3D%22192.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22256.0%3B253.7931%3B251.4286%3B248.8889%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B190.3448%3B188.5714%3B186.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22384.0%3B386.2069%3B388.5714%3B391.1111%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B190.3448%3B188.5714%3B186.6667%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22248.8889%22%20y1%3D%22186.6667%22%20x2%3D%22391.1111%22%20y2%3D%22186.6667%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22248.8889%3B246.1538%3B243.2%3B240.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22186.6667%3B184.6154%3B182.4%3B180.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22391.1111%3B393.8462%3B396.8%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22186.6667%3B184.6154%3B182.4%3B180.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22240.0%22%20y1%3D%22180.0%22%20x2%3D%22400.0%22%20y2%3D%22180.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22240.0%3B236.5217%3B232.7273%3B228.5714%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22180.0%3B177.3913%3B174.5455%3B171.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B403.4783%3B407.2727%3B411.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22180.0%3B177.3913%3B174.5455%3B171.4286%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22228.5714%22%20y1%3D%22171.4286%22%20x2%3D%22411.4286%22%20y2%3D%22171.4286%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22228.5714%3B224.0%3B218.9474%3B213.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22171.4286%3B168.0%3B164.2105%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22411.4286%3B416.0%3B421.0526%3B426.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22171.4286%3B168.0%3B164.2105%3B160.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22213.3333%22%20y1%3D%22160.0%22%20x2%3D%22426.6667%22%20y2%3D%22160.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22213.3333%3B207.0588%3B200.0%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B155.2941%3B150.0%3B144.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22426.6667%3B432.9412%3B440.0%3B448.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B155.2941%3B150.0%3B144.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22192.0%22%20y1%3D%22144.0%22%20x2%3D%22448.0%22%20y2%3D%22144.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B182.8571%3B172.3077%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22144.0%3B137.1429%3B129.2308%3B120.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22448.0%3B457.1429%3B467.6923%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22144.0%3B137.1429%3B129.2308%3B120.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22160.0%22%20y1%3D%22120.0%22%20x2%3D%22480.0%22%20y2%3D%22120.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B145.4545%3B128.0%3B106.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22120.0%3B109.0909%3B96.0%3B80.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B494.5455%3B512.0%3B533.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22120.0%3B109.0909%3B96.0%3B80.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22106.6667%22%20y1%3D%2280.0%22%20x2%3D%22533.3333%22%20y2%3D%2280.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22106.6667%3B80.0%3B45.7143%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%2280.0%3B60.0%3B34.2857%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22533.3333%3B560.0%3B594.2857%3B640.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%2280.0%3B60.0%3B34.2857%3B0.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%220.0%22%20y1%3D%220.0%22%20x2%3D%22640.0%22%20y2%3D%220.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-64.0%3B-64.0%3B-64.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-48.0%3B-48.0%3B-48.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22640.0%3B704.0%3B704.0%3B704.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-48.0%3B-48.0%3B-48.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%221%3B1%3B0%3B0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22-48.0%22%20x2%3D%22381.9355%22%20y2%3D%22193.5484%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%2296.0%22%20x2%3D%22381.9355%22%20y2%3D%22216.7742%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22240.0%22%20x2%3D%22381.9355%22%20y2%3D%22240.0%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22384.0%22%20x2%3D%22381.9355%22%20y2%3D%22263.2258%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22704.0%22%20y1%3D%22528.0%22%20x2%3D%22381.9355%22%20y2%3D%22286.4516%22%20opacity%3D%221%22%20%2F%3E%20%3Cline%20x1%3D%22384.0%22%20y1%3D%22192.0%22%20x2%3D%22384.0%22%20y2%3D%22288.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22384.0%3B386.2069%3B388.5714%3B391.1111%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22192.0%3B190.3448%3B188.5714%3B186.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22384.0%3B386.2069%3B388.5714%3B391.1111%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22288.0%3B289.6552%3B291.4286%3B293.3333%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22391.1111%22%20y1%3D%22186.6667%22%20x2%3D%22391.1111%22%20y2%3D%22293.3333%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22391.1111%3B393.8462%3B396.8%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22186.6667%3B184.6154%3B182.4%3B180.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22391.1111%3B393.8462%3B396.8%3B400.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22293.3333%3B295.3846%3B297.6%3B300.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22400.0%22%20y1%3D%22180.0%22%20x2%3D%22400.0%22%20y2%3D%22300.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B403.4783%3B407.2727%3B411.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22180.0%3B177.3913%3B174.5455%3B171.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B403.4783%3B407.2727%3B411.4286%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22300.0%3B302.6087%3B305.4545%3B308.5714%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22411.4286%22%20y1%3D%22171.4286%22%20x2%3D%22411.4286%22%20y2%3D%22308.5714%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22411.4286%3B416.0%3B421.0526%3B426.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22171.4286%3B168.0%3B164.2105%3B160.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22411.4286%3B416.0%3B421.0526%3B426.6667%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22308.5714%3B312.0%3B315.7895%3B320.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22426.6667%22%20y1%3D%22160.0%22%20x2%3D%22426.6667%22%20y2%3D%22320.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22426.6667%3B432.9412%3B440.0%3B448.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22160.0%3B155.2941%3B150.0%3B144.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22426.6667%3B432.9412%3B440.0%3B448.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22320.0%3B324.7059%3B330.0%3B336.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22448.0%22%20y1%3D%22144.0%22%20x2%3D%22448.0%22%20y2%3D%22336.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22448.0%3B457.1429%3B467.6923%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22144.0%3B137.1429%3B129.2308%3B120.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22448.0%3B457.1429%3B467.6923%3B480.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22336.0%3B342.8571%3B350.7692%3B360.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22480.0%22%20y1%3D%22120.0%22%20x2%3D%22480.0%22%20y2%3D%22360.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B494.5455%3B512.0%3B533.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22120.0%3B109.0909%3B96.0%3B80.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B494.5455%3B512.0%3B533.3333%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22360.0%3B370.9091%3B384.0%3B400.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22533.3333%22%20y1%3D%2280.0%22%20x2%3D%22533.3333%22%20y2%3D%22400.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22533.3333%3B560.0%3B594.2857%3B640.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%2280.0%3B60.0%3B34.2857%3B0.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22533.3333%3B560.0%3B594.2857%3B640.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22400.0%3B420.0%3B445.7143%3B480.0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22640.0%22%20y1%3D%220.0%22%20x2%3D%22640.0%22%20y2%3D%22480.0%22%20opacity%3D%221%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22640.0%3B704.0%3B704.0%3B704.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220.0%3B-48.0%3B-48.0%3B-48.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22640.0%3B704.0%3B704.0%3B704.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22480.0%3B528.0%3B528.0%3B528.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%221%3B1%3B0%3B0%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22286.4516%22%20x2%3D%22258.0645%22%20y2%3D%22286.4516%22%20opacity%3D%220%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22381.9355%3B381.9355%3B381.9355%3B384.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22286.4516%3B286.4516%3B286.4516%3B288.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22258.0645%3B258.0645%3B258.0645%3B256.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22286.4516%3B286.4516%3B286.4516%3B288.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B0%3B1%3B1%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22258.0645%22%20y1%3D%22286.4516%22%20x2%3D%22258.0645%22%20y2%3D%22193.5484%22%20opacity%3D%220%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22258.0645%3B258.0645%3B258.0645%3B256.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22286.4516%3B286.4516%3B286.4516%3B288.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22258.0645%3B258.0645%3B258.0645%3B256.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22193.5484%3B193.5484%3B193.5484%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B0%3B1%3B1%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22258.0645%22%20y1%3D%22193.5484%22%20x2%3D%22381.9355%22%20y2%3D%22193.5484%22%20opacity%3D%220%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22258.0645%3B258.0645%3B258.0645%3B256.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22193.5484%3B193.5484%3B193.5484%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22381.9355%3B381.9355%3B381.9355%3B384.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22193.5484%3B193.5484%3B193.5484%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B0%3B1%3B1%22%20%2F%3E%20%3C%2Fline%3E%20%3Cline%20x1%3D%22381.9355%22%20y1%3D%22193.5484%22%20x2%3D%22381.9355%22%20y2%3D%22286.4516%22%20opacity%3D%220%22%3E%20%3Canimate%20attributeName%3D%22x1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22381.9355%3B381.9355%3B381.9355%3B384.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y1%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22193.5484%3B193.5484%3B193.5484%3B192.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22x2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22381.9355%3B381.9355%3B381.9355%3B384.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22y2%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%22286.4516%3B286.4516%3B286.4516%3B288.0%22%20%2F%3E%20%3Canimate%20attributeName%3D%22opacity%22%20dur%3D%221s%22%20repeatCount%3D%22indefinite%22%20values%3D%220%3B0%3B1%3B1%22%20%2F%3E%20%3C%2Fline%3E%3C%2Fsvg%3E');
+    color: var(--light-orange);
+    background-attachment: fixed;
+    background-size: 100% 150%, auto;
+    background-position: center, 0% 0%;
+    background-repeat: no-repeat, repeat;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
+}
+
+body h1, body h2, body h3, body h4 {
+    font-family: 'Monster-Friend';
+    color: var(--orange);
+}
+
+a {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    color: var(--orange);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--mid-orange);
+}
+
+button:hover {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+}
+
+/* ============================================================
+   HEADER & NAV
+   ============================================================ */
+
+header {
+    color: var(--mid-blue);
+    padding: 0;
+    text-align: center;
+    font-size: 0.8em;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--light-orange);
+    box-shadow: 0 2px 8px var(--dark-shadow);
+    transition: padding 0.25s ease;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+
+header img {
+    padding: 1em;
+    width: 350px;
+    transition: width 0.25s ease, padding 0.25s ease;
+}
+
+header.header-shrunk img {
+    width: 260px;
+    padding: 0.6em;
+}
+
+header.header-shrunk nav ul {
+    padding: 6px;
+}
+
+header.header-shrunk nav ul li a button {
+    font-size: 1.15em;
+    min-height: 2.25rem;
+    padding: 0.4em 0.6em;
+}
+
+.navname {
+    background-color: var(--transparent-light-orange);
+    text-shadow: var(--dark-blue);
+    box-shadow: var(--dark-blue);
+    padding: 20px 0;
+}
+
+nav {
+    background-color: var(--orange);
+}
+
+nav ul {
+    list-style: none;
+    padding: 12px;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a button {
+    align-items: center;
+    background-clip: padding-box;
+    box-sizing: border-box;
+    background-color: var(--dark-orange);
+    border: 1px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    color: var(--light-orange);
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    display: inline-flex;
+    font-family: 'Monster-Friend';
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+nav ul li button:hover,
+nav ul li button:visited {
+    color: var(--purple);
+    border-bottom: 2px solid var(--purple);
+}
+
+nav ul li a button:hover,
+nav ul li a button:focus {
+    background-color: var(--light-orange);
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+nav ul li a button:hover {
+    transform: translateY(-1px);
+}
+
+nav ul li a button:active {
+    background-color: #c85000;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+
+#hideAll {
+   position: fixed;
+   left: 0px;
+   right: 0px;
+   top: 0px;
+   bottom: 0px;
+   background-color: white;
+   z-index: 99;
+}
+
+main {
+    padding: 40px 20px;
+    background-color: var(--mid-blue);
+    background-image: url('media/star-background.png');
+    background-size: 435.5px 245px;
+    margin: 0;
+    background-position: left top;
+    background-repeat: repeat;
+}
+
+.intro {
+    text-align: center;
+}
+
+/* ============================================================
+   PORTFOLIO
+   ============================================================ */
+
+.portfolio {
+    margin: 0 auto;
+    padding: 20px;
+    margin-bottom: 20px;
+    max-width: 100%;
+}
+
+.project-half {
+    display: inline;
+}
+
+.project {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    transition: box-shadow 0.25s ease;
+}
+
+.project:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px var(--dark-shadow);
+}
+
+.project-about {
+    background-color: var(--purple);
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+}
+
+.project-banner img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.project-details {
+    align-items: center;
+    margin-top: 15px;
+}
+
+.project-icon {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    padding: 5px;
+}
+
+.project h3, .project-about h1 {
+    color: var(--orange);
+}
+
+.project.now-playing {
+    outline: 3px solid var(--light-orange);
+    outline-offset: 2px;
+    box-shadow: 0 0 16px var(--light-orange);
+}
+
+.portfolio h4, .portfolio img {
+    cursor: url('media/custom-cursor/astro_helpsel.png'), help;
+}
+
+/* ---------- Collapsible track list ---------- */
+
+.track-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 5px;
+    color: var(--light-orange);
+    font-family: 'VCR';
+    font-size: 0.9em;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.track-toggle:hover {
+    background-color: var(--dark-orange);
+}
+
+.track-toggle-icon {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.track-toggle.expanded .track-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.track-list {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.track-list.expanded {
+    max-height: 2400px;
+    opacity: 1;
+}
+
+.track {
+    margin-top: 16px;
+}
+
+.track:first-child {
+    margin-top: 12px;
+}
+
+.track h4 {
+    margin: 0 0 4px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.track h4:hover {
+    color: var(--mid-orange);
+    padding-left: 6px;
+}
+
+.track p {
+    margin: 0;
+}
+
+.variation-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.variation-btn,
+.layer-toggle-btn {
+    font-family: 'VCR';
+    font-size: 0.85em;
+    color: var(--light-orange);
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.variation-btn:hover,
+.layer-toggle-btn:hover {
+    background-color: var(--dark-orange);
+}
+
+.variation-btn.active {
+    background-color: var(--orange);
+    color: var(--dark-blue);
+}
+
+.layer-toggle-btn.active {
+    background-color: var(--light-orange);
+    color: var(--dark-blue);
+    border-color: var(--light-orange);
+}
+
+.track.now-playing {
+    padding: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    border-radius: 5px;
+    background-color: rgba(255, 213, 164, 0.12);
+}
+
+.track.now-playing h4 {
+    color: var(--light-orange);
+}
+
+.track.now-playing h4::before {
+    content: "\266B  "; /* musical note */
+    color: var(--light-orange);
 }
 
 /* ---------- Filters ---------- */
 
-let activeGenre = "all";
-let activeCategory = "all";
-let activeYear = "all";
-
-function getAllGenres() {
-  const genres = new Set();
-  projects.forEach((p) => p.genres.forEach((g) => genres.add(g)));
-  return Array.from(genres).sort();
+#filters {
+    background-color: var(--purple);
+    margin: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+    text-align: left;
 }
 
-function getAllCategories() {
-  const categories = new Set();
-  projects.forEach((p) => {
-    if (p.category) categories.add(p.category);
-  });
-  return Array.from(categories).sort();
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
-function getAllYears() {
-  const years = new Set();
-  projects.forEach((p) => {
-    if (p.year) years.add(p.year);
-  });
-  return Array.from(years).sort((a, b) => b - a);
+.filter-group:last-child {
+    margin-bottom: 0;
 }
 
-function projectMatchesFilters(project) {
-  if (activeGenre !== "all" && !project.genres.includes(activeGenre)) {
-    return false;
-  }
-  if (activeCategory !== "all" && project.category !== activeCategory) {
-    return false;
-  }
-  if (activeYear !== "all" && String(project.year) !== String(activeYear)) {
-    return false;
-  }
-  return true;
+.filter-label {
+    font-family: 'Monster-Friend';
+    color: var(--light-orange);
+    margin-right: 6px;
 }
 
-function renderFilters() {
-  const container = document.getElementById("filters");
-  if (!container) return;
-
-  const genres = getAllGenres();
-  const categories = getAllCategories();
-  const years = getAllYears();
-
-  let html = '<div class="filter-group">';
-
-  html += '<span class="filter-label">Genre:</span>';
-  html += `<button type="button" class="filter-btn genre-btn ${activeGenre === "all" ? "active" : ""}" data-genre="all">All</button>`;
-  genres.forEach((g) => {
-    const isActive = activeGenre === g;
-    html += `<button type="button" class="filter-btn genre-btn ${isActive ? "active" : ""}" data-genre="${g}">${capitalize(g)}</button>`;
-  });
-
-  html += '</div><div class="filter-group">';
-
-  html += '<span class="filter-label">Type:</span>';
-  html += `<button type="button" class="filter-btn category-btn ${activeCategory === "all" ? "active" : ""}" data-category="all">All</button>`;
-  categories.forEach((c) => {
-    const isActive = activeCategory === c;
-    html += `<button type="button" class="filter-btn category-btn ${isActive ? "active" : ""}" data-category="${c}">${c}</button>`;
-  });
-
-  html += '</div><div class="filter-group">';
-
-  html += '<span class="filter-label">Year:</span>';
-  html += `<select id="year-select" class="filter-select">`;
-  html += `<option value="all">All</option>`;
-  years.forEach((y) => {
-    html += `<option value="${y}" ${String(activeYear) === String(y) ? "selected" : ""}>${y}</option>`;
-  });
-  html += `</select>`;
-
-  html += '</div><div class="filter-group">';
-
-  html += `<button type="button" class="filter-btn" id="expand-all-btn">Expand All</button>`;
-  html += `<button type="button" class="filter-btn" id="collapse-all-btn">Collapse All</button>`;
-
-  html += "</div>";
-
-  container.innerHTML = html;
-
-  container.querySelectorAll(".genre-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeGenre = btn.dataset.genre;
-      renderFilters();
-      applyFilters();
-    });
-  });
-
-  container.querySelectorAll(".category-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeCategory = btn.dataset.category;
-      renderFilters();
-      applyFilters();
-    });
-  });
-
-  const yearSelect = document.getElementById("year-select");
-  if (yearSelect) {
-    yearSelect.addEventListener("change", () => {
-      activeYear = yearSelect.value;
-      applyFilters();
-    });
-  }
-
-  const expandAllBtn = document.getElementById("expand-all-btn");
-  if (expandAllBtn) expandAllBtn.addEventListener("click", expandAllVisible);
-
-  const collapseAllBtn = document.getElementById("collapse-all-btn");
-  if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAllVisible);
+.filter-btn {
+    font-family: 'VCR';
+    font-size: 0.95em;
+    color: var(--light-orange);
+    background-color: var(--mid-blue);
+    border: 2px solid var(--orange);
+    border-radius: 5px;
+    padding: 5px 12px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+.filter-btn:hover {
+    background-color: var(--dark-orange);
 }
 
-/* ---------- Rendering project cards ---------- */
-
-let currentQueue = []; // global audio indices, in the order currently visible on screen
-let expandedProjects = new Set(); // project ids whose track list is currently open
-
-function renderProjects(trackIndexMap) {
-  const container = document.getElementById("projects-container");
-  if (!container) return;
-
-  const visibleProjects = projects.filter(projectMatchesFilters);
-  currentQueue = [];
-
-  if (visibleProjects.length === 0) {
-    container.innerHTML = '<div class="project-about" style="column-span: all;"><p>No projects match those filters.</p></div>';
-    return;
-  }
-
-  let html = "";
-
-  projects.forEach((project, projectIndex) => {
-    if (!projectMatchesFilters(project)) return;
-
-    const firstTrackIndex = trackIndexMap[projectIndex][0];
-    const genreTags = project.genres
-      .map((g) => `<span class="tag-link" data-filter-genre="${g}">${capitalize(g)}</span>`)
-      .join(", ");
-    const categoryLabel = project.jamName ? `${project.category} (${project.jamName})` : project.category;
-    const categoryTag = project.category
-      ? `<span class="tag-link" data-filter-category="${project.category}">${categoryLabel}</span>`
-      : null;
-    const tagLine = [genreTags || null, categoryTag, project.year || null]
-      .filter(Boolean)
-      .join(" &middot; ");
-
-    const isExpanded = expandedProjects.has(project.id);
-    const trackCount = project.tracks.length;
-    const trackWord = trackCount === 1 ? "track" : "tracks";
-
-    html += `<div class="project reveal" id="${project.id}">`;
-    html += `<div class="project-banner"></div>`;
-    html += `<div class="project-details">`;
-    html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon" title="Listen with music player" data-audio-index="${firstTrackIndex}">`;
-    html += `<h3 title="${project.linkLabel}"><a href="${project.link}" target="_blank">${project.title}</a></h3>`;
-    if (tagLine) html += `<p class="project-tags">${tagLine}</p>`;
-    html += `<p>${project.description}</p>`;
-    html += `</div>`;
-
-    html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}">`;
-    html += `<span class="track-toggle-icon">&#9662;</span>`;
-    html += `<span class="track-toggle-label">${isExpanded ? "Hide tracks" : `Show ${trackCount} ${trackWord}`}</span>`;
-    html += `</button>`;
-
-    html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
-    project.tracks.forEach((track, i) => {
-      const audioIndex = trackIndexMap[projectIndex][i];
-      currentQueue.push(audioIndex);
-      html += `<div class="track">`;
-      html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
-      html += `<p>${track.description}</p>`;
-      html += `</div>`;
-    });
-    html += `</div>`;
-
-    html += `</div>`;
-  });
-
-  container.innerHTML = html;
-  observeReveals(container);
-  highlightNowPlaying();
+.filter-btn.active {
+    background-color: var(--orange);
+    color: var(--dark-blue);
 }
 
-/* Opens or closes a single project's track list, updating both the DOM
-   (for a smooth CSS transition) and the tracked state (so it survives
-   the next re-render, e.g. from a filter change). */
-function setTrackListExpanded(projectId, expanded) {
-  if (expanded) {
-    expandedProjects.add(projectId);
-  } else {
-    expandedProjects.delete(projectId);
-  }
-
-  const projectEl = document.getElementById(projectId);
-  if (!projectEl) return;
-
-  const trackList = projectEl.querySelector(".track-list");
-  const toggleBtn = projectEl.querySelector(".track-toggle");
-  if (trackList) trackList.classList.toggle("expanded", expanded);
-  if (toggleBtn) {
-    toggleBtn.classList.toggle("expanded", expanded);
-    toggleBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
-    const count = toggleBtn.dataset.trackCount;
-    const label = toggleBtn.querySelector(".track-toggle-label");
-    if (label) {
-      label.textContent = expanded ? "Hide tracks" : `Show ${count} ${count === "1" ? "track" : "tracks"}`;
-    }
-  }
+.filter-select {
+    font-family: 'VCR';
+    font-size: 0.95em;
+    color: var(--mid-blue);
+    background-color: var(--light-bg);
+    border: 2px solid var(--orange);
+    border-radius: 5px;
+    padding: 4px 8px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
 }
 
-function expandAllVisible() {
-  document.querySelectorAll("#projects-container .project").forEach((el) => {
-    setTrackListExpanded(el.id, true);
-  });
+.project-tags {
+    font-size: 0.85em;
+    color: var(--light-orange);
+    opacity: 0.85;
+    margin: 4px 0;
 }
 
-function collapseAllVisible() {
-  document.querySelectorAll("#projects-container .project").forEach((el) => {
-    setTrackListExpanded(el.id, false);
-  });
+.tag-link {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
 }
 
-function applyFilters() {
-  const trackIndexMap = buildTrackIndex();
-  renderProjects(trackIndexMap);
-}
-
-/* Click delegation: genre/category tags apply that filter, the track-list
-   toggle opens/closes that project's tracks, anything else with
-   data-audio-index plays that track. */
-function setupProjectClickHandler() {
-  const container = document.getElementById("projects-container");
-  if (!container) return;
-  container.addEventListener("click", (e) => {
-    const genreTag = e.target.closest("[data-filter-genre]");
-    if (genreTag) {
-      activeGenre = genreTag.dataset.filterGenre;
-      renderFilters();
-      applyFilters();
-      return;
-    }
-
-    const categoryTag = e.target.closest("[data-filter-category]");
-    if (categoryTag) {
-      activeCategory = categoryTag.dataset.filterCategory;
-      renderFilters();
-      applyFilters();
-      return;
-    }
-
-    const toggleBtn = e.target.closest("[data-toggle-project]");
-    if (toggleBtn) {
-      const projectId = toggleBtn.dataset.toggleProject;
-      setTrackListExpanded(projectId, !expandedProjects.has(projectId));
-      return;
-    }
-
-    const audioTarget = e.target.closest("[data-audio-index]");
-    if (audioTarget) {
-      const index = parseInt(audioTarget.dataset.audioIndex, 10);
-      if (!isNaN(index)) {
-        loadTrackButton(index);
-      }
-    }
-  });
+.tag-link:hover {
+    color: var(--mid-orange);
 }
 
 /* ============================================================
-   Music player (same behavior as before, now reading from the
-   projectList / audioList built out of data.js)
+   COMMISSIONS PAGE
    ============================================================ */
 
-let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localStorage.getItem("audioIndex")) : 0;
-let isPlaying = localStorage.getItem("isPlaying") === "true";
-let updateTimer;
-
-let project_image = document.querySelector(".project-image");
-let audio_title = document.querySelector(".audio-title-2");
-let project_title = document.querySelector(".project-title");
-
-let playpause_btn = document.querySelector(".playpause-track");
-let next_btn = document.querySelector(".next-track");
-let prev_btn = document.querySelector(".prev-track");
-
-let seek_slider = document.querySelector(".seek_slider");
-let volume_slider = document.querySelector(".volume_slider");
-let curr_time = document.querySelector(".current-time");
-let total_duration = document.querySelector(".total-duration");
-
-let currAudio = document.createElement("audio");
-let playerEl = document.querySelector(".player");
-
-function updateSeekFill(percent) {
-  paintSliderFill(seek_slider, percent);
+.commission-note {
+    font-size: 0.85em;
+    opacity: 0.8;
 }
 
-function updateVolumeFill(percent) {
-  paintSliderFill(volume_slider, percent);
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
 }
 
-function paintSliderFill(slider, percent) {
-  const clamped = Math.max(0, Math.min(100, percent));
-  slider.style.background =
-    `linear-gradient(to right, var(--light-orange) ${clamped}%, var(--dark-blue) ${clamped}%)`;
+.pricing-card {
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
 }
 
-function loadTrack(index) {
-  clearInterval(updateTimer);
-  resetValues();
-  currAudio.src = projectList[audioList[index].projectIndex].audioPath + audioList[index].songFile;
-  currAudio.load();
-
-  updateTimer = setInterval(seekUpdate, 1000);
-  currAudio.addEventListener("ended", nextAudio);
-
-  updateScreen();
+.pricing-card.featured {
+    border-color: var(--light-orange);
+    box-shadow: 0 0 12px var(--dark-shadow);
 }
 
-function loadTrackButton(index) {
-  audioIndex = index;
-  clearInterval(updateTimer);
-  resetValues();
-  currAudio.src = projectList[audioList[index].projectIndex].audioPath + audioList[index].songFile;
-  currAudio.load();
-
-  updateTimer = setInterval(seekUpdate, 1000);
-  currAudio.addEventListener("ended", nextAudio);
-
-  updateScreen();
-  playAudio();
+.pricing-card h4 {
+    margin: 0 0 8px;
+    color: var(--light-orange);
 }
 
-function resetValues() {
-  curr_time.textContent = "00:00";
-  seek_slider.value = 0;
-  updateSeekFill(0);
+.pricing-card .price {
+    font-family: 'Monster-Friend';
+    font-size: 1.4em;
+    color: var(--orange);
+    margin: 8px 0;
 }
 
-function playpauseAudio() {
-  if (!isPlaying) playAudio();
-  else pauseAudio();
+.pricing-card .price span {
+    font-family: 'VCR';
+    font-size: 0.5em;
+    color: var(--light-orange);
 }
 
-function playAudio() {
-  currAudio.play();
-  isPlaying = true;
-  playpause_btn.innerHTML = "<img src='media/pause-button.png' class='audio-buttons' alt='Pause Button'>";
-  if (playerEl) playerEl.classList.add("is-playing");
+.pricing-card p:not(.price) {
+    font-size: 0.85em;
 }
 
-function pauseAudio() {
-  currAudio.pause();
-  isPlaying = false;
-  playpause_btn.innerHTML = "<img src='media/play-button.png' class='audio-buttons' alt='Play Button' width='22px'>";
-  if (playerEl) playerEl.classList.remove("is-playing");
+.callout-box {
+    background-color: var(--pinkish-purple);
+    border-left: 4px solid var(--light-orange);
+    border-radius: 5px;
+    padding: 15px 20px;
+    margin: 20px 0;
 }
 
-/* Returns the queue to navigate through: the currently filtered/visible
-   tracks on the portfolio page, or the full library everywhere else
-   (or if nothing's been rendered into a queue yet). */
-function getPlaybackQueue() {
-  return currentQueue.length ? currentQueue : audioList.map((_, i) => i);
+.callout-box h3 {
+    margin-top: 0;
+    color: var(--light-orange);
 }
 
-function nextAudio() {
-  const queue = getPlaybackQueue();
-  const pos = queue.indexOf(audioIndex);
-  const nextPos = pos === -1 ? 0 : (pos + 1) % queue.length;
-  audioIndex = queue[nextPos];
-  loadTrack(audioIndex);
-  playAudio();
+.process-list,
+.tos-list {
+    padding-left: 20px;
 }
 
-function prevAudio() {
-  const queue = getPlaybackQueue();
-  const pos = queue.indexOf(audioIndex);
-  const prevPos = pos === -1 ? 0 : (pos - 1 + queue.length) % queue.length;
-  audioIndex = queue[prevPos];
-  loadTrack(audioIndex);
-  playAudio();
+.process-list li,
+.tos-list li {
+    margin-bottom: 10px;
 }
 
-function seekTo() {
-  let seekto = currAudio.duration * (seek_slider.value / 100);
-  currAudio.currentTime = seekto;
-  localStorage.setItem("seekto", seekto);
-  updateSeekFill(seek_slider.value);
+.cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 15px 0;
 }
 
-function setVolume() {
-  currAudio.volume = volume_slider.value / 100;
-  localStorage.setItem("volume", volume_slider.value);
-  updateVolumeFill(volume_slider.value);
+.cta-button {
+    display: inline-block;
+    font-family: 'Monster-Friend';
+    background-color: var(--orange);
+    color: var(--dark-blue) !important;
+    padding: 10px 18px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-function muteVolume() {
-  currAudio.volume = 0;
+.cta-button:hover {
+    background-color: var(--mid-orange);
+    transform: translateY(-2px);
 }
 
-function unmuteVolume() {
-  currAudio.volume = volume_slider.value / 100;
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+
+.contact {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1rem;
 }
 
-function seekUpdate() {
-  let seekPosition = 0;
-
-  if (!isNaN(currAudio.duration)) {
-    seekPosition = currAudio.currentTime * (100 / currAudio.duration);
-    seek_slider.value = seekPosition;
-    updateSeekFill(seekPosition);
-
-    let currentMinutes = Math.floor(currAudio.currentTime / 60);
-    let currentSeconds = Math.floor(currAudio.currentTime - currentMinutes * 60);
-    let durationMinutes = Math.floor(currAudio.duration / 60);
-    let durationSeconds = Math.floor(currAudio.duration - durationMinutes * 60);
-
-    if (currentSeconds < 10) currentSeconds = "0" + currentSeconds;
-    if (durationSeconds < 10) durationSeconds = "0" + durationSeconds;
-    if (currentMinutes < 10) currentMinutes = "0" + currentMinutes;
-    if (durationMinutes < 10) durationMinutes = "0" + durationMinutes;
-
-    curr_time.textContent = currentMinutes + ":" + currentSeconds;
-    total_duration.textContent = durationMinutes + ":" + durationSeconds;
-
-    let seekto = currAudio.duration * (seek_slider.value / 100);
-    localStorage.setItem("seekto", seekto);
-
-    localStorage.setItem("seekPosition", seekPosition);
-    localStorage.setItem("currentMinutes", currentMinutes);
-    localStorage.setItem("currentSeconds", currentSeconds);
-    localStorage.setItem("durationMinutes", durationMinutes);
-    localStorage.setItem("durationSeconds", durationSeconds);
-    localStorage.setItem("audioDuration", currAudio.duration);
-
-    updateScreen();
-  }
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-function updateScreen() {
-  project_image.src = projectList[audioList[audioIndex].projectIndex].imagePath;
-  audio_title.innerHTML = audioList[audioIndex].title;
-  project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
-
-  localStorage.setItem("audioIndex", audioIndex);
-  localStorage.setItem("isPlaying", isPlaying);
-
-  highlightNowPlaying();
+.contact label {
+    font-size: 1.1em;
 }
 
-/* Outlines whichever project card the currently playing track belongs
-   to. Safe to call on pages with no #projects-container (does nothing). */
-function highlightNowPlaying() {
-  const container = document.getElementById("projects-container");
-  if (!container) return;
-
-  container.querySelectorAll(".project.now-playing").forEach((el) => {
-    el.classList.remove("now-playing");
-  });
-
-  const currentTrack = audioList[audioIndex];
-  if (!currentTrack) return;
-
-  const project = projects[currentTrack.projectIndex];
-  if (!project) return;
-
-  const el = document.getElementById(project.id);
-  if (el) el.classList.add("now-playing");
+.contact input,
+.contact textarea {
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid var(--pinkish-purple);
+    border-radius: 5px;
+    background-color: var(--light-bg);
+    color: var(--mid-blue);
 }
 
-function getTimestamps() {
-  let seekto = parseFloat(localStorage.getItem("seekto"));
-  currAudio.currentTime = seekto;
-  seek_slider.value = (seekto / currAudio.duration) * 100;
-  updateSeekFill(seek_slider.value);
-  curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
-  total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
+.contact button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: var(--orange);
+    color: var(--light-bg);
+    border: none;
+    border-radius: 5px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* ---------- Reveal-on-scroll animations ---------- */
-
-let revealObserver = null;
-
-function getRevealObserver() {
-  if (revealObserver) return revealObserver;
-  if (!("IntersectionObserver" in window)) return null;
-  revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("reveal-visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-  );
-  return revealObserver;
+.contact button:hover {
+    border-bottom: 2px solid transparent;
+    background-color: var(--mid-orange);
+    transform: scale(1.05);
 }
 
-function observeReveals(scope) {
-  const root = scope || document;
-  const targets = root.querySelectorAll(".reveal:not(.reveal-visible)");
-  const observer = getRevealObserver();
-  if (!observer) {
-    // No IntersectionObserver support -- just show everything immediately.
-    targets.forEach((el) => el.classList.add("reveal-visible"));
-    return;
-  }
-  targets.forEach((el) => observer.observe(el));
+.contact button:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
 }
 
-/* ---------- Shrinking header on scroll ---------- */
+#form-status {
+    font-size: 0.95em;
+    min-height: 1.2em;
+}
 
-function initHeaderShrink() {
-  const header = document.querySelector("header");
-  if (!header) return;
+.form-status-success {
+    color: var(--light-bg);
+}
 
-  const SHRINK_KEY = "headerShrunk";
-  // Hysteresis: shrink and expand at different scroll positions so
-  // scrolling right at "the" threshold can't flip the state back and
-  // forth every frame (which is what caused the fast flicker).
-  const SHRINK_AT = 120;
-  const EXPAND_AT = 40;
+.form-status-error {
+    color: #FFB3B3;
+}
 
-  let isShrunk = localStorage.getItem(SHRINK_KEY) === "true";
-  if (isShrunk) header.classList.add("header-shrunk");
+/* ============================================================
+   HOME PAGE: WIDGETS & CTAs
+   ============================================================ */
 
-  let ticking = false;
+.widget-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 20px 0;
+}
 
-  function applyScrollState() {
-    const y = window.scrollY;
-    if (!isShrunk && y > SHRINK_AT) {
-      isShrunk = true;
-    } else if (isShrunk && y < EXPAND_AT) {
-      isShrunk = false;
-    } else {
-      ticking = false;
-      return; // nothing crossed a threshold, don't touch the DOM
+.youtube-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Monster-Friend';
+    background-color: #FF0000;
+    color: #FFFFFF !important;
+    padding: 12px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.youtube-cta:hover {
+    background-color: #cc0000;
+    transform: translateY(-2px);
+}
+
+.youtube-cta svg {
+    flex-shrink: 0;
+}
+
+.discord-widget-wrapper iframe {
+    border-radius: 8px;
+    border: 2px solid var(--dark-orange);
+    box-shadow: 0 0 10px var(--dark-shadow);
+    max-width: 100%;
+}
+
+/* ============================================================
+   REVEAL-ON-SCROLL ANIMATIONS
+   ============================================================ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
+   MUSIC PLAYER
+   Single flexbox layout that scales continuously across screen
+   sizes instead of relying on fixed breakpoints.
+   ============================================================ */
+
+.player {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 14px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    min-height: 90px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    z-index: 40;
+    margin: 0;
+    background-color: var(--orange);
+    color: var(--light-orange);
+    box-shadow: 0 -4px 12px var(--dark-shadow);
+    border-top: 2px solid var(--dark-orange);
+}
+
+.details {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    float: none;
+    padding: 0;
+    width: auto;
+    flex: 1 1 180px;
+    min-width: 0;
+}
+
+.audio-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.project-image {
+    float: none;
+    margin-right: 10px;
+    width: 90px;
+    border-radius: 15%;
+    flex: 0 0 auto;
+}
+
+.audio-title h1 {
+    color: var(--light-orange);
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.project-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    opacity: 0.8;
+    font-size: 0.85em;
+}
+
+.buttons {
+    align-items: center;
+    display: flex;
+}
+
+.playpause-track,
+.prev-track,
+.next-track {
+    padding: 0, 5px;
+    opacity: 0.8;
+    transition: opacity .2s;
+}
+
+.playpause-track:hover,
+.prev-track:hover,
+.next-track:hover {
+    opacity: 1.0;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+}
+
+.player-middle {
+    position: static;
+    left: auto;
+    right: auto;
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.slider_container {
+    width: min(55vw, 480px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider_container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: none;
+    width: auto;
+    max-width: none;
+    flex: 0 0 auto;
+    padding-top: 0;
+}
+
+.seek_slider,
+.volume_slider {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 5px;
+    background: var(--dark-blue);
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    cursor: url('media/custom-cursor/astro_arrow.png'), default;
+}
+
+.seek_slider::-webkit-slider-thumb,
+.volume_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--light-orange);
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    border-radius: 50%;
+}
+
+.seek_slider:hover,
+.volume_slider:hover {
+    opacity: 1.0;
+}
+
+.seek_slider {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.volume_slider {
+    width: 90px;
+}
+
+.current-time,
+.total-duration {
+    padding: 10px;
+}
+
+i.fa-volume-down,
+i.fa-volume-up {
+    padding: 10px;
+}
+
+.audio-buttons {
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    width: 30px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 5px;
+}
+
+@keyframes seek-thumb-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 213, 164, 0.7); }
+    50%      { box-shadow: 0 0 10px 4px rgba(255, 213, 164, 0.7); }
+}
+
+.player.is-playing .seek_slider::-webkit-slider-thumb {
+    animation: seek-thumb-pulse 1.6s ease-in-out infinite;
+}
+
+.player.is-playing .seek_slider::-moz-range-thumb {
+    animation: seek-thumb-pulse 1.6s ease-in-out infinite;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer {
+    background-color: var(--orange);
+    color: var(--light-bg);
+    padding: 20px 20px 10px;
+    text-align: center;
+}
+
+footer .social-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 14px;
+    margin-bottom: 8px;
+}
+
+footer .social-group-label {
+    font-family: 'Monster-Friend';
+    color: var(--dark-blue);
+    margin-right: 4px;
+}
+
+footer .social-group a {
+    color: var(--dark-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+footer .social-group a:hover {
+    color: var(--purple);
+    text-decoration: underline;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 740px) {
+    .project {
+        background-color: var(--purple);
+        margin: 0;
+        padding: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px var(--dark-shadow);
     }
-    header.classList.toggle("header-shrunk", isShrunk);
-    localStorage.setItem(SHRINK_KEY, isShrunk ? "true" : "false");
-    ticking = false;
-  }
 
-  window.addEventListener(
-    "scroll",
-    () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(applyScrollState);
-    },
-    { passive: true }
-  );
+    .project-about {
+        margin-bottom: 20px;
+    }
+
+    #filters {
+        margin: 0 0 20px;
+    }
+
+    .portfolio {
+        column-count: 1;
+        column-fill: balance;
+    }
+
+    nav ul li {
+        font-size: small;
+        background-color: var(--transparent-light-orange);
+    }
 }
 
-/* Spacebar toggles play/pause instead of scrolling the page.
-   Skipped while typing in a form field or focused on a slider,
-   so the contact form and the range inputs still behave normally. */
-function handleSpacebarShortcut(e) {
-  if (e.code !== "Space" && e.key !== " ") return;
+@media (min-width: 740px) {
+    .project {
+        background-color: var(--purple);
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px var(--dark-shadow);
+        min-height: 226px;
+        max-width: 726px;
+    }
 
-  const active = document.activeElement;
-  const tag = active ? active.tagName : "";
-  const isFormField =
-    tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON" ||
-    (active && active.isContentEditable);
-  if (isFormField) return;
+    .project-about {
+        margin: 20px;
+    }
 
-  e.preventDefault();
-  playpauseAudio();
+    .portfolio {
+        column-count: 2;
+        column-fill: balance;
+    }
+
+    nav ul li {
+        margin: 0 20px;
+        background-color: var(--transparent-light-orange);
+    }
 }
 
-document.addEventListener("keydown", handleSpacebarShortcut);
-initHeaderShrink();
-observeReveals();
-
-/* ---------- Boot everything ---------- */
-
-buildAudioLists();
-renderFilters();
-applyFilters();
-setupProjectClickHandler();
-
-seek_slider.addEventListener("input", seekTo);
-volume_slider.addEventListener("input", setVolume);
-
-/* Restore the volume the person had set on whatever page they were on
-   before, so it carries over as they browse the site. */
-const savedVolume = localStorage.getItem("volume");
-if (savedVolume !== null) {
-  volume_slider.value = savedVolume;
-}
-currAudio.volume = volume_slider.value / 100;
-updateVolumeFill(volume_slider.value);
-
-loadTrack(audioIndex);
-
-let seekUpdater = localStorage.getItem("seekto");
-if (typeof seekUpdater !== "undefined" && seekUpdater !== null) {
-  getTimestamps();
+@media (min-width: 1050px) {
+    .portfolio {
+        column-count: 3;
+        column-fill: balance;
+    }
 }
 
-updateScreen();
+@media (max-width: 600px) {
+    body {
+        padding-bottom: 230px;
+    }
 
-/* Start paused on a fresh visit. If the person was already playing
-   music and clicked to another page (e.g. index -> portfolio),
-   isPlaying was saved as true, so we pick back up where they left off
-   instead of forcing a restart every time they navigate. */
-if (isPlaying) {
-  playAudio();
-} else {
-  pauseAudio();
+    header img {
+        width: 60vw;
+        max-width: 250px;
+        padding: 0.75em;
+    }
+
+    nav ul li a button {
+        font-size: 1.1em;
+        min-height: 2.5rem;
+        padding: 0.5em 0.75em;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-row {
+        flex-direction: column;
+    }
+
+    .cta-button {
+        text-align: center;
+    }
+
+    footer .social-group {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .player {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 16px 12px;
+        gap: 6px;
+    }
+
+    .details {
+        flex: none;
+        width: 100%;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    .audio-info {
+        min-width: 0;
+        text-align: left;
+    }
+
+    .project-image {
+        margin: 0 10px 0 0;
+    }
+
+    .player-middle {
+        flex: none;
+        width: 100%;
+    }
+
+    .slider_container {
+        width: 100%;
+    }
+
+    .slider_container2 {
+        width: 100%;
+        justify-content: center;
+        padding-top: 4px;
+    }
+
+    .volume_slider {
+        width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .discord-widget-wrapper iframe {
+        width: 100%;
+    }
+}
+
+/* ============================================================
+   Custom scrollbar
+   ============================================================ */
+
+html {
+    scrollbar-color: var(--orange) var(--mid-blue);
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 14px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mid-blue);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--orange);
+    border-radius: 10px;
+    border: 3px solid var(--mid-blue);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--mid-orange);
+}
+
+/* ============================================================
+   Unused-but-harmless boilerplate from the original template
+   (post/mini-card slider) -- kept in case you use it later.
+   ============================================================ */
+
+.post-slider {
+    display: flex;
+    box-sizing: border-box;
+    margin: 0 0 var(--gap) 0;
+    padding: 0 1rem 1rem;
+    position: relative;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-snap-points-x: repeat(250px);
+    -webkit-overflow-scrolling: touch;
+}
+
+.post-slider::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.post-slider::-webkit-scrollbar-thumb {
+    background: #434343;
+    border-radius: 10px;
+    box-shadow: inset 2px 2px 2px var(--highlight-shadow),
+                inset -2px -2px 2px var(--lowlight-shadow);
+}
+
+.post-slider::-webkit-scrollbar-track {
+    background: linear-gradient(to right, #434343, #434343 1px, #262626 1px, #262626);
+}
+
+.mini-card {
+    flex: 0 0 auto;
+    width: 250px;
+    scroll-snap-align: start;
+    margin-right: 15px;
+    background-color: var(--mid-blue);
+    border-radius: 5px;
+    box-shadow: 0 0 10px var(--dark-shadow);
+    color: var(--light-bg);
+    transition: transform 0.3s ease;
+}
+
+.mini-card:hover {
+    transform: scale(1.05);
+}
+
+.mini-card img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.mini-card-content {
+    padding: 15px;
+}
+
+.mini-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: var(--light-orange);
+}
+
+.mini-card p {
+    margin: 0;
+    font-size: 1em;
+    color: var(--light-bg);
+}
+
+@media (max-width: 1200px) {
+    .post-slider {
+        padding-bottom: var(--gap);
+        padding-left: 5px;
+    }
+}
+
+@media (max-width: 740px) {
+    .mini-card {
+        width: 200px;
+    }
 }
