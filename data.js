@@ -66,19 +66,19 @@ const projects = [
       },
 	  {
         title: "Rock B",
-        file: "rock-b.mp3",
-        description: "vinyl_jam_rock_2.ogg"
+        file: "vinyl_jam_rock_2.ogg",
+        description: ""
       },
 
 	  {
         title: "Classical A",
-        file: "classical-a.mp3",
-        description: "vinyl_jam_classical_1.ogg"
+        file: "vinyl_jam_classical_1.ogg",
+        description: ""
       },
 	  {
         title: "Classical B",
-        file: "classical-b.mp3",
-        description: 'vinyl_jam_classical_2.ogg'
+        file: "vinyl_jam_classical_2.ogg",
+        description: ''
       },
 	  {
         title: "Jazz A",
