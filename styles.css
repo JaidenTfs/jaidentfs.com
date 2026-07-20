@@ -238,7 +238,7 @@ main {
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: box-shadow 0.25s ease;
 }
 
 .project:hover {
@@ -354,6 +354,59 @@ main {
 
 .track p {
     margin: 0;
+}
+
+.variation-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.variation-btn,
+.layer-toggle-btn {
+    font-family: 'VCR';
+    font-size: 0.85em;
+    color: var(--light-orange);
+    background-color: var(--mid-blue);
+    border: 2px solid var(--dark-orange);
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: url('media/custom-cursor/astro_link.png'), pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.variation-btn:hover,
+.layer-toggle-btn:hover {
+    background-color: var(--dark-orange);
+}
+
+.variation-btn.active {
+    background-color: var(--orange);
+    color: var(--dark-blue);
+}
+
+.layer-toggle-btn.active {
+    background-color: var(--light-orange);
+    color: var(--dark-blue);
+    border-color: var(--light-orange);
+}
+
+.track.now-playing {
+    padding: 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    border-radius: 5px;
+    background-color: rgba(255, 213, 164, 0.12);
+}
+
+.track.now-playing h4 {
+    color: var(--light-orange);
+}
+
+.track.now-playing h4::before {
+    content: "\266B  "; /* musical note */
+    color: var(--light-orange);
 }
 
 /* ---------- Filters ---------- */
@@ -696,6 +749,13 @@ main {
     min-width: 0;
 }
 
+.audio-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
 .project-image {
     float: none;
     margin-right: 10px;
@@ -707,7 +767,6 @@ main {
 .audio-title h1 {
     color: var(--light-orange);
     font-size: 20px;
-    margin-left: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -718,6 +777,9 @@ main {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+    opacity: 0.8;
+    font-size: 0.85em;
 }
 
 .buttons {
@@ -752,7 +814,7 @@ main {
 }
 
 .slider_container {
-    width: min(45vw, 340px);
+    width: min(55vw, 480px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -995,12 +1057,16 @@ footer p {
         flex: none;
         width: 100%;
         justify-content: center;
-        text-align: center;
-        flex-direction: column;
+        flex-direction: row;
+    }
+
+    .audio-info {
+        min-width: 0;
+        text-align: left;
     }
 
     .project-image {
-        margin: 0 auto 4px;
+        margin: 0 10px 0 0;
     }
 
     .player-middle {
