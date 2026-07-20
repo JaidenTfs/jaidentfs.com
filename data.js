@@ -44,8 +44,8 @@
                  "file" is just the filename inside audioPath
    ============================================================ */
 
-const projects = [  
-{
+const projects = [
+	{
     id: "spinning-records-inc",
     title: "Solar Drift (Official Soundtrack)",
     link: "https://killacook93.itch.io/spinning-records-inc",
@@ -150,7 +150,7 @@ const projects = [
     ]
 },
 	
-	
+
 	
 {
     id: "minutes-to-meltdown",
@@ -165,28 +165,30 @@ const projects = [
     description:
       "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast. As part of this, I worked with the programmer to make one track that changes depending on what is happening in game, so eventually I will make it so you can toggle the various different game states, but for now they will exist as seperate audio files lol.",
     audioPath: "audio/minutes-to-meltdown/",
-    tracks: [
-      {
-        title: "Main Theme",
-        file: "main-theme.mp3",
-        description: 'The Main theme for the game: "Kindled Core"'
-      },
-	  {
-        title: "Chase Drums",
-        file: "chase-drums.mp3",
-        description: 'When close enough to the enemy, drums will play to amplify the intensity of that moment.'
-      },
-	  {
-        title: "Mini Game Variation",
-        file: "mini-game.mp3",
-        description: 'While doing mini games there would be a slight variation to the main theme with different melodies.'
-      },
-	  {
-        title: "Tunnel Variation",
-        file: "tunnel-main-theme.mp3",
-        description: 'While traversing the tunnels inbetween you safe zones, this echoed version of the song would play.'
-      }
-    ]
+	tracks: [
+       {
+         title: "Main Theme",
+         file: "main-theme.mp3",         // what plays by default
+         description:
+           'The Main theme for the game: "Kindled Core"' +
+           "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
+           "While doing mini games there would be a slight variation to the main theme with different melodies.",
+         interactive: {
+           mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
+           variations: [
+             // each needs its own audio file, same folder (audioPath above),
+             // ideally the same length/tempo so a loopable layer stays lined up
+             { label: "Tunnel", file: "tunnel-variation.mp3" },
+             { label: "Mini Games", file: "mini-game-variation.mp3" }
+           ],
+           layer: {
+             // optional -- omit this whole "layer" key if you don't want
+             // a toggleable instrument layer on this track
+             label: "Enemy Drums",
+             file: "enemy-drums-layer.mp3"
+           }
+         }
+       }
   },
 	
 	
@@ -237,8 +239,6 @@ const projects = [
     ]
   },
 	
-	
-	
   {
     id: "haunted-house",
     title: "Haunted House",
@@ -248,7 +248,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: null, // TODO: fill in release year
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
@@ -260,8 +260,6 @@ const projects = [
       }
     ]
   },
-
-
 
   {
     id: "little-guy-big-sword",
@@ -322,7 +320,7 @@ const projects = [
     genres: ["orchestral"],
     category: "Full Game",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: null, // TODO: fill in release year
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
@@ -357,7 +355,7 @@ const projects = [
     genres: ["chiptune"],
     category: "Release",
     jamName: null,
-    year: 2024, // TODO: fill in release year
+    year: null, // TODO: fill in release year
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
     tracks: [
@@ -391,4 +389,70 @@ const projects = [
     ]
   }
   */
+
+  /* ============================================================
+     Example of a track with the interactive variation/layer
+     mechanic (crossfade between mood variations of one cue, plus
+     an optional toggleable instrument layer) -- e.g. for something
+     like "Minutes to Meltdown".
+
+     This is entirely OPT-IN: a track behaves completely normally
+     unless it has an "interactive" field. To turn this mechanic on
+     for a project, add an "interactive" object to ONE of its tracks
+     (the "main theme" for that cue) shaped like this:
+
+     tracks: [
+       {
+         title: "Main Theme",
+         file: "main-theme.mp3",         // what plays by default
+         description:
+           "The main combat theme. Switch between moods below, or " +
+           "layer in the drums -- it only affects this track, and " +
+           "resets back to the main version whenever you leave the page.",
+         interactive: {
+           mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
+           variations: [
+             // each needs its own audio file, same folder (audioPath above),
+             // ideally the same length/tempo so a loopable layer stays lined up
+             { label: "Calm", file: "calm-variation.mp3" },
+             { label: "Intense", file: "intense-variation.mp3" }
+           ],
+           layer: {
+             // optional -- omit this whole "layer" key if you don't want
+             // a toggleable instrument layer on this track
+             label: "Enemy Drums",
+             file: "enemy-drums-layer.mp3"
+           }
+         }
+       }
+     ]
+
+     HOW IT BEHAVES
+     ------------------------------------------------------------
+     - The track counts as ONE entry in the queue/player (next/prev
+       treat it like any other single track) -- the variations and
+       layer are a mini-player nested inside that track's own
+       description, not separate queue entries.
+     - Clicking a variation crossfades the audio (fades the old one
+       out while fading the new one in) rather than cutting instantly.
+     - Clicking the layer button adds a looping instrument track on
+       top of whatever variation is currently playing; clicking again
+       removes it. It follows the main play/pause and volume controls.
+     - Switching to a different track (via next/prev, clicking another
+       song, or the queue naturally advancing) resets this back to the
+       plain Main Theme with the layer off -- so it always starts fresh
+       rather than carrying a variation/layer choice into whatever song
+       plays next.
+
+     HONEST CAVEAT
+     ------------------------------------------------------------
+     The crossfade and the layer both use real, separate audio files
+     playing at once, which is the only way to do this without a full
+     audio-engine rewrite. They resync to each other every time you
+     switch a variation or toggle the layer, so drift stays small in
+     practice -- but this isn't a frame-accurate game audio engine, and
+     very long uninterrupted sessions (or the tab sitting backgrounded,
+     which browsers throttle) can let them drift apart slightly. Test
+     it with your actual files before relying on it for a launch.
+     ============================================================ */
 ];
