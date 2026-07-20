@@ -79,7 +79,7 @@ const projects = [
         title: "Classical B",
         file: "classical-b.mp3",
         description: 'vinyl_jam_classical_2.ogg'
-      }
+      },
 	  {
         title: "Jazz A",
         file: "jazz-a.mp3",
