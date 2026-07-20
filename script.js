@@ -176,6 +176,87 @@ let currentQueue = []; // global audio indices, in the order currently visible o
 let expandedProjects = new Set(); // project ids whose track list is currently open
 let autoExpandedProjectId = null; // project id the player itself opened, if any
 
+/* How many fixed columns the portfolio grid currently uses. Kept in
+   sync with the CSS breakpoints in styles.css (.portfolio-columns). */
+function getColumnCount() {
+  const w = window.innerWidth;
+  if (w >= 1050) return 3;
+  if (w >= 740) return 2;
+  return 1;
+}
+
+let lastColumnCount = null;
+
+function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
+  const firstTrackIndex = trackIndexMap[projectIndex][0];
+  const genreTags = project.genres
+    .map((g) => `<span class="tag-link" data-filter-genre="${g}">${capitalize(g)}</span>`)
+    .join(", ");
+  const categoryLabel = project.jamName ? `${project.category} (${project.jamName})` : project.category;
+  const categoryTag = project.category
+    ? `<span class="tag-link" data-filter-category="${project.category}">${categoryLabel}</span>`
+    : null;
+  const tagLine = [genreTags || null, categoryTag, project.year || null]
+    .filter(Boolean)
+    .join(" &middot; ");
+
+  const isExpanded = expandedProjects.has(project.id);
+  const trackCount = project.tracks.length;
+  const trackWord = trackCount === 1 ? "track" : "tracks";
+  const toggleTitle = isExpanded ? "Hide tracks" : `Show ${trackCount} ${trackWord}`;
+
+  let html = `<div class="project reveal" id="${project.id}">`;
+
+  html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}" title="${toggleTitle}" aria-label="${toggleTitle}">`;
+  html += `<span class="track-toggle-icon">&#9662;</span>`;
+  html += `</button>`;
+
+  html += `<div class="project-banner"></div>`;
+  html += `<div class="project-details">`;
+  html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon" title="Listen with music player" data-audio-index="${firstTrackIndex}">`;
+  const titleHtml = project.link
+    ? `<a href="${project.link}" target="_blank">${project.title}</a>`
+    : project.title;
+  html += `<h3${project.linkLabel ? ` title="${project.linkLabel}"` : ""}>${titleHtml}</h3>`;
+  if (tagLine) html += `<p class="project-tags">${tagLine}</p>`;
+  html += `<p>${project.description}</p>`;
+  html += `</div>`;
+
+  html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
+  project.tracks.forEach((track, i) => {
+    const audioIndex = trackIndexMap[projectIndex][i];
+    currentQueue.push(audioIndex);
+    html += `<div class="track">`;
+    html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
+    html += `<p>${track.description}</p>`;
+
+    if (track.interactive) {
+      html += `<div class="variation-controls">`;
+      html += `<button type="button" class="variation-btn active" data-audio-index="${audioIndex}" data-variation-file="${track.file}">${track.interactive.mainLabel || "Main"}</button>`;
+      track.interactive.variations.forEach((v) => {
+        html += `<button type="button" class="variation-btn" data-audio-index="${audioIndex}" data-variation-file="${v.file}">${v.label}</button>`;
+      });
+      if (track.interactive.layer) {
+        html += `<button type="button" class="layer-toggle-btn" data-audio-index="${audioIndex}" data-layer-file="${track.interactive.layer.file}">+ ${track.interactive.layer.label}</button>`;
+      }
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+  });
+  html += `</div>`;
+
+  html += `</div>`;
+  return html;
+}
+
+/* Renders each visible project into a fixed column (round-robin by
+   data order) instead of relying on CSS column-count. column-count
+   continuously rebalances column heights, which is what was causing
+   a project to visually jump to a different column whenever another
+   project's track list expanded or collapsed. Locking each project
+   into one column means expanding it only ever pushes down whatever
+   is below it in that SAME column -- other columns don't move. */
 function renderProjects(trackIndexMap) {
   const container = document.getElementById("projects-container");
   if (!container) return;
@@ -184,71 +265,26 @@ function renderProjects(trackIndexMap) {
   currentQueue = [];
 
   if (visibleProjects.length === 0) {
-    container.innerHTML = '<div class="project-about" style="column-span: all;"><p>No projects match those filters.</p></div>';
+    container.innerHTML = '<div class="project-about"><p>No projects match those filters.</p></div>';
     return;
   }
 
-  let html = "";
+  const numColumns = getColumnCount();
+  lastColumnCount = numColumns;
+  const columns = Array.from({ length: numColumns }, () => []);
+  let visibleIndex = 0;
 
   projects.forEach((project, projectIndex) => {
     if (!projectMatchesFilters(project)) return;
-
-    const firstTrackIndex = trackIndexMap[projectIndex][0];
-    const genreTags = project.genres
-      .map((g) => `<span class="tag-link" data-filter-genre="${g}">${capitalize(g)}</span>`)
-      .join(", ");
-    const categoryLabel = project.jamName ? `${project.category} (${project.jamName})` : project.category;
-    const categoryTag = project.category
-      ? `<span class="tag-link" data-filter-category="${project.category}">${categoryLabel}</span>`
-      : null;
-    const tagLine = [genreTags || null, categoryTag, project.year || null]
-      .filter(Boolean)
-      .join(" &middot; ");
-
-    const isExpanded = expandedProjects.has(project.id);
-    const trackCount = project.tracks.length;
-    const trackWord = trackCount === 1 ? "track" : "tracks";
-
-    html += `<div class="project reveal" id="${project.id}">`;
-    html += `<div class="project-banner"></div>`;
-    html += `<div class="project-details">`;
-    html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon" title="Listen with music player" data-audio-index="${firstTrackIndex}">`;
-    html += `<h3 title="${project.linkLabel}"><a href="${project.link}" target="_blank">${project.title}</a></h3>`;
-    if (tagLine) html += `<p class="project-tags">${tagLine}</p>`;
-    html += `<p>${project.description}</p>`;
-    html += `</div>`;
-
-    html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}">`;
-    html += `<span class="track-toggle-icon">&#9662;</span>`;
-    html += `<span class="track-toggle-label">${isExpanded ? "Hide tracks" : `Show ${trackCount} ${trackWord}`}</span>`;
-    html += `</button>`;
-
-    html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
-    project.tracks.forEach((track, i) => {
-      const audioIndex = trackIndexMap[projectIndex][i];
-      currentQueue.push(audioIndex);
-      html += `<div class="track">`;
-      html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
-      html += `<p>${track.description}</p>`;
-
-      if (track.interactive) {
-        html += `<div class="variation-controls">`;
-        html += `<button type="button" class="variation-btn active" data-audio-index="${audioIndex}" data-variation-file="${track.file}">${track.interactive.mainLabel || "Main"}</button>`;
-        track.interactive.variations.forEach((v) => {
-          html += `<button type="button" class="variation-btn" data-audio-index="${audioIndex}" data-variation-file="${v.file}">${v.label}</button>`;
-        });
-        if (track.interactive.layer) {
-          html += `<button type="button" class="layer-toggle-btn" data-audio-index="${audioIndex}" data-layer-file="${track.interactive.layer.file}">+ ${track.interactive.layer.label}</button>`;
-        }
-        html += `</div>`;
-      }
-
-      html += `</div>`;
-    });
-    html += `</div>`;
-
-    html += `</div>`;
+    columns[visibleIndex % numColumns].push(buildProjectCardHtml(project, projectIndex, trackIndexMap));
+    visibleIndex++;
   });
+
+  let html = '<div class="portfolio-columns">';
+  columns.forEach((colCards) => {
+    html += `<div class="portfolio-column">${colCards.join("")}</div>`;
+  });
+  html += "</div>";
 
   container.innerHTML = html;
   observeReveals(container);
@@ -374,6 +410,7 @@ let updateTimer;
 let project_image = document.querySelector(".project-image");
 let audio_title = document.querySelector(".audio-title-2");
 let project_title = document.querySelector(".project-title");
+let audio_info = document.querySelector(".audio-info");
 
 let playpause_btn = document.querySelector(".playpause-track");
 let next_btn = document.querySelector(".next-track");
@@ -486,7 +523,7 @@ function updateVolumeFill(percent) {
 function paintSliderFill(slider, percent) {
   const clamped = Math.max(0, Math.min(100, percent));
   slider.style.background =
-    `linear-gradient(to right, var(--light-orange) ${clamped}%, var(--dark-blue) ${clamped}%)`;
+    `linear-gradient(to right, var(--player-accent, var(--light-orange)) ${clamped}%, var(--dark-blue) ${clamped}%)`;
 }
 
 /* Resets a track's variation/layer buttons back to "Main theme,
@@ -659,13 +696,33 @@ function updateScreen() {
   localStorage.setItem("audioIndex", audioIndex);
   localStorage.setItem("isPlaying", isPlaying);
 
+  applyPlayerTheme(projects[audioList[audioIndex].projectIndex]);
   highlightNowPlaying();
 }
+
+/* Lets a project optionally recolor the player to match its vibe
+   (see the "theme" field documented in data.js). Falls back to the
+   site's normal palette for any project that doesn't define one. */
+function applyPlayerTheme(project) {
+  if (!playerEl) return;
+  const theme = project && project.theme;
+  if (theme) {
+    playerEl.style.setProperty("--player-bg", theme.background || "");
+    playerEl.style.setProperty("--player-accent", theme.accent || "");
+  } else {
+    playerEl.style.removeProperty("--player-bg");
+    playerEl.style.removeProperty("--player-accent");
+  }
+}
+
+let lastHighlightedProjectId = null;
 
 /* Outlines whichever project card the currently playing track belongs
    to, marks that specific track's row, and auto-opens its track list
    if it was collapsed -- closing whichever one we last auto-opened,
-   as long as the person hasn't since opened it themselves.
+   as long as the person hasn't since opened it themselves. If the
+   current project actually changed (not just the track within it),
+   scrolls it into view once its layout has settled.
    Safe to call on pages with no #projects-container (does nothing). */
 function highlightNowPlaying() {
   const container = document.getElementById("projects-container");
@@ -684,11 +741,14 @@ function highlightNowPlaying() {
   const project = projects[currentTrack.projectIndex];
   if (!project) return;
 
+  const projectChanged = project.id !== lastHighlightedProjectId;
+  lastHighlightedProjectId = project.id;
+
   const projectEl = document.getElementById(project.id);
   if (projectEl) {
     projectEl.classList.add("now-playing");
 
-    const trackEl = projectEl.querySelector(`[data-audio-index="${audioIndex}"]`);
+    const trackEl = projectEl.querySelector(`.track-list [data-audio-index="${audioIndex}"]`);
     const trackRow = trackEl ? trackEl.closest(".track") : null;
     if (trackRow) trackRow.classList.add("now-playing");
   }
@@ -704,6 +764,20 @@ function highlightNowPlaying() {
     // Already open on its own (the person opened it manually) -- leave
     // it alone and don't claim it as ours to auto-collapse later.
     autoExpandedProjectId = null;
+  }
+
+  if (projectChanged && projectEl) {
+    // Wait for the track-list expand transition to mostly settle
+    // before measuring where to scroll to.
+    setTimeout(() => scrollProjectIntoView(projectEl), 380);
+  }
+}
+
+function scrollProjectIntoView(el) {
+  const rect = el.getBoundingClientRect();
+  const alreadyInView = rect.top >= 60 && rect.bottom <= window.innerHeight - 100;
+  if (!alreadyInView) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
 
@@ -817,6 +891,52 @@ function handleSpacebarShortcut(e) {
   playpauseAudio();
 }
 
+/* Takes the person to whichever project the currently playing track
+   belongs to -- expanding and scrolling to it if already on the
+   portfolio page, or navigating there (with a URL hash) otherwise. */
+function goToCurrentProject() {
+  const currentTrack = audioList[audioIndex];
+  if (!currentTrack) return;
+  const project = projects[currentTrack.projectIndex];
+  if (!project) return;
+
+  const container = document.getElementById("projects-container");
+  if (container) {
+    setTrackListExpanded(project.id, true);
+    const el = document.getElementById(project.id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    window.location.href = "portfolio#" + encodeURIComponent(project.id);
+  }
+}
+
+/* On the portfolio page, if the URL was opened with a #project-id hash
+   (e.g. via goToCurrentProject() navigating from another page), expand
+   and scroll to that project once the cards have rendered. */
+function openProjectFromHash() {
+  if (!location.hash) return;
+  const id = decodeURIComponent(location.hash.slice(1));
+  const el = document.getElementById(id);
+  if (!el) return;
+  setTrackListExpanded(id, true);
+  requestAnimationFrame(() => {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+}
+
+/* Re-render the portfolio grid if the number of columns should change
+   (crossing a responsive breakpoint) -- column-count isn't driven by
+   CSS anymore (see renderProjects), so this has to happen in JS. */
+let resizeTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (getColumnCount() !== lastColumnCount) {
+      applyFilters();
+    }
+  }, 150);
+});
+
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
 observeReveals();
@@ -824,9 +944,23 @@ observeReveals();
 /* ---------- Boot everything ---------- */
 
 buildAudioLists();
+
+/* Don't let the very first highlightNowPlaying() call (during boot)
+   trigger a scroll -- only genuine changes afterward (skipping to a
+   different project, clicking a different project's art, etc.)
+   should do that. */
+if (audioList[audioIndex]) {
+  lastHighlightedProjectId = projects[audioList[audioIndex].projectIndex].id;
+}
+
 renderFilters();
 applyFilters();
 setupProjectClickHandler();
+openProjectFromHash();
+
+if (audio_info) {
+  audio_info.addEventListener("click", goToCurrentProject);
+}
 
 seek_slider.addEventListener("input", seekTo);
 volume_slider.addEventListener("input", setVolume);
