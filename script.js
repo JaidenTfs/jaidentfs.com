@@ -176,17 +176,6 @@ let currentQueue = []; // global audio indices, in the order currently visible o
 let expandedProjects = new Set(); // project ids whose track list is currently open
 let autoExpandedProjectId = null; // project id the player itself opened, if any
 
-/* How many fixed columns the portfolio grid currently uses. Kept in
-   sync with the CSS breakpoints in styles.css (.portfolio-columns). */
-function getColumnCount() {
-  const w = window.innerWidth;
-  if (w >= 1050) return 3;
-  if (w >= 740) return 2;
-  return 1;
-}
-
-let lastColumnCount = null;
-
 function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
   const firstTrackIndex = trackIndexMap[projectIndex][0];
   const genreTags = project.genres
@@ -250,13 +239,12 @@ function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
   return html;
 }
 
-/* Renders each visible project into a fixed column (round-robin by
-   data order) instead of relying on CSS column-count. column-count
-   continuously rebalances column heights, which is what was causing
-   a project to visually jump to a different column whenever another
-   project's track list expanded or collapsed. Locking each project
-   into one column means expanding it only ever pushes down whatever
-   is below it in that SAME column -- other columns don't move. */
+/* Renders projects in plain data order, in the same document flow --
+   CSS column-count on #projects-container handles the masonry layout
+   and balancing, same as before. Expanding a project can still shift
+   which column things land in, but rather than fight that, clicking
+   to expand (or a track starting to play) scrolls the relevant
+   project back into view -- see setTrackListExpanded / highlightNowPlaying. */
 function renderProjects(trackIndexMap) {
   const container = document.getElementById("projects-container");
   if (!container) return;
@@ -269,22 +257,11 @@ function renderProjects(trackIndexMap) {
     return;
   }
 
-  const numColumns = getColumnCount();
-  lastColumnCount = numColumns;
-  const columns = Array.from({ length: numColumns }, () => []);
-  let visibleIndex = 0;
-
+  let html = "";
   projects.forEach((project, projectIndex) => {
     if (!projectMatchesFilters(project)) return;
-    columns[visibleIndex % numColumns].push(buildProjectCardHtml(project, projectIndex, trackIndexMap));
-    visibleIndex++;
+    html += buildProjectCardHtml(project, projectIndex, trackIndexMap);
   });
-
-  let html = '<div class="portfolio-columns">';
-  columns.forEach((colCards) => {
-    html += `<div class="portfolio-column">${colCards.join("")}</div>`;
-  });
-  html += "</div>";
 
   container.innerHTML = html;
   observeReveals(container);
@@ -297,7 +274,7 @@ function renderProjects(trackIndexMap) {
    Pass { auto: true } when this is the player doing it automatically
    (so a later manual toggle knows it can take over "ownership" of the
    state) rather than the person clicking the toggle button themselves. */
-function setTrackListExpanded(projectId, expanded, { auto = false } = {}) {
+function setTrackListExpanded(projectId, expanded, { auto = false, scroll = false } = {}) {
   if (expanded) {
     expandedProjects.add(projectId);
   } else {
@@ -320,10 +297,15 @@ function setTrackListExpanded(projectId, expanded, { auto = false } = {}) {
     toggleBtn.classList.toggle("expanded", expanded);
     toggleBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
     const count = toggleBtn.dataset.trackCount;
-    const label = toggleBtn.querySelector(".track-toggle-label");
-    if (label) {
-      label.textContent = expanded ? "Hide tracks" : `Show ${count} ${count === "1" ? "track" : "tracks"}`;
-    }
+    const title = expanded ? "Hide tracks" : `Show ${count} ${count === "1" ? "track" : "tracks"}`;
+    toggleBtn.title = title;
+    toggleBtn.setAttribute("aria-label", title);
+  }
+
+  if (scroll) {
+    // Wait for the expand transition (and any column-count reflow it
+    // triggers) to settle before scrolling to it.
+    setTimeout(() => scrollProjectIntoView(projectEl), 380);
   }
 }
 
@@ -370,7 +352,7 @@ function setupProjectClickHandler() {
     const toggleBtn = e.target.closest("[data-toggle-project]");
     if (toggleBtn) {
       const projectId = toggleBtn.dataset.toggleProject;
-      setTrackListExpanded(projectId, !expandedProjects.has(projectId));
+      setTrackListExpanded(projectId, !expandedProjects.has(projectId), { scroll: true });
       return;
     }
 
@@ -923,19 +905,6 @@ function openProjectFromHash() {
     el.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 }
-
-/* Re-render the portfolio grid if the number of columns should change
-   (crossing a responsive breakpoint) -- column-count isn't driven by
-   CSS anymore (see renderProjects), so this has to happen in JS. */
-let resizeTimer = null;
-window.addEventListener("resize", () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    if (getColumnCount() !== lastColumnCount) {
-      applyFilters();
-    }
-  }, 150);
-});
 
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
