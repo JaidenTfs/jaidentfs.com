@@ -125,6 +125,11 @@ function renderFilters() {
   });
   html += `</select>`;
 
+  html += '</div><div class="filter-group">';
+
+  html += `<button type="button" class="filter-btn" id="expand-all-btn">Expand All</button>`;
+  html += `<button type="button" class="filter-btn" id="collapse-all-btn">Collapse All</button>`;
+
   html += "</div>";
 
   container.innerHTML = html;
@@ -152,6 +157,12 @@ function renderFilters() {
       applyFilters();
     });
   }
+
+  const expandAllBtn = document.getElementById("expand-all-btn");
+  if (expandAllBtn) expandAllBtn.addEventListener("click", expandAllVisible);
+
+  const collapseAllBtn = document.getElementById("collapse-all-btn");
+  if (collapseAllBtn) collapseAllBtn.addEventListener("click", collapseAllVisible);
 }
 
 function capitalize(str) {
@@ -161,6 +172,7 @@ function capitalize(str) {
 /* ---------- Rendering project cards ---------- */
 
 let currentQueue = []; // global audio indices, in the order currently visible on screen
+let expandedProjects = new Set(); // project ids whose track list is currently open
 
 function renderProjects(trackIndexMap) {
   const container = document.getElementById("projects-container");
@@ -191,6 +203,10 @@ function renderProjects(trackIndexMap) {
       .filter(Boolean)
       .join(" &middot; ");
 
+    const isExpanded = expandedProjects.has(project.id);
+    const trackCount = project.tracks.length;
+    const trackWord = trackCount === 1 ? "track" : "tracks";
+
     html += `<div class="project reveal" id="${project.id}">`;
     html += `<div class="project-banner"></div>`;
     html += `<div class="project-details">`;
@@ -198,20 +214,69 @@ function renderProjects(trackIndexMap) {
     html += `<h3 title="${project.linkLabel}"><a href="${project.link}" target="_blank">${project.title}</a></h3>`;
     if (tagLine) html += `<p class="project-tags">${tagLine}</p>`;
     html += `<p>${project.description}</p>`;
-    html += `<br></div>`;
+    html += `</div>`;
 
+    html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}">`;
+    html += `<span class="track-toggle-icon">&#9662;</span>`;
+    html += `<span class="track-toggle-label">${isExpanded ? "Hide tracks" : `Show ${trackCount} ${trackWord}`}</span>`;
+    html += `</button>`;
+
+    html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
     project.tracks.forEach((track, i) => {
       const audioIndex = trackIndexMap[projectIndex][i];
       currentQueue.push(audioIndex);
-      html += `<div><br><h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4></div><br>`;
+      html += `<div class="track">`;
+      html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
       html += `<p>${track.description}</p>`;
+      html += `</div>`;
     });
+    html += `</div>`;
 
     html += `</div>`;
   });
 
   container.innerHTML = html;
   observeReveals(container);
+  highlightNowPlaying();
+}
+
+/* Opens or closes a single project's track list, updating both the DOM
+   (for a smooth CSS transition) and the tracked state (so it survives
+   the next re-render, e.g. from a filter change). */
+function setTrackListExpanded(projectId, expanded) {
+  if (expanded) {
+    expandedProjects.add(projectId);
+  } else {
+    expandedProjects.delete(projectId);
+  }
+
+  const projectEl = document.getElementById(projectId);
+  if (!projectEl) return;
+
+  const trackList = projectEl.querySelector(".track-list");
+  const toggleBtn = projectEl.querySelector(".track-toggle");
+  if (trackList) trackList.classList.toggle("expanded", expanded);
+  if (toggleBtn) {
+    toggleBtn.classList.toggle("expanded", expanded);
+    toggleBtn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    const count = toggleBtn.dataset.trackCount;
+    const label = toggleBtn.querySelector(".track-toggle-label");
+    if (label) {
+      label.textContent = expanded ? "Hide tracks" : `Show ${count} ${count === "1" ? "track" : "tracks"}`;
+    }
+  }
+}
+
+function expandAllVisible() {
+  document.querySelectorAll("#projects-container .project").forEach((el) => {
+    setTrackListExpanded(el.id, true);
+  });
+}
+
+function collapseAllVisible() {
+  document.querySelectorAll("#projects-container .project").forEach((el) => {
+    setTrackListExpanded(el.id, false);
+  });
 }
 
 function applyFilters() {
@@ -219,8 +284,9 @@ function applyFilters() {
   renderProjects(trackIndexMap);
 }
 
-/* Click delegation: genre/category tags apply that filter,
-   anything else with data-audio-index plays that track. */
+/* Click delegation: genre/category tags apply that filter, the track-list
+   toggle opens/closes that project's tracks, anything else with
+   data-audio-index plays that track. */
 function setupProjectClickHandler() {
   const container = document.getElementById("projects-container");
   if (!container) return;
@@ -238,6 +304,13 @@ function setupProjectClickHandler() {
       activeCategory = categoryTag.dataset.filterCategory;
       renderFilters();
       applyFilters();
+      return;
+    }
+
+    const toggleBtn = e.target.closest("[data-toggle-project]");
+    if (toggleBtn) {
+      const projectId = toggleBtn.dataset.toggleProject;
+      setTrackListExpanded(projectId, !expandedProjects.has(projectId));
       return;
     }
 
@@ -429,6 +502,28 @@ function updateScreen() {
 
   localStorage.setItem("audioIndex", audioIndex);
   localStorage.setItem("isPlaying", isPlaying);
+
+  highlightNowPlaying();
+}
+
+/* Outlines whichever project card the currently playing track belongs
+   to. Safe to call on pages with no #projects-container (does nothing). */
+function highlightNowPlaying() {
+  const container = document.getElementById("projects-container");
+  if (!container) return;
+
+  container.querySelectorAll(".project.now-playing").forEach((el) => {
+    el.classList.remove("now-playing");
+  });
+
+  const currentTrack = audioList[audioIndex];
+  if (!currentTrack) return;
+
+  const project = projects[currentTrack.projectIndex];
+  if (!project) return;
+
+  const el = document.getElementById(project.id);
+  if (el) el.classList.add("now-playing");
 }
 
 function getTimestamps() {
@@ -480,23 +575,38 @@ function initHeaderShrink() {
   if (!header) return;
 
   const SHRINK_KEY = "headerShrunk";
-  const SHRINK_THRESHOLD = 60;
+  // Hysteresis: shrink and expand at different scroll positions so
+  // scrolling right at "the" threshold can't flip the state back and
+  // forth every frame (which is what caused the fast flicker).
+  const SHRINK_AT = 120;
+  const EXPAND_AT = 40;
 
-  function setShrunk(isShrunk) {
+  let isShrunk = localStorage.getItem(SHRINK_KEY) === "true";
+  if (isShrunk) header.classList.add("header-shrunk");
+
+  let ticking = false;
+
+  function applyScrollState() {
+    const y = window.scrollY;
+    if (!isShrunk && y > SHRINK_AT) {
+      isShrunk = true;
+    } else if (isShrunk && y < EXPAND_AT) {
+      isShrunk = false;
+    } else {
+      ticking = false;
+      return; // nothing crossed a threshold, don't touch the DOM
+    }
     header.classList.toggle("header-shrunk", isShrunk);
     localStorage.setItem(SHRINK_KEY, isShrunk ? "true" : "false");
-  }
-
-  // Pick up wherever the header was left last time, so it doesn't
-  // flash big-then-small on pages the person revisits.
-  if (localStorage.getItem(SHRINK_KEY) === "true") {
-    header.classList.add("header-shrunk");
+    ticking = false;
   }
 
   window.addEventListener(
     "scroll",
     () => {
-      setShrunk(window.scrollY > SHRINK_THRESHOLD);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(applyScrollState);
     },
     { passive: true }
   );
