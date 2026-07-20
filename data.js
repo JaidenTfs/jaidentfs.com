@@ -90,7 +90,7 @@ const projects = [
 	
 	
 	
-{
+/*{
     id: "cubase-misc-2026",
     title: "Miscellanious Cinematic Music 2026",
     link: "",
@@ -110,7 +110,7 @@ const projects = [
         description: "I'll upload all of this later probably"
       },
     ]
-},
+},*/
 
 	
 	
@@ -148,7 +148,7 @@ const projects = [
 	
 
 	
-{
+/*{
     id: "minutes-to-meltdown",
     title: "Minutes to Meltdown (Official Soundtrack)",
     link: "https://jaidentfs.itch.io/minutes-to-meltdown",
@@ -186,7 +186,7 @@ const projects = [
          }
        }
     ]
-  },
+  },*/
 	
 	
 	
@@ -229,7 +229,7 @@ const projects = [
       },
 	  {
         title: "Amanita's Wrath",
-        file: "amanita-wrath.mp3",
+        file: "amanita-wrath.wav",
         description:
           "A scrapped boss theme for the end of the game, sadly we didn't have time to implement the boss fight between the main character and the witch who cause this whole mess, amanita!! It's okay because you can listen to it here."
       }
