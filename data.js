@@ -50,7 +50,11 @@
                    theme: { background: "#1a1a1a", accent: "#EDE0C8" }
                  "background" is the player bar's fill color, "accent"
                  is used for the song title, seek/volume fill, and
-                 slider handle. Fades back to normal automatically
+                 slider handle. There's also an optional "border" for
+                 the top edge of the bar -- if you don't set one it
+                 just uses "accent". Pick whichever of your two colors
+                 is LIGHTER for "accent" (it's the text color, needs
+                 to stay readable). Fades back to normal automatically
                  when a track without a theme starts playing.
    tracks      - array of { title, file, description }
                  "file" is just the filename inside audioPath
@@ -75,6 +79,7 @@ const projects = [
     description:
       "Submission to The Very Serious Juniper Dev Game Jam. This concept was you own a vinyl decorating shop, and you fullfill requests for customers, and as such you need a lot of different vinyl music tracks for the immersion. Btw we placed #6 in audio out of 3500+ games.",
     audioPath: "audio/spinning-records-inc/",
+    theme: { background: "#3B2A1F", accent: "#5FD9C4" }, // dark brown + aquamarine, vinyl-shop vibe
     tracks: [
       {
         title: "Rock A",
@@ -139,6 +144,7 @@ const projects = [
     description:
       "Submission to Novice Summer Jam Series 2025, you fly through space, hiding from the sun behind asteroids to prevent your ship from overheating. If it seems hard at first, it's because you havn't bought some of the various upgrades from the shop!!",
     audioPath: "audio/solar-drift/",
+    theme: { background: "#0A0E24", accent: "#E0475F" }, // dark navy + crimson
     tracks: [
       {
         title: "Meteor Shower",
@@ -330,6 +336,7 @@ const projects = [
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
+    theme: { background: "#211C14", accent: "#E8DCC0" }, // ink background, old-paper text
     tracks: [
       {
         title: "Ruckkehrunruhe",
