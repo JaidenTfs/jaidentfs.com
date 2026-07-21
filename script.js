@@ -691,9 +691,11 @@ function applyPlayerTheme(project) {
   if (theme) {
     playerEl.style.setProperty("--player-bg", theme.background || "");
     playerEl.style.setProperty("--player-accent", theme.accent || "");
+    playerEl.style.setProperty("--player-border", theme.border || theme.accent || "");
   } else {
     playerEl.style.removeProperty("--player-bg");
     playerEl.style.removeProperty("--player-accent");
+    playerEl.style.removeProperty("--player-border");
   }
 }
 
@@ -814,6 +816,28 @@ function observeReveals(scope) {
 
 /* ---------- Shrinking header on scroll ---------- */
 
+/* ---------- Minimize / restore the player ---------- */
+
+const PLAYER_MINIMIZED_KEY = "playerMinimized";
+
+function setPlayerMinimized(minimized) {
+  if (playerEl) playerEl.classList.toggle("minimized", minimized);
+  document.body.classList.toggle("player-minimized", minimized);
+  localStorage.setItem(PLAYER_MINIMIZED_KEY, minimized ? "true" : "false");
+
+  const handle = document.querySelector(".player-handle");
+  if (handle) {
+    const label = minimized ? "Show player" : "Minimize player";
+    handle.title = label;
+    handle.setAttribute("aria-label", label);
+  }
+}
+
+function togglePlayerMinimized() {
+  const isMinimized = playerEl ? playerEl.classList.contains("minimized") : false;
+  setPlayerMinimized(!isMinimized);
+}
+
 function initHeaderShrink() {
   const header = document.querySelector("header");
   if (!header) return;
@@ -909,6 +933,7 @@ function openProjectFromHash() {
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
 observeReveals();
+setPlayerMinimized(localStorage.getItem(PLAYER_MINIMIZED_KEY) === "true");
 
 /* ---------- Boot everything ---------- */
 
