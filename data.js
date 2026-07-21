@@ -244,7 +244,7 @@ const projects = [
       },
       {
         title: "Amanita's Wrath",
-        file: "amanita-wrath.wav",
+        file: "amanitas-wrath.wav",
         description:
           "A scrapped boss theme for the end of the game, sadly we didn't have time to implement the boss fight between the main character and the witch who cause this whole mess, amanita!! It's okay because you can listen to it here."
       }
