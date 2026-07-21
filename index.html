@@ -246,7 +246,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </main>
 <!-- Audio Player -->
     <div class="player">
- 
+    <button type="button" class="player-handle" title="Minimize player" aria-label="Minimize player" onclick="togglePlayerMinimized()">
+      <span class="player-handle-icon">&#9662;</span>
+    </button>
+    <div class="player-content">
+
     <!-- Define the section for displaying details -->
     <div class="details">
       <div><img class="project-image" src="media/haunted-house.png" alt="song icon"></div>
@@ -285,6 +289,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         value="99" class="volume_slider" onchange="setVolume()">
       <i class="fa fa-volume-up"><img src="media/volume-icon.png" width="30px"></i>
 		</div>
+    </div>
     </div>
     <footer>
         <div class="social-group">
