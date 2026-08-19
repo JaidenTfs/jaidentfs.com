@@ -114,7 +114,7 @@ const projects = [
     title: "Miscellanious Cinematic Music 2026",
     link: "",
     linkLabel: "",
-    icon: "media/cubase-misc-2026.png",
+    icon: "favicon.ico",
     genres: ["cinematic"],
     category: "Misc",
     jamName: null,
