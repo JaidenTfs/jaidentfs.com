@@ -125,7 +125,7 @@ const projects = [
     tracks: [
       {
         title: "Insert Cool Song Here",
-        file: "test-audition-material.ogg",
+        file: "song.mp3",
         description: "I'll upload all of this later probably"
       }
     ]
@@ -180,7 +180,7 @@ const projects = [
     tracks: [
       {
         title: "Main Theme",
-        file: "main-game-theme.mp3",         // what plays by default
+        file: "main-theme.mp3",         // what plays by default
         description:
           'The main theme for "Minutes to Meltdown." ' +
           "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
@@ -190,14 +190,14 @@ const projects = [
           variations: [
             // each needs its own audio file, same folder (audioPath above),
             // ideally the same length/tempo so a loopable layer stays lined up
-            //{ label: "Tunnel", file: "tunnel-variation.mp3" },//
-            { label: "Mini Games", file: "mini-game-theme.mp3" }
+            { label: "Tunnel", file: "tunnel-variation.mp3" },
+            { label: "Mini Games", file: "mini-game-variation.mp3" }
           ],
           layer: {
             // optional -- omit this whole "layer" key if you don't want
             // a toggleable instrument layer on this track
             label: "Enemy Drums",
-            file: "main-game-theme-enemy-drums.mp3"
+            file: "enemy-drums-layer.mp3"
           }
         }
       }
