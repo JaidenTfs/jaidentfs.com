@@ -125,7 +125,7 @@ const projects = [
     tracks: [
       {
         title: "Insert Cool Song Here",
-        file: "song.mp3",
+        file: "test-audition-material.ogg",
         description: "I'll upload all of this later probably"
       }
     ]
