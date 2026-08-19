@@ -109,7 +109,7 @@ const projects = [
     ]
   },
 
-  /*{
+  {
     id: "cubase-misc-2026",
     title: "Miscellanious Cinematic Music 2026",
     link: "",
@@ -125,11 +125,11 @@ const projects = [
     tracks: [
       {
         title: "Insert Cool Song Here",
-        file: "song.mp3",
+        file: "test-audition-material.ogg",
         description: "I'll upload all of this later probably"
       }
     ]
-  },*/
+  },
 
   {
     id: "solar-drift",
@@ -164,7 +164,7 @@ const projects = [
     ]
   },
 
-  /*{
+  {
     id: "minutes-to-meltdown",
     title: "Minutes to Meltdown (Official Soundtrack)",
     link: "https://jaidentfs.itch.io/minutes-to-meltdown",
@@ -180,7 +180,7 @@ const projects = [
     tracks: [
       {
         title: "Main Theme",
-        file: "main-theme.mp3",         // what plays by default
+        file: "main-game-theme.mp3",         // what plays by default
         description:
           'The main theme for "Minutes to Meltdown." ' +
           "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
@@ -190,19 +190,19 @@ const projects = [
           variations: [
             // each needs its own audio file, same folder (audioPath above),
             // ideally the same length/tempo so a loopable layer stays lined up
-            { label: "Tunnel", file: "tunnel-variation.mp3" },
-            { label: "Mini Games", file: "mini-game-variation.mp3" }
+            //{ label: "Tunnel", file: "tunnel-variation.mp3" },//
+            { label: "Mini Games", file: "mini-game-theme.mp3" }
           ],
           layer: {
             // optional -- omit this whole "layer" key if you don't want
             // a toggleable instrument layer on this track
             label: "Enemy Drums",
-            file: "enemy-drums-layer.mp3"
+            file: "main-game-theme-enemy-drums.mp3"
           }
         }
       }
     ]
-  },*/
+  },
 
   {
     id: "kindled-core",
@@ -244,7 +244,7 @@ const projects = [
       },
       {
         title: "Amanita's Wrath",
-        file: "amanitas-wrath.wav",
+        file: "amanita-wrath.wav",
         description:
           "A scrapped boss theme for the end of the game, sadly we didn't have time to implement the boss fight between the main character and the witch who cause this whole mess, amanita!! It's okay because you can listen to it here."
       }
@@ -263,6 +263,7 @@ const projects = [
     year: 2024,
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
+    theme: { background: "#534D68", accent: "#D08158" }, // your site's own purple + orange
     tracks: [
       {
         title: "Haunted House",
@@ -286,6 +287,7 @@ const projects = [
     description:
       "Submission for the 2024 GMTK game jam. It is a top-down arena styled game where you charge really large attacks with your growing sword in order to decimate enemies on screen.",
     audioPath: "audio/little-guy-big-sword/",
+    theme: { background: "#96612E", accent: "#000000" }, // medium wood brown + black
     tracks: [
       {
         title: "Journey Start (Intro Theme)",
@@ -336,7 +338,7 @@ const projects = [
     description:
       'Orchestral music made for the Dear Clarent Rpg. The game is about a ship based on the Titanic that sunk due to unknown causes, and the mysterious cover story that happened shortly after. The songbook tells the story of two people from the 1920s who fall in love, but ultimately realizing their relationship isn\'t what it used to be. Each instrument relates to a different in-game character: the piano represents Isodore, the cello represents his father, and the violin represents Phoebe.',
     audioPath: "audio/",
-    theme: { background: "#211C14", accent: "#E8DCC0" }, // ink background, old-paper text
+    theme: { background: "#E8DCC0", accent: "#211C14" }, // notepad paper background, ink-colored text
     tracks: [
       {
         title: "Ruckkehrunruhe",
@@ -371,6 +373,7 @@ const projects = [
     year: 2024,
     description: "Chiptune-Esque single posted on Spotify and other streaming services.",
     audioPath: "audio/starburn/",
+    theme: { background: "#032541", accent: "#D08158" }, // your site's own dark blue + orange
     tracks: [
       {
         title: "Attack On Saturn",
