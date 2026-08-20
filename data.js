@@ -122,6 +122,7 @@ const projects = [
     description:
       "I bought a new music program, Cubase, in 2026 and have been messing around with it to make music.",
     audioPath: "audio/cubase-misc-2026/",
+    theme: { background: "#FFD5A4", accent: "#534D68" }, // your site's own light orange + purple
     tracks: [
       {
         title: "Insert Cool Song Here",
@@ -175,31 +176,21 @@ const projects = [
     jamName: "Brackeys Jam",
     year: 2025,
     description:
-      "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast. As part of this, I worked with the programmer to make one track that changes depending on what is happening in game.",
+      "Created for the Brackey's game jam, you traverse through a nuclear reactor making sure all systems are still working, while avoiding a mutated beast.",
     audioPath: "audio/minutes-to-meltdown/",
+    theme: { background: "#1F2E12", accent: "#EDEADB" }, // dark radioactive green + off-white
     tracks: [
       {
         title: "Main Theme",
-        file: "main-theme.mp3",         // what plays by default
+        file: "main-game-theme.mp3",
         description:
-          'The main theme for "Minutes to Meltdown." ' +
-          "When close enough to the enemy, drums will play to amplify the intensity of that moment. " +
-          "While doing mini games there would be a slight variation to the main theme with different melodies.",
-        interactive: {
-          mainLabel: "Main",             // label for the default button (optional, defaults to "Main")
-          variations: [
-            // each needs its own audio file, same folder (audioPath above),
-            // ideally the same length/tempo so a loopable layer stays lined up
-            { label: "Tunnel", file: "tunnel-variation.mp3" },
-            { label: "Mini Games", file: "mini-game-variation.mp3" }
-          ],
-          layer: {
-            // optional -- omit this whole "layer" key if you don't want
-            // a toggleable instrument layer on this track
-            label: "Enemy Drums",
-            file: "enemy-drums-layer.mp3"
-          }
-        }
+          "The main theme for the game, playing as you traverse the reactor and keep its systems from failing."
+      },
+      {
+        title: "Mini Games",
+        file: "mini-game-theme.mp3",
+        description:
+          "A variation on the main theme with different melodies, used while playing through the game's mini games."
       }
     ]
   },
