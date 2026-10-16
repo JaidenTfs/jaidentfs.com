@@ -66,7 +66,7 @@
    ============================================================ */
 
 const projects = [
-  {
+/*  {
     id: "spinning-records-inc",
     title: "Spinning Records Inc. (Official Soundtrack)",
     link: "https://killacook93.itch.io/spinning-records-inc",
@@ -108,7 +108,7 @@ const projects = [
       }
     ]
   },
-
+*/
   {
     id: "cubase-misc-2026",
     title: "Miscellanious Cinematic Music 2026",
