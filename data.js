@@ -56,8 +56,19 @@
                  is LIGHTER for "accent" (it's the text color, needs
                  to stay readable). Fades back to normal automatically
                  when a track without a theme starts playing.
+   video       - OPTIONAL. Embeds a YouTube video in the card (e.g. to
+                 showcase scoring on a video, or a demo reel). Doesn't
+                 touch the music player/queue at all -- just extra
+                 content shown in the card, and it never autoplays.
+                 Can be used with or without "tracks".
+                   video: { youtubeId: "dQw4w9WgXcQ", title: "..." }
+                 "youtubeId" is just the ID from the video's URL
+                 (youtube.com/watch?v=THIS_PART). "title" is optional,
+                 used for accessibility -- defaults to the project title.
    tracks      - array of { title, file, description }
-                 "file" is just the filename inside audioPath
+                 "file" is just the filename inside audioPath.
+                 Can be an empty array [] for a video-only project
+                 (e.g. a demo reel with no separate audio tracks).
 
    Not ready to publish a project yet (missing audio/images)? Just
    wrap the whole object in a comment block, like cubase-misc-2026
@@ -66,6 +77,42 @@
    ============================================================ */
 
 const projects = [
+  {
+    id: "singularity-drift-demo",
+    title: "Singularity Drift Demo",
+    link: "https://store.steampowered.com/app/4914330/Singularity_Drift/",
+    linkLabel: "Wishlist on Steam!!",
+    icon: "https://img.youtube.com/vi/mjladJr1LYQ/hqdefault.jpg",
+    genres: ["misc"],
+    category: "Full Game",
+    jamName: null,
+    year: 2026,
+    description:
+      'An idle game where you collect resources, buy upgrades, and feed the black hole. The demo is out now -- <a href="https://store.steampowered.com/app/4914330/Singularity_Drift/" target="_blank">wishlist the full game on Steam</a>!',
+    audioPath: "",
+    video: { youtubeId: "mjladJr1LYQ", title: "Singularity Drift Demo" },
+    tracks: []
+  },
+
+  {
+    id: "getting-better",
+    title: "Getting Better",
+    link: "https://youtu.be/ml1KdyU4GxQ",
+    linkLabel: "Watch the short film!!",
+    icon: "https://img.youtube.com/vi/ml1KdyU4GxQ/hqdefault.jpg",
+    genres: ["orchestral"],
+    category: "Film Score",
+    jamName: null,
+    year: null, // TODO: fill in release year
+    description:
+      "It's a short film about Theo: An overworked college student working at an office, struggling to juggle responsibilities, one struggle at a time. It utilizes motifs to help the storytelling, culminating in the climactic finale. Will he crumble under the pressure?",
+    audioPath: "",
+    video: { youtubeId: "ml1KdyU4GxQ", title: "Getting Better (Short Film)" },
+    tracks: []
+  },
+
+  // Spinning Records Inc. is switched off for now (commented out) but kept
+  // here -- delete the /* and */ markers around it to put it back on the site.
 /*  {
     id: "spinning-records-inc",
     title: "Spinning Records Inc. (Official Soundtrack)",
@@ -394,6 +441,26 @@ const projects = [
     tracks: [
       { title: "Main Theme", file: "main-theme.mp3", description: "..." }
     ]
+  }
+  */
+
+  /* Example of a video-only project (e.g. your demo reel) -- no "tracks"
+     needed, just the video field:
+
+  ,{
+    id: "demo-reel-2026",
+    title: "Composer Demo Reel 2026",
+    link: "",
+    linkLabel: "",
+    icon: "media/demo-reel-thumb.png",
+    genres: ["orchestral", "chiptune"],
+    category: "Demo Reel",
+    jamName: null,
+    year: 2026,
+    description: "A quick showcase of scoring work across a few different projects and styles.",
+    audioPath: "",
+    video: { youtubeId: "dQw4w9WgXcQ", title: "JaidenTfs Composer Demo Reel 2026" },
+    tracks: []
   }
   */
 ];
