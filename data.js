@@ -76,6 +76,11 @@
    you uncomment it.
    ============================================================ */
 
+/* Which project the music player starts on for a brand-new visitor (the first
+   song they'd hear if they open the player and press play). Use any project's
+   "id" from the list below. Returning visitors pick up where they left off. */
+const startProjectId = "cubase-misc-2026";
+
 const projects = [
   {
     id: "singularity-drift-demo",
@@ -187,7 +192,7 @@ const projects = [
     icon: "media/solar-drift.png",
     genres: ["chiptune"],
     category: "Game Jam",
-    jamName: "Brackeys Jam",
+    jamName: "Novice Summer Jam Series 2025",
     year: 2025,
     description:
       "Submission to Novice Summer Jam Series 2025, you fly through space, hiding from the sun behind asteroids to prevent your ship from overheating. If it seems hard at first, it's because you havn't bought some of the various upgrades from the shop!!",
