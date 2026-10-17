@@ -217,7 +217,8 @@ function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
   if (project.video && project.video.youtubeId) {
     const videoTitle = project.video.title || project.title;
     html += `<div class="video-embed-wrapper">`;
-    html += `<iframe src="https://www.youtube.com/embed/${project.video.youtubeId}" title="${videoTitle}" loading="lazy" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    const ytOrigin = location.protocol.startsWith("http") ? `&origin=${encodeURIComponent(location.origin)}` : "";
+    html += `<iframe src="https://www.youtube.com/embed/${project.video.youtubeId}?enablejsapi=1${ytOrigin}" title="${videoTitle}" loading="lazy" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
     html += `</div>`;
   }
 
@@ -265,6 +266,9 @@ function renderProjects(trackIndexMap) {
 
   const visibleProjects = projects.filter(projectMatchesFilters);
   currentQueue = [];
+  activeVideoProjectId = null; // the old cards (and any playing video) are about to be replaced
+  const mainEl = document.querySelector("main");
+  if (mainEl) mainEl.style.paddingBottom = ""; // drop any extra scroll room added for a previous jump
 
   if (visibleProjects.length === 0) {
     container.innerHTML = '<div class="project-about"><p>No projects match those filters.</p></div>';
@@ -280,6 +284,7 @@ function renderProjects(trackIndexMap) {
   container.innerHTML = html;
   observeReveals(container);
   highlightNowPlaying();
+  initVideoPlayers();
 }
 
 /* Opens or closes a single project's track list, updating both the DOM
@@ -589,7 +594,16 @@ function playpauseAudio() {
 }
 
 function playAudio() {
-  currAudio.play();
+  stopVideos(); // only one thing should be making sound at a time
+  const attempt = currAudio.play();
+  if (attempt && attempt.catch) {
+    attempt.catch((err) => {
+      // Browsers can refuse to start sound until the person has clicked on the page
+      // (e.g. arriving from a link in another browser). Stay paused instead of
+      // showing a pause button for music that isn't playing. The track is still loaded.
+      if (err && err.name === "NotAllowedError") pauseAudio();
+    });
+  }
   if (layerOn) layerAudio.play().catch(() => {});
   isPlaying = true;
   playpause_btn.innerHTML = "<img src='media/pause-button.png' class='audio-buttons' alt='Pause Button'>";
@@ -735,6 +749,13 @@ function highlightNowPlaying() {
     el.classList.remove("now-playing");
   });
 
+  // While a video is playing, it gets the highlight instead of the (paused) music.
+  if (activeVideoProjectId) {
+    const videoEl = document.getElementById(activeVideoProjectId);
+    if (videoEl) videoEl.classList.add("now-playing");
+    return;
+  }
+
   const currentTrack = audioList[audioIndex];
   if (!currentTrack) return;
 
@@ -773,12 +794,87 @@ function highlightNowPlaying() {
   }
 }
 
+/* The header is sticky, so anything we scroll to has to stop just below it. */
+function headerOffset() {
+  const header = document.querySelector("header");
+  return (header ? header.getBoundingClientRect().height : 0) + 16;
+}
+
+let cancelScrollSettle = null;
+
+/* If a card is in the last row, the page may be too short to scroll it all the way up
+   under the header. Add exactly as much room at the bottom as is missing. */
+function ensureScrollRoom(targetY) {
+  const main = document.querySelector("main");
+  if (!main) return;
+  const maxY = document.documentElement.scrollHeight - window.innerHeight;
+  const shortfall = targetY - maxY;
+  if (shortfall > 0) {
+    const current = parseFloat(getComputedStyle(main).paddingBottom) || 0;
+    main.style.paddingBottom = current + shortfall + 2 + "px";
+  }
+}
+
+/* Scrolls a project card so its top sits just under the header. The header shrinks
+   and the track list opens while the page is still scrolling, which can nudge the
+   card by a few pixels, so once things settle we fine-tune the position (unless the
+   person has grabbed the scroll themselves). */
+function scrollProjectToTop(el) {
+  if (cancelScrollSettle) cancelScrollSettle();
+
+  // Cards fade/slide in on scroll; measure the card in its final position.
+  if (el.classList.contains("reveal") && !el.classList.contains("reveal-visible")) {
+    el.style.transition = "none";
+    el.classList.add("reveal-visible");
+    void el.offsetHeight;
+    el.style.transition = "";
+  }
+
+  const targetTop = () => el.getBoundingClientRect().top + window.scrollY - headerOffset();
+  ensureScrollRoom(targetTop());
+  window.scrollTo({ top: Math.max(0, targetTop()), behavior: "smooth" });
+
+  let interrupted = false;
+  const stop = () => { interrupted = true; };
+  const events = ["wheel", "touchstart", "keydown", "mousedown"];
+  events.forEach((ev) => window.addEventListener(ev, stop, { passive: true }));
+
+  const timer = setTimeout(() => {
+    cancelScrollSettle();
+    if (interrupted) return;
+    const drift = el.getBoundingClientRect().top - headerOffset();
+    if (Math.abs(drift) > 6) {
+      ensureScrollRoom(window.scrollY + drift);
+      window.scrollBy({ top: drift, behavior: "smooth" });
+    }
+  }, 1000);
+
+  cancelScrollSettle = () => {
+    clearTimeout(timer);
+    events.forEach((ev) => window.removeEventListener(ev, stop));
+    cancelScrollSettle = null;
+  };
+}
+
 function scrollProjectIntoView(el) {
   const rect = el.getBoundingClientRect();
-  const alreadyInView = rect.top >= 60 && rect.bottom <= window.innerHeight - 100;
+  const alreadyInView = rect.top >= headerOffset() - 8 && rect.bottom <= window.innerHeight - 100;
   if (!alreadyInView) {
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    scrollProjectToTop(el);
   }
+}
+
+/* Keeps a CSS variable in sync with the header's height so links that jump straight
+   to a card (the #hash in the URL) also stop below the header. */
+function initHeaderOffset() {
+  const header = document.querySelector("header");
+  if (!header) return;
+  const update = () => {
+    document.documentElement.style.setProperty("--header-h", header.getBoundingClientRect().height + "px");
+  };
+  update();
+  if ("ResizeObserver" in window) new ResizeObserver(update).observe(header);
+  window.addEventListener("resize", update);
 }
 
 function getTimestamps() {
@@ -788,6 +884,81 @@ function getTimestamps() {
   updateSeekFill(seek_slider.value);
   curr_time.textContent = localStorage.getItem("currentMinutes") + ":" + localStorage.getItem("currentSeconds");
   total_duration.textContent = localStorage.getItem("durationMinutes") + ":" + localStorage.getItem("durationSeconds");
+}
+
+/* ---------- YouTube videos: playing one pauses the music ----------
+   Uses YouTube's official iframe API (only loaded on pages that actually have a
+   video card). When a video starts, the music pauses, the player collapses, and the
+   video's card gets the same highlight a playing song's card gets. When the video
+   pauses or ends the highlight goes back to the music. Starting a song pauses the video. */
+
+let activeVideoProjectId = null; // project whose video is playing right now
+let videoPlayers = [];           // YT.Player objects for the videos currently on the page
+let ytApiRequested = false;
+let ytReadyCallbacks = [];
+
+function withYouTubeApi(callback) {
+  if (window.YT && window.YT.Player) {
+    callback();
+    return;
+  }
+  ytReadyCallbacks.push(callback);
+  if (ytApiRequested) return;
+  ytApiRequested = true;
+  const previous = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = () => {
+    if (typeof previous === "function") previous();
+    ytReadyCallbacks.splice(0).forEach((cb) => cb());
+  };
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.head.appendChild(tag);
+}
+
+function attachVideoPlayers() {
+  document.querySelectorAll("#projects-container .video-embed-wrapper iframe").forEach((iframe) => {
+    if (iframe.dataset.ytBound) return;
+    const projectEl = iframe.closest(".project");
+    if (!projectEl) return;
+    iframe.dataset.ytBound = "1";
+    const player = new YT.Player(iframe, {
+      events: { onStateChange: (e) => handleVideoState(projectEl.id, player, e.data) }
+    });
+    videoPlayers.push(player);
+  });
+}
+
+function initVideoPlayers() {
+  videoPlayers = [];
+  if (!document.querySelector("#projects-container .video-embed-wrapper iframe")) return;
+  withYouTubeApi(attachVideoPlayers);
+}
+
+/* YouTube player states: 1 = playing, 2 = paused, 0 = ended */
+function handleVideoState(projectId, player, state) {
+  if (state === 1) {
+    if (isPlaying) pauseAudio();
+    setPlayerMinimized(true);
+    videoPlayers.forEach((p) => {
+      if (p !== player) {
+        try { p.pauseVideo(); } catch (e) { /* not ready yet */ }
+      }
+    });
+    activeVideoProjectId = projectId;
+    highlightNowPlaying();
+  } else if ((state === 2 || state === 0) && activeVideoProjectId === projectId) {
+    activeVideoProjectId = null;
+    highlightNowPlaying();
+  }
+}
+
+function stopVideos() {
+  if (!activeVideoProjectId) return;
+  activeVideoProjectId = null;
+  videoPlayers.forEach((p) => {
+    try { p.pauseVideo(); } catch (e) { /* not ready yet */ }
+  });
+  highlightNowPlaying();
 }
 
 /* ---------- Reveal-on-scroll animations ---------- */
@@ -927,7 +1098,7 @@ function goToCurrentProject() {
   if (container) {
     setTrackListExpanded(project.id, true);
     const el = document.getElementById(project.id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (el) scrollProjectToTop(el);
   } else {
     window.location.href = "portfolio#" + encodeURIComponent(project.id);
   }
@@ -942,9 +1113,12 @@ function openProjectFromHash() {
   const el = document.getElementById(id);
   if (!el) return;
   setTrackListExpanded(id, true);
-  requestAnimationFrame(() => {
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
+  // Video-only projects have no song to light them up, so flash the card briefly instead.
+  if (!el.querySelector(".track-list")) {
+    el.classList.add("arrival-highlight");
+    setTimeout(() => el.classList.remove("arrival-highlight"), 3500);
+  }
+  requestAnimationFrame(() => scrollProjectToTop(el));
 }
 
 /* ============================================================
@@ -1003,6 +1177,7 @@ function applyDeepLinkParams() {
 
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
+initHeaderOffset();
 observeReveals();
 
 /* The player always starts collapsed (and paused) on a new visit so nobody gets
