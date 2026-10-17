@@ -400,7 +400,9 @@ function setupProjectClickHandler() {
    ============================================================ */
 
 let audioIndex = localStorage.getItem("audioIndex") !== null ? parseInt(localStorage.getItem("audioIndex")) : 0;
-let isPlaying = localStorage.getItem("isPlaying") === "true";
+/* Whether music was playing only carries over while the person keeps browsing in
+   the same tab -- a brand-new visit always starts paused. */
+let isPlaying = sessionStorage.getItem("isPlaying") === "true";
 let updateTimer;
 
 let project_image = document.querySelector(".project-image");
@@ -690,7 +692,7 @@ function updateScreen() {
   project_title.textContent = projectList[audioList[audioIndex].projectIndex].title;
 
   localStorage.setItem("audioIndex", audioIndex);
-  localStorage.setItem("isPlaying", isPlaying);
+  sessionStorage.setItem("isPlaying", isPlaying);
 
   applyPlayerTheme(projects[audioList[audioIndex].projectIndex]);
   highlightNowPlaying();
@@ -835,20 +837,21 @@ function observeReveals(scope) {
 const PLAYER_MINIMIZED_KEY = "playerMinimized";
 
 function setPlayerMinimized(minimized) {
-  if (playerEl) playerEl.classList.toggle("minimized", minimized);
-  document.body.classList.toggle("player-minimized", minimized);
-  localStorage.setItem(PLAYER_MINIMIZED_KEY, minimized ? "true" : "false");
+  // The player is collapsed by default in the CSS; the "expanded" class opens it.
+  if (playerEl) playerEl.classList.toggle("expanded", !minimized);
+  document.body.classList.toggle("player-expanded", !minimized);
+  sessionStorage.setItem(PLAYER_MINIMIZED_KEY, minimized ? "true" : "false");
 
   const handle = document.querySelector(".player-handle");
   if (handle) {
-    const label = minimized ? "Show player" : "Minimize player";
+    const label = minimized ? "Show music player" : "Minimize music player";
     handle.title = label;
     handle.setAttribute("aria-label", label);
   }
 }
 
 function togglePlayerMinimized() {
-  const isMinimized = playerEl ? playerEl.classList.contains("minimized") : false;
+  const isMinimized = playerEl ? !playerEl.classList.contains("expanded") : true;
   setPlayerMinimized(!isMinimized);
 }
 
@@ -1001,11 +1004,28 @@ function applyDeepLinkParams() {
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
 observeReveals();
-setPlayerMinimized(localStorage.getItem(PLAYER_MINIMIZED_KEY) === "true");
+
+/* The player always starts collapsed (and paused) on a new visit so nobody gets
+   surprised by music. If the person opens it, it stays open as they click around
+   the site, but a fresh visit later starts collapsed again. The state is applied
+   with animations switched off so the page doesn't visibly "snap" on load. */
+document.documentElement.classList.add("player-boot");
+const savedMinimized = sessionStorage.getItem(PLAYER_MINIMIZED_KEY);
+setPlayerMinimized(savedMinimized === null ? true : savedMinimized === "true");
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => document.documentElement.classList.remove("player-boot"));
+});
 
 /* ---------- Boot everything ---------- */
 
 buildAudioLists();
+
+/* A brand-new visitor (nothing saved yet) starts on the first track of the project
+   named by startProjectId in data.js, instead of whatever happens to be listed first. */
+if (localStorage.getItem("audioIndex") === null && typeof startProjectId !== "undefined") {
+  const startIdx = audioList.findIndex((t) => projects[t.projectIndex].id === startProjectId);
+  if (startIdx !== -1) audioIndex = startIdx;
+}
 
 /* If the saved track number no longer exists (e.g. after a project was
    commented out of data.js), fall back to the first track instead of
@@ -1019,6 +1039,7 @@ applyDeepLinkParams();
 
 if (deepLinkPlayIndex !== null) {
   audioIndex = deepLinkPlayIndex;
+  setPlayerMinimized(false); // it's about to play, so show the controls (pause button etc.)
 }
 
 /* Don't let the very first highlightNowPlaying() call (during boot)
