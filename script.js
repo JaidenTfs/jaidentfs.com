@@ -177,7 +177,8 @@ let expandedProjects = new Set(); // project ids whose track list is currently o
 let autoExpandedProjectId = null; // project id the player itself opened, if any
 
 function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
-  const firstTrackIndex = trackIndexMap[projectIndex][0];
+  const hasTracks = project.tracks.length > 0;
+  const firstTrackIndex = hasTracks ? trackIndexMap[projectIndex][0] : null;
   const genreTags = project.genres
     .map((g) => `<span class="tag-link" data-filter-genre="${g}">${capitalize(g)}</span>`)
     .join(", ");
@@ -196,44 +197,57 @@ function buildProjectCardHtml(project, projectIndex, trackIndexMap) {
 
   let html = `<div class="project reveal" id="${project.id}">`;
 
-  html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}" title="${toggleTitle}" aria-label="${toggleTitle}">`;
-  html += `<span class="track-toggle-icon">&#9662;</span>`;
-  html += `</button>`;
+  if (hasTracks) {
+    html += `<button type="button" class="track-toggle${isExpanded ? " expanded" : ""}" data-toggle-project="${project.id}" data-track-count="${trackCount}" aria-expanded="${isExpanded}" title="${toggleTitle}" aria-label="${toggleTitle}">`;
+    html += `<span class="track-toggle-icon">&#9662;</span>`;
+    html += `</button>`;
+  }
 
   html += `<div class="project-banner"></div>`;
   html += `<div class="project-details">`;
-  html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon" title="Listen with music player" data-audio-index="${firstTrackIndex}">`;
+  const iconAudioAttr = hasTracks ? ` title="Listen with music player" data-audio-index="${firstTrackIndex}"` : "";
+  html += `<img src="${project.icon}" alt="${project.title} Icon" class="project-icon"${iconAudioAttr}>`;
   const titleHtml = project.link
     ? `<a href="${project.link}" target="_blank">${project.title}</a>`
     : project.title;
   html += `<h3${project.linkLabel ? ` title="${project.linkLabel}"` : ""}>${titleHtml}</h3>`;
   if (tagLine) html += `<p class="project-tags">${tagLine}</p>`;
   html += `<p>${project.description}</p>`;
-  html += `</div>`;
 
-  html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
-  project.tracks.forEach((track, i) => {
-    const audioIndex = trackIndexMap[projectIndex][i];
-    currentQueue.push(audioIndex);
-    html += `<div class="track">`;
-    html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
-    html += `<p>${track.description}</p>`;
-
-    if (track.interactive) {
-      html += `<div class="variation-controls">`;
-      html += `<button type="button" class="variation-btn active" data-audio-index="${audioIndex}" data-variation-file="${track.file}">${track.interactive.mainLabel || "Main"}</button>`;
-      track.interactive.variations.forEach((v) => {
-        html += `<button type="button" class="variation-btn" data-audio-index="${audioIndex}" data-variation-file="${v.file}">${v.label}</button>`;
-      });
-      if (track.interactive.layer) {
-        html += `<button type="button" class="layer-toggle-btn" data-audio-index="${audioIndex}" data-layer-file="${track.interactive.layer.file}">+ ${track.interactive.layer.label}</button>`;
-      }
-      html += `</div>`;
-    }
-
+  if (project.video && project.video.youtubeId) {
+    const videoTitle = project.video.title || project.title;
+    html += `<div class="video-embed-wrapper">`;
+    html += `<iframe src="https://www.youtube.com/embed/${project.video.youtubeId}" title="${videoTitle}" loading="lazy" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
     html += `</div>`;
-  });
+  }
+
   html += `</div>`;
+
+  if (hasTracks) {
+    html += `<div class="track-list${isExpanded ? " expanded" : ""}">`;
+    project.tracks.forEach((track, i) => {
+      const audioIndex = trackIndexMap[projectIndex][i];
+      currentQueue.push(audioIndex);
+      html += `<div class="track">`;
+      html += `<h4 title="Listen with music player" data-audio-index="${audioIndex}">${track.title}</h4>`;
+      html += `<p>${track.description}</p>`;
+
+      if (track.interactive) {
+        html += `<div class="variation-controls">`;
+        html += `<button type="button" class="variation-btn active" data-audio-index="${audioIndex}" data-variation-file="${track.file}">${track.interactive.mainLabel || "Main"}</button>`;
+        track.interactive.variations.forEach((v) => {
+          html += `<button type="button" class="variation-btn" data-audio-index="${audioIndex}" data-variation-file="${v.file}">${v.label}</button>`;
+        });
+        if (track.interactive.layer) {
+          html += `<button type="button" class="layer-toggle-btn" data-audio-index="${audioIndex}" data-layer-file="${track.interactive.layer.file}">+ ${track.interactive.layer.label}</button>`;
+        }
+        html += `</div>`;
+      }
+
+      html += `</div>`;
+    });
+    html += `</div>`;
+  }
 
   html += `</div>`;
   return html;
@@ -930,6 +944,60 @@ function openProjectFromHash() {
   });
 }
 
+/* ============================================================
+   Shareable "deep link" URL parameters
+   ------------------------------------------------------------
+   Not a UI feature -- just a URL scheme you can hand-construct
+   yourself for sharing specific things (e.g. in a Discord message,
+   an email to a client, a tweet). Nothing on the site generates
+   these links automatically.
+
+     ?play=<project-id>                 Autoplays the first track of that project
+     ?play=<project-id>&track=<file>    Autoplays a specific track within it
+     ?category=<Category Name>          Pre-applies a category filter (e.g. "Game Jam")
+     ?genre=<genre>                     Pre-applies a genre filter (e.g. "chiptune")
+     ?year=<year>                       Pre-applies a year filter
+
+   Combine as needed, e.g.:
+     yoursite.com/portfolio?play=dear-clarent
+     yoursite.com/portfolio?category=Full%20Game
+     yoursite.com/portfolio?genre=orchestral&year=2024
+
+   Note on autoplay: browsers can block audio-with-sound from
+   starting automatically if the person hasn't interacted with your
+   site before. Since clicking a shared link IS a user gesture, most
+   browsers allow it -- but it's not guaranteed on every browser or
+   device, so treat it as "usually works" rather than certain.
+   ============================================================ */
+
+let deepLinkPlayIndex = null;
+
+function applyDeepLinkParams() {
+  const params = new URLSearchParams(location.search);
+
+  const playId = params.get("play");
+  if (playId) {
+    const projIdx = projects.findIndex((p) => p.id === playId);
+    if (projIdx !== -1) {
+      const trackFile = params.get("track");
+      audioList.forEach((entry, i) => {
+        if (entry.projectIndex !== projIdx) return;
+        if (deepLinkPlayIndex === null) deepLinkPlayIndex = i;
+        if (trackFile && entry.songFile === trackFile) deepLinkPlayIndex = i;
+      });
+    }
+  }
+
+  const category = params.get("category");
+  if (category) activeCategory = category;
+
+  const genre = params.get("genre");
+  if (genre) activeGenre = genre;
+
+  const year = params.get("year");
+  if (year) activeYear = year;
+}
+
 document.addEventListener("keydown", handleSpacebarShortcut);
 initHeaderShrink();
 observeReveals();
@@ -938,6 +1006,20 @@ setPlayerMinimized(localStorage.getItem(PLAYER_MINIMIZED_KEY) === "true");
 /* ---------- Boot everything ---------- */
 
 buildAudioLists();
+
+/* If the saved track number no longer exists (e.g. after a project was
+   commented out of data.js), fall back to the first track instead of
+   crashing the player. */
+if (isNaN(audioIndex) || audioIndex < 0 || audioIndex >= audioList.length) {
+  audioIndex = 0;
+  localStorage.removeItem("seekto");
+}
+
+applyDeepLinkParams();
+
+if (deepLinkPlayIndex !== null) {
+  audioIndex = deepLinkPlayIndex;
+}
 
 /* Don't let the very first highlightNowPlaying() call (during boot)
    trigger a scroll -- only genuine changes afterward (skipping to a
@@ -980,8 +1062,9 @@ updateScreen();
 /* Start paused on a fresh visit. If the person was already playing
    music and clicked to another page (e.g. index -> portfolio),
    isPlaying was saved as true, so we pick back up where they left off
-   instead of forcing a restart every time they navigate. */
-if (isPlaying) {
+   instead of forcing a restart every time they navigate. A ?play=
+   link in the URL also forces autoplay, regardless of saved state. */
+if (deepLinkPlayIndex !== null || isPlaying) {
   playAudio();
 } else {
   pauseAudio();
