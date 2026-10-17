@@ -57,10 +57,11 @@
                  to stay readable). Fades back to normal automatically
                  when a track without a theme starts playing.
    video       - OPTIONAL. Embeds a YouTube video in the card (e.g. to
-                 showcase scoring on a video, or a demo reel). Doesn't
-                 touch the music player/queue at all -- just extra
-                 content shown in the card, and it never autoplays.
-                 Can be used with or without "tracks".
+                 showcase scoring on a video, or a demo reel). It never
+                 autoplays. While someone watches it, the site's music
+                 pauses, the player collapses, and the card is highlighted
+                 (like a playing song's card). Can be used with or
+                 without "tracks".
                    video: { youtubeId: "dQw4w9WgXcQ", title: "..." }
                  "youtubeId" is just the ID from the video's URL
                  (youtube.com/watch?v=THIS_PART). "title" is optional,
